@@ -7,6 +7,8 @@ import java.util.Objects;
 public class User {
     private static long id;
 
+    //
+
     private long userId;
     private String login;
     private String password;
