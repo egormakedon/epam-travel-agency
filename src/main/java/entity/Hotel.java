@@ -2,7 +2,7 @@ package entity;
 
 import java.util.Objects;
 
-public class Hotel {
+public class Hotel implements Entity {
     private static long id;
 
     private long hotelId;

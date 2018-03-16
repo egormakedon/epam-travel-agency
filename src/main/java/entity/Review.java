@@ -2,7 +2,7 @@ package entity;
 
 import java.util.Objects;
 
-public class Review {
+public class Review implements Entity {
     private static long id;
 
     private long reviewId;
