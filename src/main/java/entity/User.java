@@ -7,15 +7,11 @@ import java.util.Objects;
 public class User {
     private static long id;
 
-    //
-
     private long userId;
     private String login;
     private String password;
-
     private List<Tour> tourList;
     private List<Review> reviewList;
-
 
     public User(String login, String password) {
         userId = IdCounter.incrementId(id);
@@ -37,6 +33,30 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Tour> getTourList() {
+        return tourList;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void addTour(Tour tour) {
+        tourList.add(tour);
+    }
+
+    public void addReview(Review review) {
+        reviewList.add(review);
     }
 
     @Override

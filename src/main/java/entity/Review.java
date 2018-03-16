@@ -34,6 +34,18 @@ public class Review {
         return content;
     }
 
+    public void setTour(Tour tour) {
+        this.tour = tour;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,8 +67,8 @@ public class Review {
     public String toString() {
         return "Review{" +
                 "reviewId=" + reviewId +
-                ", tour=" + tour +
-                ", user=" + user +
+                ", tour=" + tour.toString() +
+                ", user=" + user.toString() +
                 ", content='" + content + '\'' +
                 '}';
     }
