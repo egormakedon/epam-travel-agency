@@ -1,12 +1,9 @@
 # admin credential
+
+username: egormakedon<br>
+password: elzzz147
+
 ## developer credential
 
-username: egormakedon
+username: developer<br>
 password: elzzz147
-e-mail: Yahor_Makedon@epam.com
-
-==============================
-
-username: developer
-password: elzzz147
-e-mail: Yahor_Makedon@epam.com

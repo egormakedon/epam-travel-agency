@@ -31,7 +31,8 @@ public class Tour implements Entity {
         this.cost = cost;
     }
 
-    public long getTourId() {
+    @Override
+    public long getId() {
         return tourId;
     }
 

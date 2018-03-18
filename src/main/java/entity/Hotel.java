@@ -20,7 +20,8 @@ public class Hotel implements Entity {
         this.stars = stars;
     }
 
-    public long getHotelId() {
+    @Override
+    public long getId() {
         return hotelId;
     }
 

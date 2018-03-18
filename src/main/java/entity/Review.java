@@ -18,7 +18,8 @@ public class Review implements Entity {
         this.content = content;
     }
 
-    public long getReviewId() {
+    @Override
+    public long getId() {
         return reviewId;
     }
 

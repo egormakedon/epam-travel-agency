@@ -23,7 +23,8 @@ public class User implements Entity {
         reviewList = new ArrayList<Review>();
     }
 
-    public long getUserId() {
+    @Override
+    public long getId() {
         return userId;
     }
 
