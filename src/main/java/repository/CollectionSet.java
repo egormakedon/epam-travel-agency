@@ -9,12 +9,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
-class CollectionImpl<T extends Entity> implements ICollection<T> {
-    private Set<T> entitySet;
+class CollectionSet<T extends Entity> implements Collection<T> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CollectionSet.class);
     private static ReentrantLock lock = new ReentrantLock();
-    private static final Logger LOGGER = LoggerFactory.getLogger(CollectionImpl.class);
 
-    public CollectionImpl() {
+    private Set<T> entitySet;
+
+    CollectionSet() {
         entitySet = new HashSet<T>();
     }
 
