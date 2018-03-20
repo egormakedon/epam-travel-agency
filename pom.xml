@@ -20,6 +20,7 @@
         <logger.version>2.10.0</logger.version>
         <junit.version>4.12</junit.version>
         <mockito.version>2.16.0</mockito.version>
+        <resource.plagin.version>2.6</resource.plagin.version>
     </properties>
 
     <reporting>
@@ -53,6 +54,11 @@
                     <source>${maven.compiler.version}</source>
                     <target>${maven.compiler.version}</target>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -98,6 +104,13 @@
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>${resource.plagin.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
