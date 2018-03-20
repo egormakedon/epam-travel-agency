@@ -3,7 +3,7 @@ package entity;
 import java.util.Objects;
 
 /**
- * Class {@code Hotel} is Entity class.
+ * Class {@code HotelService} is Entity class.
  * This class stores information about hotels, which uses in project.
  *
  * @author Yahor Makedon
@@ -86,7 +86,7 @@ public class Hotel implements Entity {
 
     @Override
     public String toString() {
-        return "Hotel{" +
+        return "HotelService{" +
                 "hotelId=" + hotelId +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
