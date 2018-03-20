@@ -9,6 +9,15 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Class {@code CollectionSet} is generic class, that implemets interface {@code Collection}
+ *
+ * @author Yahor Makedon
+ * @see repository.Collection
+ * @version 1.0
+ * @since version 1.0
+ * @param <T> generic class, which define, what type of entities will store.
+ */
 class CollectionSet<T extends Entity> implements Collection<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CollectionSet.class);
     private static ReentrantLock lock = new ReentrantLock();
@@ -19,6 +28,12 @@ class CollectionSet<T extends Entity> implements Collection<T> {
         entitySet = new HashSet<T>();
     }
 
+    /**
+     * Override method from interface {@code Collection}
+     * Thread-safe, using locks
+     *
+     * @param entity generic add method
+     */
     @Override
     public void add(T entity) {
         lock.lock();
@@ -30,6 +45,12 @@ class CollectionSet<T extends Entity> implements Collection<T> {
         }
     }
 
+    /**
+     * Override method from interface {@code Collection}
+     * Thread-safe, using locks
+     *
+     * @return set of entities
+     */
     @Override
     public Set<T> get() {
         lock.lock();
@@ -41,6 +62,12 @@ class CollectionSet<T extends Entity> implements Collection<T> {
         }
     }
 
+    /**
+     * Override method from interface {@code Collection}
+     * Thread-safe, using locks
+     *
+     * @param entity generic delete method
+     */
     @Override
     public void delete(T entity) {
         lock.lock();
@@ -52,6 +79,12 @@ class CollectionSet<T extends Entity> implements Collection<T> {
         }
     }
 
+    /**
+     * Override method from interface {@code Collection}
+     * Thread-safe, using locks
+     *
+     * @param entity generic update method
+     */
     @Override
     public void update(T entity) {
         lock.lock();

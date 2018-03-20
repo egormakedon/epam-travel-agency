@@ -9,6 +9,17 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Final thread-safe class {@code Repository}, that implemets interface {@code Collection}.
+ * Class safe from cloning and reflection-api.
+ * Class store collections and methods to interact with it.
+ *
+ * @author Yahor Makedon
+ * @see repository.Collection
+ * @see repository.CollectionSet
+ * @version 1.0
+ * @since version 1.0
+ */
 public final class Repository implements Collection {
     private static final Logger LOGGER = LoggerFactory.getLogger(Repository.class);
     private static Repository instance;
@@ -23,6 +34,9 @@ public final class Repository implements Collection {
     private Collection<Country> countryCollection = new CollectionSet<Country>();
     private Collection<TourType> tourTypeCollection = new CollectionSet<TourType>();
 
+    /**
+     * @throws {@code RuntimeException()}, if tried to clone with reflection-api.
+     */
     private Repository() {
         if (instanceCreated.get()) {
             LOGGER.error("Tried to clone connection pool with reflection api");
@@ -60,6 +74,11 @@ public final class Repository implements Collection {
         return super.clone();
     }
 
+    /**
+     * With switch case define entity type and use definite add method on collection.
+     *
+     * @param entity generic add method
+     */
     @Override
     public void add(Entity entity) {
         EntityType entityType = defineEntity(entity);
@@ -85,11 +104,19 @@ public final class Repository implements Collection {
         }
     }
 
+    /**
+     * @return set of all collections
+     */
     @Override
     public Set get() {
         return setOfCollections;
     }
 
+    /**
+     * @param entityType by which get definite collection.
+     * @return
+     * @throws {@code RuntimeException()}, if entity type not define.
+     */
     public Set get(EntityType entityType) {
         switch (entityType) {
             case USER:
@@ -110,6 +137,11 @@ public final class Repository implements Collection {
         }
     }
 
+    /**
+     * With switch case define entity type and use definite delete method on collection.
+     *
+     * @param entity generic delete method
+     */
     @Override
     public void delete(Entity entity) {
         EntityType entityType = defineEntity(entity);
@@ -136,6 +168,11 @@ public final class Repository implements Collection {
 
     }
 
+    /**
+     * With switch case define entity type and use definite update method on collection.
+     *
+     * @param entity generic update method
+     */
     @Override
     public void update(Entity entity) {
         EntityType entityType = defineEntity(entity);
@@ -162,6 +199,11 @@ public final class Repository implements Collection {
 
     }
 
+    /**
+     * @param entity
+     * @return Exemplar {@code EntityType}, using instanceof on entity
+     * @throws {@code RuntimeException()}, if param is unknown entity.
+     */
     private EntityType defineEntity(Entity entity) {
         if (entity instanceof Country) {
             return EntityType.COUNTRY;
