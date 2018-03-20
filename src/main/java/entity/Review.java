@@ -2,6 +2,15 @@ package entity;
 
 import java.util.Objects;
 
+/**
+ * Class {@code Review} is Entity class.
+ * It store information about users review.
+ *
+ * @author Yahor Makedon
+ * @see entity
+ * @version 1.0
+ * @since version 1.0
+ */
 public class Review implements Entity {
     private static long id;
 

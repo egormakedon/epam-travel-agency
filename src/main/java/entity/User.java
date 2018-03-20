@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class {@code User} is Entity class.
+ * It stores user information.
+ *
+ * @author Yahor Makedon
+ * @see entity
+ * @version 1.0
+ * @since version 1.0
+ */
 public class User implements Entity {
     private static long id;
 

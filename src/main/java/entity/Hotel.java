@@ -2,6 +2,15 @@ package entity;
 
 import java.util.Objects;
 
+/**
+ * Class {@code Hotel} is Entity class.
+ * This class stores information about hotels, which uses in project.
+ *
+ * @author Yahor Makedon
+ * @see entity
+ * @version 1.0
+ * @since version 1.0
+ */
 public class Hotel implements Entity {
     private static long id;
 

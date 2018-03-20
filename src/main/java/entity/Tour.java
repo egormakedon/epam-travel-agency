@@ -4,6 +4,15 @@ import java.awt.*;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Class {@code Tour} is Entity class.
+ * It stores information about tour data.
+ *
+ * @author Yahor Makedon
+ * @see entity
+ * @version 1.0
+ * @since version 1.0
+ */
 public class Tour implements Entity {
     private static long id;
 
