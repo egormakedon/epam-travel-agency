@@ -7,8 +7,6 @@
     <groupId>groupId</groupId>
     <artifactId>Travel_Agency</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Travel agency</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
