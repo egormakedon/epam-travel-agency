@@ -7,80 +7,88 @@
     <groupId>groupId</groupId>
     <artifactId>Travel_Agency</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Travel agency</name>
+    <!--<packaging>pom</packaging>-->
+    <!--<name>Travel agency</name>-->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <project.version>1.8</project.version>
 
-        <findbugs.version>3.0.5</findbugs.version>
-        <pmd.version>3.9.0</pmd.version>
+        <!--<findbugs.version>3.0.5</findbugs.version>-->
+        <!--<pmd.version>3.9.0</pmd.version>-->
         <checkstyle.version>3.0.0</checkstyle.version>
-        <maven.compiler.version>1.8</maven.compiler.version>
         <logger.version>2.10.0</logger.version>
         <junit.version>4.12</junit.version>
         <mockito.version>2.16.0</mockito.version>
-        <resource.plagin.version>2.6</resource.plagin.version>
-        <maven.pom.version>23</maven.pom.version>
+        <!--<resource.plagin.version>2.6</resource.plagin.version>-->
+        <!--<maven.pom.version>23</maven.pom.version>-->
     </properties>
 
     <reporting>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>${findbugs.version}</version>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>findbugs-maven-plugin</artifactId>-->
+                <!--<version>${findbugs.version}</version>-->
+            <!--</plugin>-->
 
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-pmd-plugin</artifactId>-->
+                <!--<version>${pmd.version}</version>-->
+            <!--</plugin>-->
+
+        </plugins>
+    </reporting>
+
+    <build>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>${pmd.version}</version>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>checkstyle</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
             </plugin>
-        </plugins>
-    </reporting>
 
-    <build>
-        <plugins>
             <!--<plugin>-->
                 <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<source>${maven.compiler.version}</source>-->
-                    <!--<target>${maven.compiler.version}</target>-->
-                <!--</configuration>-->
+                <!--<artifactId>maven-resources-plugin</artifactId>-->
+                <!--<version>${resource.plagin.version}</version>-->
             <!--</plugin>-->
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${resource.plagin.version}</version>
-            </plugin>
         </plugins>
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-            <version>${findbugs.version}</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.mojo</groupId>-->
+            <!--<artifactId>findbugs-maven-plugin</artifactId>-->
+            <!--<version>${findbugs.version}</version>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-pmd-plugin</artifactId>
-            <version>${pmd.version}</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-pmd-plugin</artifactId>-->
+            <!--<version>${pmd.version}</version>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
@@ -89,13 +97,13 @@
             <scope>compile</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-plugins</artifactId>
-            <version>${maven.pom.version}</version>
-            <type>pom</type>
-            <scope>compile</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-plugins</artifactId>-->
+            <!--<version>${maven.pom.version}</version>-->
+            <!--<type>pom</type>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -118,12 +126,18 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>${resource.plagin.version}</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-resources-plugin</artifactId>-->
+            <!--<version>${resource.plagin.version}</version>-->
+            <!--<scope>compile</scope>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.codehaus.plexus</groupId>-->
+                    <!--<artifactId>plexus-interpolation</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>

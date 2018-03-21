@@ -21,12 +21,17 @@ public class Hotel implements Entity {
     private byte stars;
 
     public Hotel(String name, String phone, Country country, byte stars) {
-        hotelId = IdCounter.incrementId(id);
+        id = IdCounter.incrementId(id);
+        hotelId = id;
 
         this.name = name;
         this.phone = phone;
         this.country = country;
         this.stars = stars;
+    }
+
+    public void setHotelId(long hotelId) {
+        this.hotelId = hotelId;
     }
 
     @Override

@@ -28,7 +28,9 @@ public class Tour implements Entity {
 
     public Tour(Image photo, Date date, Date duration, Country country, Hotel hotel,
                 TourType type, String description, int cost) {
-        tourId = IdCounter.incrementId(id);
+
+        id = IdCounter.incrementId(id);
+        tourId = id;
 
         this.photo = photo;
         this.date = date;

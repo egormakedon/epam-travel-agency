@@ -23,7 +23,9 @@ public class User implements Entity {
     private List<Review> reviewList;
 
     public User(String login, String password) {
-        userId = IdCounter.incrementId(id);
+
+        id = IdCounter.incrementId(id);
+        userId = id;
 
         this.login = login;
         this.password = password;
@@ -92,7 +94,6 @@ public class User implements Entity {
         return "User{" +
                 "userId=" + userId +
                 ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }

@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since version 1.0
  * @param <T> generic class, which define, what type of entities will store.
  */
-class CollectionSet<T extends Entity> implements Collection<T> {
+public class CollectionSet<T extends Entity> implements Collection<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CollectionSet.class);
     private static ReentrantLock lock = new ReentrantLock();
 

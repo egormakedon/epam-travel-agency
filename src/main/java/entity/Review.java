@@ -20,7 +20,8 @@ public class Review implements Entity {
     private String content;
 
     public Review(Tour tour, User user, String content) {
-        reviewId = IdCounter.incrementId(id);
+        id = IdCounter.incrementId(id);
+        reviewId = id;
 
         this.tour = tour;
         this.user = user;
