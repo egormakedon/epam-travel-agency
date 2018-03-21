@@ -1,22 +1,15 @@
-package crud;
+package repository;
 
-import entity.Country;
-import entity.EntityType;
-import entity.Hotel;
+import entity.*;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import repository.CollectionSet;
-import repository.Repository;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class UpdateTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateTest.class);
+public class GetTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetTest.class);
 
     private static final String name1 = "Agency1";
     private static final String phone1 = "12345";
@@ -60,7 +53,16 @@ public class UpdateTest {
     }
 
     @Test
-    public void updateTrueTest() {
+    public void getTrueTest1() {
+        CollectionSet mockCollection = mock(CollectionSet.class);
+        when(mockCollection.get()).thenReturn(repository.get(EntityType.USER));
+
+        Assert.assertEquals(mockCollection.get().size(), 0);
+        LOGGER.info("Get true test 1 execute successfully");
+    }
+
+    @Test
+    public void getTrueTest2() {
         repository.add(hotel1);
         repository.add(hotel2);
         repository.add(hotel3);
@@ -68,17 +70,20 @@ public class UpdateTest {
         CollectionSet mockCollection = mock(CollectionSet.class);
         when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
 
-        long id = hotel1.getId();
-        hotel1 = new Hotel("------", phone1, country1, stars1);
-        hotel1.setHotelId(id);
-        repository.update(hotel1);
+        Assert.assertEquals(mockCollection.get().size(), 3);
+        LOGGER.info("Get true test 2 execute successfully");
+    }
 
-        Set<Hotel> set = new HashSet<Hotel>();
-        set.add(hotel1);
-        set.add(hotel2);
-        set.add(hotel3);
+    @Test
+    public void getFalseTest() {
+        repository.add(hotel1);
+        repository.add(hotel2);
+        repository.add(hotel3);
 
-        Assert.assertEquals(mockCollection.get(), set);
-        LOGGER.info("Update true test execute successfully");
+        CollectionSet mockCollection = mock(CollectionSet.class);
+        when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
+
+        Assert.assertNotEquals(mockCollection.get().size(), 2);
+        LOGGER.info("Get false test execute successfully");
     }
 }

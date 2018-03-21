@@ -1,4 +1,4 @@
-package crud;
+package repository;
 
 import entity.Country;
 import entity.EntityType;
@@ -6,8 +6,6 @@ import entity.Hotel;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import repository.CollectionSet;
-import repository.Repository;
 
 import java.util.HashSet;
 import java.util.Set;
