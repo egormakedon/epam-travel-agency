@@ -19,6 +19,7 @@
         <info.reports.version>2.9</info.reports.version>
         <jacoco.version>0.8.0</jacoco.version>
         <javadoc.version>3.0.0</javadoc.version>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 
         <logger.version>2.10.0</logger.version>
         <junit.version>4.12</junit.version>
@@ -69,6 +70,18 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                    <append>true</append>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
