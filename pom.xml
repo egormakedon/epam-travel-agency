@@ -85,7 +85,7 @@
                     </execution>
 
                     <execution>
-                        <phase>compile</phase>
+                        <phase>install</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
