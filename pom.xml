@@ -19,7 +19,9 @@
         <info.reports.version>2.9</info.reports.version>
         <jacoco.version>0.8.0</jacoco.version>
         <javadoc.version>3.0.0</javadoc.version>
+
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
         <logger.version>2.10.0</logger.version>
         <junit.version>4.12</junit.version>
