@@ -114,8 +114,8 @@ public final class Repository implements Collection {
 
     /**
      * @param entityType by which get definite collection.
-     * @return
-     * @throws {@code RuntimeException()}, if entity type not define.
+     * @return set collection of all entity collection inside
+     * @throws RuntimeException if entity type not define.
      */
     public Set get(EntityType entityType) {
         switch (entityType) {
