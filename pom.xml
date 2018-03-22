@@ -20,7 +20,7 @@
         <jacoco.version>0.8.0</jacoco.version>
         <javadoc.version>3.0.0</javadoc.version>
 
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
         <logger.version>2.10.0</logger.version>
