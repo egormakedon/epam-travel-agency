@@ -1,8 +1,8 @@
-package repository;
+package com.epam.makedon.agency.repository;
 
-import entity.Country;
-import entity.EntityType;
-import entity.Hotel;
+import com.epam.makedon.agency.entity.impl.Country;
+import com.epam.makedon.agency.entity.EntityType;
+import com.epam.makedon.agency.entity.impl.Hotel;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +63,7 @@ public class UpdateTest {
         repository.add(hotel2);
         repository.add(hotel3);
 
-        CollectionSet mockCollection = mock(CollectionSet.class);
+        Storage mockCollection = mock(Storage.class);
         when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
 
         long id = hotel1.getId();

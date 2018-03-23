@@ -1,6 +1,7 @@
-package repository;
+package com.epam.makedon.agency.repository;
 
-import entity.*;
+import com.epam.makedon.agency.entity.*;
+import com.epam.makedon.agency.entity.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,29 +11,29 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Final thread-safe class {@code Repository}, that implemets interface {@code Collection}.
+ * Final thread-safe class {@code Repository}, that implemets interface {@code StorageOperation}.
  * Class safe from cloning and reflection-api.
  * Class store collections and methods to interact with it.
  *
  * @author Yahor Makedon
- * @see repository.Collection
- * @see repository.CollectionSet
+ * @see StorageOperation
+ * @see Storage
  * @version 1.0
  * @since version 1.0
  */
-public final class Repository implements Collection {
+public final class Repository implements StorageOperation {
     private static final Logger LOGGER = LoggerFactory.getLogger(Repository.class);
     private static Repository instance;
     private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static ReentrantLock lock = new ReentrantLock();
 
-    private Set<Collection> setOfCollections = new HashSet<Collection>();
-    private Collection<Hotel> hotelCollection = new CollectionSet<Hotel>();
-    private Collection<User> userCollection = new CollectionSet<User>();
-    private Collection<Tour> tourCollection = new CollectionSet<Tour>();
-    private Collection<Review> reviewCollection = new CollectionSet<Review>();
-    private Collection<Country> countryCollection = new CollectionSet<Country>();
-    private Collection<TourType> tourTypeCollection = new CollectionSet<TourType>();
+    private Set<StorageOperation> setOfCollections = new HashSet<StorageOperation>();
+    private StorageOperation<Hotel> hotelCollection = new Storage<Hotel>();
+    private StorageOperation<User> userCollection = new Storage<User>();
+    private StorageOperation<Tour> tourCollection = new Storage<Tour>();
+    private StorageOperation<Review> reviewCollection = new Storage<Review>();
+    private StorageOperation<Country> countryCollection = new Storage<Country>();
+    private StorageOperation<TourType> tourTypeCollection = new Storage<TourType>();
 
     /**
      * @throws {@code RuntimeException()}, if tried to clone with reflection-api.
@@ -75,7 +76,7 @@ public final class Repository implements Collection {
     }
 
     /**
-     * With switch case define entity type and use definite add method on collection.
+     * With switch case define com.epam.makedon.agency.entity type and use definite add method on collection.
      *
      * @param entity generic add method
      */
@@ -114,8 +115,8 @@ public final class Repository implements Collection {
 
     /**
      * @param entityType by which get definite collection.
-     * @return set collection of all entity collection inside
-     * @throws RuntimeException if entity type not define.
+     * @return set collection of all com.epam.makedon.agency.entity collection inside
+     * @throws RuntimeException if com.epam.makedon.agency.entity type not define.
      */
     public Set get(EntityType entityType) {
         switch (entityType) {
@@ -132,13 +133,13 @@ public final class Repository implements Collection {
             case COUNTRY:
                 return countryCollection.get();
             default:
-                LOGGER.error("Unknown entity type");
-                throw new RuntimeException("Unknown entity type");
+                LOGGER.error("Unknown com.epam.makedon.agency.entity type");
+                throw new RuntimeException("Unknown com.epam.makedon.agency.entity type");
         }
     }
 
     /**
-     * With switch case define entity type and use definite delete method on collection.
+     * With switch case define com.epam.makedon.agency.entity type and use definite delete method on collection.
      *
      * @param entity generic delete method
      */
@@ -169,7 +170,7 @@ public final class Repository implements Collection {
     }
 
     /**
-     * With switch case define entity type and use definite update method on collection.
+     * With switch case define com.epam.makedon.agency.entity type and use definite update method on collection.
      *
      * @param entity generic update method
      */
@@ -200,9 +201,9 @@ public final class Repository implements Collection {
     }
 
     /**
-     * @param entity
-     * @return Exemplar {@code EntityType}, using instanceof on entity
-     * @throws {@code RuntimeException()}, if param is unknown entity.
+     * @param entity entity type
+     * @return Exemplar {@code EntityType}, using instanceof on com.epam.makedon.agency.entity
+     * @throws RuntimeException if param is unknown com.epam.makedon.agency.entity.
      */
     private EntityType defineEntity(Entity entity) {
         if (entity instanceof Country) {
@@ -218,8 +219,8 @@ public final class Repository implements Collection {
         } else if (entity instanceof User) {
             return EntityType.USER;
         } else {
-            LOGGER.error("Unknown entity type");
-            throw new RuntimeException("Unknown entity type");
+            LOGGER.error("Unknown com.epam.makedon.agency.entity type");
+            throw new RuntimeException("Unknown com.epam.makedon.agency.entity type");
         }
     }
 }

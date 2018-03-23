@@ -1,15 +1,17 @@
-package entity;
+package com.epam.makedon.agency.entity.impl;
+
+import com.epam.makedon.agency.entity.Entity;
+import com.epam.makedon.agency.entity.IdCounter;
 
 import java.awt.*;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Class {@code Tour} is Entity class.
  * It stores information about tour data.
  *
  * @author Yahor Makedon
- * @see entity
+ * @see com.epam.makedon.agency.entity
  * @version 1.0
  * @since version 1.0
  */

@@ -1,11 +1,11 @@
-package entity;
+package com.epam.makedon.agency.entity;
 
 /**
  * Class {@code IdCounter} is final class.
  * It has only one method, which increment input id.
  *
  * @author Yahor Makedon
- * @see entity
+ * @see com.epam.makedon.agency.entity
  * @version 1.0
  * @since version 1.0
  */

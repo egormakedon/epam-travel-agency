@@ -1,8 +1,8 @@
-package service;
+package com.epam.makedon.agency.service;
 
 /**
  * @author Yahor Makedon
- * @see service
+ * @see com.epam.makedon.agency.service
  * @version 1.0
  * @since version 1.0
  */

@@ -1,19 +1,17 @@
-package repository;
+package com.epam.makedon.agency.repository;
 
-import entity.Country;
-import entity.EntityType;
-import entity.Hotel;
+import com.epam.makedon.agency.entity.*;
+import com.epam.makedon.agency.entity.impl.Country;
+import com.epam.makedon.agency.entity.impl.Hotel;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
-import java.util.Set;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import static org.mockito.Mockito.*;
-
-public class AddTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AddTest.class);
+public class GetTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetTest.class);
 
     private static final String name1 = "Agency1";
     private static final String phone1 = "12345";
@@ -57,57 +55,37 @@ public class AddTest {
     }
 
     @Test
-    public void addTrueTest1() {
+    public void getTrueTest1() {
+        Storage mockCollection = mock(Storage.class);
+        when(mockCollection.get()).thenReturn(repository.get(EntityType.USER));
+
+        Assert.assertEquals(mockCollection.get().size(), 0);
+        LOGGER.info("Get true test 1 execute successfully");
+    }
+
+    @Test
+    public void getTrueTest2() {
         repository.add(hotel1);
         repository.add(hotel2);
         repository.add(hotel3);
 
-        Set<Hotel> set = new HashSet<Hotel>();
-        set.add(hotel1);
-        set.add(hotel2);
-        set.add(hotel3);
-
-        CollectionSet mockCollection = mock(CollectionSet.class);
+        Storage mockCollection = mock(Storage.class);
         when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
 
-        Assert.assertEquals(mockCollection.get(), set);
-        LOGGER.info("Add true test 1 execute successfully");
+        Assert.assertEquals(mockCollection.get().size(), 3);
+        LOGGER.info("Get true test 2 execute successfully");
     }
 
     @Test
-    public void addTrueTest2() {
-        repository.add(hotel1);
-        repository.add(hotel3);
-        repository.add(hotel3);
-        repository.add(hotel3);
-
-        Set<Hotel> set = new HashSet<Hotel>();
-        set.add(hotel1);
-        set.add(hotel1);
-        set.add(hotel1);
-        set.add(hotel3);
-
-        CollectionSet mockCollection = mock(CollectionSet.class);
-        when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
-
-        Assert.assertEquals(mockCollection.get(), set);
-        LOGGER.info("Add true test 2 execute successfully");
-    }
-
-    @Test
-    public void addFalseTest() {
+    public void getFalseTest() {
         repository.add(hotel1);
         repository.add(hotel2);
         repository.add(hotel3);
 
-        Set<Hotel> set = new HashSet<Hotel>();
-        set.add(hotel1);
-        set.add(hotel3);
-
-        CollectionSet mockCollection = mock(CollectionSet.class);
+        Storage mockCollection = mock(Storage.class);
         when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
 
-        Assert.assertNotEquals(mockCollection.get(), set);
-        LOGGER.info("Add false test execute successfully");
+        Assert.assertNotEquals(mockCollection.get().size(), 2);
+        LOGGER.info("Get false test execute successfully");
     }
 }

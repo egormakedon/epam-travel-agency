@@ -1,10 +1,13 @@
-package entity;
+package com.epam.makedon.agency.entity.impl;
+
+import com.epam.makedon.agency.entity.Entity;
+
 /**
  * Enum {@code Country} is Entity class.
  * This enum consists of country names and their id.
  *
  * @author Yahor Makedon
- * @see entity
+ * @see com.epam.makedon.agency.entity
  * @version 1.0
  * @since version 1.0
  */

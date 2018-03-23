@@ -1,6 +1,6 @@
-package repository;
+package com.epam.makedon.agency.repository;
 
-import entity.Entity;
+import com.epam.makedon.agency.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,26 +10,26 @@ import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Class {@code CollectionSet} is generic class, that implemets interface {@code Collection}
+ * Class {@code Storage} is generic class, that implemets interface {@code StorageOperation}
  *
  * @author Yahor Makedon
- * @see repository.Collection
+ * @see StorageOperation
  * @version 1.0
  * @since version 1.0
  * @param <T> generic class, which define, what type of entities will store.
  */
-public class CollectionSet<T extends Entity> implements Collection<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CollectionSet.class);
+public class Storage<T extends Entity> implements StorageOperation<T> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Storage.class);
     private static ReentrantLock lock = new ReentrantLock();
 
     private Set<T> entitySet;
 
-    CollectionSet() {
+    Storage() {
         entitySet = new HashSet<T>();
     }
 
     /**
-     * Override method from interface {@code Collection}
+     * Override method from interface {@code StorageOperation}
      * Thread-safe, using locks
      *
      * @param entity generic add method
@@ -46,7 +46,7 @@ public class CollectionSet<T extends Entity> implements Collection<T> {
     }
 
     /**
-     * Override method from interface {@code Collection}
+     * Override method from interface {@code StorageOperation}
      * Thread-safe, using locks
      *
      * @return set of entities
@@ -63,7 +63,7 @@ public class CollectionSet<T extends Entity> implements Collection<T> {
     }
 
     /**
-     * Override method from interface {@code Collection}
+     * Override method from interface {@code StorageOperation}
      * Thread-safe, using locks
      *
      * @param entity generic delete method
@@ -80,7 +80,7 @@ public class CollectionSet<T extends Entity> implements Collection<T> {
     }
 
     /**
-     * Override method from interface {@code Collection}
+     * Override method from interface {@code StorageOperation}
      * Thread-safe, using locks
      *
      * @param entity generic update method
