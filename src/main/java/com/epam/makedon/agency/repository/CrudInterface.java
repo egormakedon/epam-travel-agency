@@ -1,11 +1,13 @@
 package com.epam.makedon.agency.repository;
 
 import com.epam.makedon.agency.entity.Entity;
+import com.epam.makedon.agency.entity.EntityType;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
- * Interface {@code StorageOperation} define CRUD methods.
+ * Interface {@code CrudInterface} define CRUD methods.
  *
  * @param <T> generic interface define type of classes, which cane use this methods.
  * @author Yahor Makedon
@@ -13,7 +15,7 @@ import java.util.Set;
  * @version 1.0
  * @since version 1.0
  */
-interface StorageOperation<T extends Entity> {
+interface CrudInterface<T extends Entity> {
     /**
      * @param entity generic add method
      */

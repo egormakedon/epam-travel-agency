@@ -4,17 +4,14 @@ import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.entity.EntityType;
 import com.epam.makedon.agency.entity.impl.Hotel;
 import org.junit.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class AddTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AddTest.class);
-
+public class RepositoryUpdateTest {
     private static final String name1 = "Agency1";
     private static final String phone1 = "12345";
     private static final Country country1 = Country.BELARUS;
@@ -38,9 +35,23 @@ public class AddTest {
 
     @Before
     public void init() {
-        hotel1 = new Hotel(name1, phone1, country1, stars1);
-        hotel2 = new Hotel(name2, phone2, country2, stars2);
-        hotel3 = new Hotel(name3, phone3, country3, stars3);
+        hotel1 = new Hotel();
+        hotel1.setName(name1);
+        hotel1.setPhone(phone1);
+        hotel1.setCountry(country1);
+        hotel1.setStars(stars1);
+
+        hotel2 = new Hotel();
+        hotel2.setName(name2);
+        hotel2.setPhone(phone2);
+        hotel2.setCountry(country2);
+        hotel2.setStars(stars2);
+
+        hotel3 = new Hotel();
+        hotel3.setName(name3);
+        hotel3.setPhone(phone3);
+        hotel3.setCountry(country3);
+        hotel3.setStars(stars3);
 
         repository = Repository.getInstance();
     }
@@ -57,57 +68,28 @@ public class AddTest {
     }
 
     @Test
-    public void addTrueTest1() {
+    public void updateTrueTest() {
         repository.add(hotel1);
         repository.add(hotel2);
         repository.add(hotel3);
+
+        Storage mockCollection = mock(Storage.class);
+        when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
+
+        long id = hotel1.getId();
+        hotel1 = new Hotel();
+        hotel1.setName("------");
+        hotel1.setPhone(phone1);
+        hotel1.setCountry(country1);
+        hotel1.setStars(stars1);
+        hotel1.setHotelId(id);
+        repository.update(hotel1);
 
         Set<Hotel> set = new HashSet<Hotel>();
         set.add(hotel1);
         set.add(hotel2);
         set.add(hotel3);
 
-        Storage mockCollection = mock(Storage.class);
-        when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
-
         Assert.assertEquals(mockCollection.get(), set);
-        LOGGER.info("Add true test 1 execute successfully");
-    }
-
-    @Test
-    public void addTrueTest2() {
-        repository.add(hotel1);
-        repository.add(hotel3);
-        repository.add(hotel3);
-        repository.add(hotel3);
-
-        Set<Hotel> set = new HashSet<Hotel>();
-        set.add(hotel1);
-        set.add(hotel1);
-        set.add(hotel1);
-        set.add(hotel3);
-
-        Storage mockCollection = mock(Storage.class);
-        when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
-
-        Assert.assertEquals(mockCollection.get(), set);
-        LOGGER.info("Add true test 2 execute successfully");
-    }
-
-    @Test
-    public void addFalseTest() {
-        repository.add(hotel1);
-        repository.add(hotel2);
-        repository.add(hotel3);
-
-        Set<Hotel> set = new HashSet<Hotel>();
-        set.add(hotel1);
-        set.add(hotel3);
-
-        Storage mockCollection = mock(Storage.class);
-        when(mockCollection.get()).thenReturn(repository.get(EntityType.HOTEL));
-
-        Assert.assertNotEquals(mockCollection.get(), set);
-        LOGGER.info("Add false test execute successfully");
     }
 }

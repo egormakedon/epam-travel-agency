@@ -1,24 +1,26 @@
 package com.epam.makedon.agency.repository;
 
 import com.epam.makedon.agency.entity.Entity;
+import com.epam.makedon.agency.entity.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Class {@code Storage} is generic class, that implemets interface {@code StorageOperation}
+ * Class {@code Storage} is generic class, that implemets interface {@code CrudInterface}
  *
  * @author Yahor Makedon
- * @see StorageOperation
+ * @see CrudInterface
  * @version 1.0
  * @since version 1.0
  * @param <T> generic class, which define, what type of entities will store.
  */
-public class Storage<T extends Entity> implements StorageOperation<T> {
+public class Storage<T extends Entity> implements CrudInterface<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(Storage.class);
     private static ReentrantLock lock = new ReentrantLock();
 
@@ -29,7 +31,7 @@ public class Storage<T extends Entity> implements StorageOperation<T> {
     }
 
     /**
-     * Override method from interface {@code StorageOperation}
+     * Override method from interface {@code CrudInterface}
      * Thread-safe, using locks
      *
      * @param entity generic add method
@@ -46,7 +48,7 @@ public class Storage<T extends Entity> implements StorageOperation<T> {
     }
 
     /**
-     * Override method from interface {@code StorageOperation}
+     * Override method from interface {@code CrudInterface}
      * Thread-safe, using locks
      *
      * @return set of entities
@@ -55,7 +57,7 @@ public class Storage<T extends Entity> implements StorageOperation<T> {
     public Set<T> get() {
         lock.lock();
         try {
-            LOGGER.info("get set");
+            LOGGER.info("get " + entitySet.getClass());
             return entitySet;
         } finally {
             lock.unlock();
@@ -63,7 +65,28 @@ public class Storage<T extends Entity> implements StorageOperation<T> {
     }
 
     /**
-     * Override method from interface {@code StorageOperation}
+     * @param id of entity
+     * @return entity, wrapper in optional
+     */
+    public T get(long id) {
+        lock.lock();
+        try {
+            Iterator<T> iterator = entitySet.iterator();
+            while (iterator.hasNext()) {
+                T entity = iterator.next();
+                if (id == entity.getId()) {
+                    LOGGER.info("get " + entity);
+                    return entity;
+                }
+            }
+            return null;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Override method from interface {@code CrudInterface}
      * Thread-safe, using locks
      *
      * @param entity generic delete method
@@ -80,7 +103,7 @@ public class Storage<T extends Entity> implements StorageOperation<T> {
     }
 
     /**
-     * Override method from interface {@code StorageOperation}
+     * Override method from interface {@code CrudInterface}
      * Thread-safe, using locks
      *
      * @param entity generic update method
@@ -91,14 +114,20 @@ public class Storage<T extends Entity> implements StorageOperation<T> {
         try {
             long id = entity.getId();
             Iterator<T> iterator = entitySet.iterator();
+            T ent = null;
+            boolean result = false;
             while(iterator.hasNext()) {
-                T ent = iterator.next();
+                ent = iterator.next();
                 if (ent.getId() == id) {
-                    iterator.remove();
-                    entitySet.add(entity);
-                    LOGGER.info("update " + entity.getClass());
+                    result = true;
                     break;
                 }
+            }
+
+            if (result) {
+                entitySet.remove(ent);
+                entitySet.add(entity);
+                LOGGER.info("update " + entity.getClass());
             }
         } finally {
             lock.unlock();

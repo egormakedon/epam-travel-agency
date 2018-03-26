@@ -4,8 +4,6 @@ import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.entity.EntityType;
 import com.epam.makedon.agency.entity.impl.Hotel;
 import org.junit.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,9 +11,7 @@ import java.util.Set;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class DeleteTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateTest.class);
-
+public class RepositoryDeleteTest {
     private static final String name1 = "Agency1";
     private static final String phone1 = "12345";
     private static final Country country1 = Country.BELARUS;
@@ -39,9 +35,23 @@ public class DeleteTest {
 
     @Before
     public void init() {
-        hotel1 = new Hotel(name1, phone1, country1, stars1);
-        hotel2 = new Hotel(name2, phone2, country2, stars2);
-        hotel3 = new Hotel(name3, phone3, country3, stars3);
+        hotel1 = new Hotel();
+        hotel1.setName(name1);
+        hotel1.setPhone(phone1);
+        hotel1.setCountry(country1);
+        hotel1.setStars(stars1);
+
+        hotel2 = new Hotel();
+        hotel2.setName(name2);
+        hotel2.setPhone(phone2);
+        hotel2.setCountry(country2);
+        hotel2.setStars(stars2);
+
+        hotel3 = new Hotel();
+        hotel3.setName(name3);
+        hotel3.setPhone(phone3);
+        hotel3.setCountry(country3);
+        hotel3.setStars(stars3);
 
         repository = Repository.getInstance();
     }
@@ -73,6 +83,5 @@ public class DeleteTest {
         set.add(hotel3);
 
         Assert.assertEquals(mockCollection.get(), set);
-        LOGGER.info("Delete true test execute successfully");
     }
 }

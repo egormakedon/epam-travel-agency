@@ -6,42 +6,43 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Final thread-safe class {@code Repository}, that implemets interface {@code StorageOperation}.
+ * Final thread-safe class {@code Repository}, that implemets interface {@code CrudInterface}.
  * Class safe from cloning and reflection-api.
  * Class store collections and methods to interact with it.
  *
  * @author Yahor Makedon
- * @see StorageOperation
+ * @see CrudInterface
  * @see Storage
  * @version 1.0
  * @since version 1.0
  */
-public final class Repository implements StorageOperation {
+public final class Repository implements CrudInterface, Cloneable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Repository.class);
     private static Repository instance;
     private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static ReentrantLock lock = new ReentrantLock();
 
-    private Set<StorageOperation> setOfCollections = new HashSet<StorageOperation>();
-    private StorageOperation<Hotel> hotelCollection = new Storage<Hotel>();
-    private StorageOperation<User> userCollection = new Storage<User>();
-    private StorageOperation<Tour> tourCollection = new Storage<Tour>();
-    private StorageOperation<Review> reviewCollection = new Storage<Review>();
-    private StorageOperation<Country> countryCollection = new Storage<Country>();
-    private StorageOperation<TourType> tourTypeCollection = new Storage<TourType>();
+    private Set<CrudInterface> setOfCollections = new HashSet<CrudInterface>();
+    private CrudInterface<Hotel> hotelCollection = new Storage<Hotel>();
+    private CrudInterface<User> userCollection = new Storage<User>();
+    private CrudInterface<Tour> tourCollection = new Storage<Tour>();
+    private CrudInterface<Review> reviewCollection = new Storage<Review>();
+    private CrudInterface<Country> countryCollection = new Storage<Country>();
+    private CrudInterface<TourType> tourTypeCollection = new Storage<TourType>();
 
     /**
-     * @throws {@code RuntimeException()}, if tried to clone with reflection-api.
+     * @throws RepositoryException if tried to clone with reflection-api.
      */
     private Repository() {
         if (instanceCreated.get()) {
             LOGGER.error("Tried to clone connection pool with reflection api");
-            throw new RuntimeException("Tried to clone connection pool with reflection api");
+            throw new RepositoryException("Tried to clone connection pool with reflection api");
         }
         setOfCollections.add(hotelCollection);
         setOfCollections.add(tourCollection);
@@ -66,13 +67,14 @@ public final class Repository implements StorageOperation {
         return instance;
     }
 
+
+    /**
+     * @throws RepositoryCloneException protection from cloning
+     */
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        if (instanceCreated.get()) {
-            LOGGER.error("Tried to clone connection pool");
-            throw new CloneNotSupportedException("Tried to clone connection pool");
-        }
-        return super.clone();
+    public Object clone() throws RepositoryCloneException {
+        LOGGER.error("Tried to clone connection pool");
+        throw new RepositoryCloneException("Tried to clone connection pool");
     }
 
     /**
@@ -114,9 +116,36 @@ public final class Repository implements StorageOperation {
     }
 
     /**
+     *
+     * @param id of entity
+     * @param entityType type to identify storage
+     * @return entity
+     * @throws RepositoryException unknown entityType
+     */
+    public Optional<Entity> get(long id, EntityType entityType) {
+        switch (entityType) {
+            case USER:
+                return Optional.ofNullable((((Storage)userCollection).get(id)));
+            case TOUR_TYPE:
+                return Optional.ofNullable(((Storage)tourTypeCollection).get(id));
+            case TOUR:
+                return Optional.ofNullable(((Storage)tourCollection).get(id));
+            case REVIEW:
+                return Optional.ofNullable(((Storage)reviewCollection).get(id));
+            case HOTEL:
+                return Optional.ofNullable(((Storage)hotelCollection).get(id));
+            case COUNTRY:
+                return Optional.ofNullable(((Storage)countryCollection).get(id));
+            default:
+                LOGGER.error("Unknown com.epam.makedon.agency.entity type");
+                throw new RepositoryException("Unknown com.epam.makedon.agency.entity type");
+        }
+    }
+
+    /**
      * @param entityType by which get definite collection.
      * @return set collection of all com.epam.makedon.agency.entity collection inside
-     * @throws RuntimeException if com.epam.makedon.agency.entity type not define.
+     * @throws RepositoryException if com.epam.makedon.agency.entity type not define.
      */
     public Set get(EntityType entityType) {
         switch (entityType) {
@@ -134,9 +163,11 @@ public final class Repository implements StorageOperation {
                 return countryCollection.get();
             default:
                 LOGGER.error("Unknown com.epam.makedon.agency.entity type");
-                throw new RuntimeException("Unknown com.epam.makedon.agency.entity type");
+                throw new RepositoryException("Unknown com.epam.makedon.agency.entity type");
         }
     }
+
+
 
     /**
      * With switch case define com.epam.makedon.agency.entity type and use definite delete method on collection.
@@ -197,13 +228,12 @@ public final class Repository implements StorageOperation {
                 countryCollection.update((Country)entity);
                 break;
         }
-
     }
 
     /**
      * @param entity entity type
      * @return Exemplar {@code EntityType}, using instanceof on com.epam.makedon.agency.entity
-     * @throws RuntimeException if param is unknown com.epam.makedon.agency.entity.
+     * @throws RepositoryException if param is unknown com.epam.makedon.agency.entity.
      */
     private EntityType defineEntity(Entity entity) {
         if (entity instanceof Country) {
@@ -220,7 +250,7 @@ public final class Repository implements StorageOperation {
             return EntityType.USER;
         } else {
             LOGGER.error("Unknown com.epam.makedon.agency.entity type");
-            throw new RuntimeException("Unknown com.epam.makedon.agency.entity type");
+            throw new RepositoryException("Unknown com.epam.makedon.agency.entity type");
         }
     }
 }
