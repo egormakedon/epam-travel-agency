@@ -70,9 +70,9 @@ public class Review implements Entity {
 
         Review review = (Review) o;
         return reviewId == review.getId() &&
-                tour.equals(review.getTour()) &&
-                user.equals(review.getUser()) &&
-                content.equals(review.getContent());
+                ((tour == review.getTour()) || (tour != null && tour.equals(review.getTour()))) &&
+                ((user == review.getUser()) || (user != null && user.equals(review.getUser()))) &&
+                ((content == review.getContent()) || (content != null && content.equals(review.getContent())));
     }
 
     @Override

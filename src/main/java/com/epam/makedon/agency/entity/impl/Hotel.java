@@ -80,9 +80,9 @@ public class Hotel implements Entity {
         Hotel hotel = (Hotel) o;
         return hotelId == hotel.getId() &&
                 stars == hotel.getStars() &&
-                name.equals(hotel.getName()) &&
-                phone.equals(hotel.getPhone()) &&
-                country == hotel.getCountry();
+                ((name == hotel.getName()) || (name != null && name.equals(hotel.getName()))) &&
+                ((phone == hotel.getPhone()) || (phone != null && phone.equals(hotel.getPhone()))) &&
+                ((country == hotel.getCountry()) || (country != null && country.equals(hotel.getCountry())));
     }
 
     @Override

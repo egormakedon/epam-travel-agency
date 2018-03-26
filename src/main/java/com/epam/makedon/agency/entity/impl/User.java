@@ -86,8 +86,8 @@ public class User implements Entity {
 
         User user = (User) o;
         return userId == user.getId() &&
-                login.equals(user.getLogin()) &&
-                password.equals(user.getPassword());
+                ((login == user.getLogin()) || (login != null && login.equals(user.getLogin()))) &&
+                ((password == user.getPassword()) || (password != null && password.equals(user.getPassword())));
     }
 
     @Override
