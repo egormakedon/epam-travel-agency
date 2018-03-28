@@ -16,9 +16,9 @@ public final class IdCounter {
      * incrementId is a public static method, which calculate id.
      *
      * @param id long variable
-     * @return id, which was incremented
+     * @return id increment of input param
      */
-    public static long incrementId(long id) {
+    public static long incrementId(Long id) {
         return ++id;
     }
 }

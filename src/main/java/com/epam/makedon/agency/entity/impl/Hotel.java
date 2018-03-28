@@ -4,16 +4,16 @@ import com.epam.makedon.agency.entity.Entity;
 import com.epam.makedon.agency.entity.IdCounter;
 
 /**
- * Class {@code HotelService} is Entity class.
+ * Class {@code Hotel} is Entity class.
  * This class stores information about hotels, which uses in project.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.entity
- * @version 1.0
+ * @version 3.0
  * @since version 1.0
  */
 public class Hotel implements Entity {
-    private static long id;
+    private static Long id = 0L;
 
     private long hotelId;
     private String name;
@@ -22,11 +22,11 @@ public class Hotel implements Entity {
     private byte stars;
 
     public Hotel() {
-        id = IdCounter.incrementId(id);
-        hotelId = id;
+        hotelId = IdCounter.incrementId(id);
     }
 
-    public void setHotelId(long hotelId) {
+    @Override
+    public void setId(long hotelId) {
         this.hotelId = hotelId;
     }
 
@@ -80,9 +80,9 @@ public class Hotel implements Entity {
         Hotel hotel = (Hotel) o;
         return hotelId == hotel.getId() &&
                 stars == hotel.getStars() &&
-                ((name == hotel.getName()) || (name != null && name.equals(hotel.getName()))) &&
-                ((phone == hotel.getPhone()) || (phone != null && phone.equals(hotel.getPhone()))) &&
-                ((country == hotel.getCountry()) || (country != null && country.equals(hotel.getCountry())));
+                (name != null && name.equals(hotel.getName())) &&
+                (phone != null && phone.equals(hotel.getPhone())) &&
+                (country != null && country.equals(hotel.getCountry()));
     }
 
     @Override

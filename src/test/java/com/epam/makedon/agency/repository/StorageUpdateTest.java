@@ -41,7 +41,7 @@ public class StorageUpdateTest {
         Hotel old = hotel1;
         long idHotel1 = hotel1.getId();
         hotel1 = new Hotel();
-        hotel1.setHotelId(idHotel1);
+        hotel1.setId(idHotel1);
         hotel1.setStars((byte)1);
         hotel1.setName("---");
         storage.update(hotel1);

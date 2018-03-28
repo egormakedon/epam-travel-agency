@@ -12,11 +12,11 @@ import java.util.List;
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.entity
- * @version 1.0
+ * @version 3.0
  * @since version 1.0
  */
 public class User implements Entity {
-    private static long id;
+    private static Long id = 0L;
 
     private long userId;
     private String login;
@@ -26,14 +26,13 @@ public class User implements Entity {
     private List<Review> reviewList;
 
     public User() {
-        id = IdCounter.incrementId(id);
-        userId = id;
-
-        tourList = new ArrayList<Tour>();
-        reviewList = new ArrayList<Review>();
+        userId = IdCounter.incrementId(id);
+        tourList = new ArrayList<>();
+        reviewList = new ArrayList<>();
     }
 
-    public void setUserId(long userId) {
+    @Override
+    public void setId(long userId) {
         this.userId = userId;
     }
 
@@ -86,8 +85,8 @@ public class User implements Entity {
 
         User user = (User) o;
         return userId == user.getId() &&
-                ((login == user.getLogin()) || (login != null && login.equals(user.getLogin()))) &&
-                ((password == user.getPassword()) || (password != null && password.equals(user.getPassword())));
+                (login != null && login.equals(user.getLogin())) &&
+                (password != null && password.equals(user.getPassword()));
     }
 
     @Override

@@ -4,8 +4,8 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}  [%t]  %-5level %logger{6} - %msg%n"/>
         </Console>
-        <RollingFile name="RollingFile" fileName="logs/app.log"
-                     filePattern="logs/log-%d{yyyy-MM-dd HH:mm}-%i.log">
+        <RollingFile name="RollingFile" fileName="agency_logs/log.log"
+                     filePattern="agency_logs/log-%d{yyyy-MM-dd HH:mm}-%i.log">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}  [%t]  %-5level %logger{6} in %M - %msg%n"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="100 KB"/>

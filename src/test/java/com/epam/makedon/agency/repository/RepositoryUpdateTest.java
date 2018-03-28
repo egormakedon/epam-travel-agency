@@ -82,7 +82,7 @@ public class RepositoryUpdateTest {
         hotel1.setPhone(phone1);
         hotel1.setCountry(country1);
         hotel1.setStars(stars1);
-        hotel1.setHotelId(id);
+        hotel1.setId(id);
         repository.update(hotel1);
 
         Set<Hotel> set = new HashSet<Hotel>();

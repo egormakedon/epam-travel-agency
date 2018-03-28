@@ -9,11 +9,11 @@ import com.epam.makedon.agency.entity.IdCounter;
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.entity
- * @version 1.0
+ * @version 3.0
  * @since version 1.0
  */
 public class Review implements Entity {
-    private static long id;
+    private static Long id = 0L;
 
     private long reviewId;
     private Tour tour;
@@ -21,11 +21,11 @@ public class Review implements Entity {
     private String content;
 
     public Review() {
-        id = IdCounter.incrementId(id);
-        reviewId = id;
+        reviewId = IdCounter.incrementId(id);
     }
 
-    public void setReviewId(long reviewId) {
+    @Override
+    public void setId(long reviewId) {
         this.reviewId = reviewId;
     }
 
@@ -72,7 +72,7 @@ public class Review implements Entity {
         return reviewId == review.getId() &&
                 ((tour == review.getTour()) || (tour != null && tour.equals(review.getTour()))) &&
                 ((user == review.getUser()) || (user != null && user.equals(review.getUser()))) &&
-                ((content == review.getContent()) || (content != null && content.equals(review.getContent())));
+                (content != null && content.equals(review.getContent()));
     }
 
     @Override
