@@ -1,9 +1,6 @@
 package com.epam.makedon.agency.repository;
 
 public class RepositoryException extends RuntimeException {
-    public RepositoryException() {
-    }
-
     public RepositoryException(String message) {
         super(message);
     }
@@ -14,9 +11,5 @@ public class RepositoryException extends RuntimeException {
 
     public RepositoryException(Throwable cause) {
         super(cause);
-    }
-
-    public RepositoryException(String message, Throwable cause, boolean enableSuppression) {
-        super(message, cause, enableSuppression, true);
     }
 }

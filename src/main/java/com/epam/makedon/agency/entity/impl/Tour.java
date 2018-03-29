@@ -6,7 +6,6 @@ import com.epam.makedon.agency.entity.IdCounter;
 import java.awt.*;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * Class {@code Tour} is Entity class.
@@ -14,11 +13,11 @@ import java.util.Objects;
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.entity
- * @version 1.0
+ * @version 3.0
  * @since version 1.0
  */
 public class Tour implements Entity {
-    private static long id;
+    private static Long id = 0L;
 
     private long tourId;
     private Image photo;
@@ -31,11 +30,11 @@ public class Tour implements Entity {
     private int cost;
 
     public Tour() {
-        id = IdCounter.incrementId(id);
-        tourId = id;
+        tourId = IdCounter.incrementId(id);
     }
 
-    public void setTourId(long tourId) {
+    @Override
+    public void setId(long tourId) {
         this.tourId = tourId;
     }
 
@@ -127,7 +126,7 @@ public class Tour implements Entity {
                 country == tour.getCountry() &&
                 type == tour.getType() &&
                 ((hotel == tour.getHotel()) || (hotel != null && hotel.equals(tour.getHotel()))) &&
-                ((description == tour.getDescription()) || (description != null && description.equals(tour.getDescription())));
+                (description != null && description.equals(tour.getDescription()));
     }
 
     @Override
