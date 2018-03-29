@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public final class TourTypeRepositoryImpl implements TourTypeRepository {
+public class TourTypeRepositoryImpl implements TourTypeRepository {
     private static final Logger LOGGER;
     private static TourTypeRepositoryImpl instance;
     private static AtomicBoolean instanceCreated;

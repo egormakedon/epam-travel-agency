@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public final class CountryRepositoryImpl implements CountryRepository {
+public class CountryRepositoryImpl implements CountryRepository {
     private static final Logger LOGGER;
     private static CountryRepositoryImpl instance;
     private static AtomicBoolean instanceCreated;

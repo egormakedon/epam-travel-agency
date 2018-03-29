@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public final class ReviewRepositoryImpl implements ReviewRepository {
+public class ReviewRepositoryImpl implements ReviewRepository {
     private static final Logger LOGGER;
     private static ReviewRepositoryImpl instance;
     private static AtomicBoolean instanceCreated;

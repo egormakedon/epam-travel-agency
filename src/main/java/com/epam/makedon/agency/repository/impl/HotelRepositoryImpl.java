@@ -23,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public final class HotelRepositoryImpl implements HotelRepository {
+public class HotelRepositoryImpl implements HotelRepository {
     private static final Logger LOGGER;
     private static HotelRepositoryImpl instance;
     private static AtomicBoolean instanceCreated;
