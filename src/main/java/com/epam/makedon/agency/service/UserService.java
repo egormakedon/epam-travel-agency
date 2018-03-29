@@ -1,10 +1,6 @@
 package com.epam.makedon.agency.service;
 
-/**
- * @author Yahor Makedon
- * @see com.epam.makedon.agency.service
- * @version 1.0
- * @since version 1.0
- */
-public class UserService implements Service {
+import com.epam.makedon.agency.entity.impl.User;
+
+public interface UserService extends Service<User> {
 }
