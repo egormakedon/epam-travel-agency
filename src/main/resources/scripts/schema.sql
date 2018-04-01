@@ -1,3 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+DROP SCHEMA IF EXISTS travel_agency CASCADE;
+
 CREATE SCHEMA IF NOT EXISTS travel_agency;
 
 CREATE TABLE IF NOT EXISTS travel_agency.country
@@ -30,7 +34,7 @@ COMMENT ON TABLE travel_agency.hotel IS 'Keep info about hotel.';
 CREATE TABLE IF NOT EXISTS travel_agency.tour
 (
     tour_id SERIAL PRIMARY KEY NOT NULL,
-    tour_photo BYTEA NOT NULL,
+    tour_photo VARCHAR(100) NOT NULL,
     tour_date DATE NOT NULL,
     tour_duration INTERVAL NOT NULL,
     fk_country_id SERIAL NOT NULL,
