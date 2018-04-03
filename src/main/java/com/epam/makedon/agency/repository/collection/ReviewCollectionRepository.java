@@ -1,7 +1,6 @@
-package com.epam.makedon.agency.repository.impl;
+package com.epam.makedon.agency.repository.collection;
 
-import com.epam.makedon.agency.entity.impl.Hotel;
-import com.epam.makedon.agency.repository.HotelRepository;
+import com.epam.makedon.agency.entity.impl.Review;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +12,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
-
 /**
- * Final singleton class {@code HotelRepositoryImpl} implements HotelRepository interface.
+ * Final singleton class {@code ReviewCollectionRepository} implements ReviewCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
  * @author Yahor Makedon
@@ -23,24 +21,24 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public class HotelRepositoryImpl implements HotelRepository {
+public class ReviewCollectionRepository implements com.epam.makedon.agency.repository.ReviewRepository {
     private static final Logger LOGGER;
-    private static HotelRepositoryImpl instance;
+    private static ReviewCollectionRepository instance;
     private static AtomicBoolean instanceCreated;
     private static ReentrantLock lock;
 
     static {
-        LOGGER = LoggerFactory.getLogger(HotelRepositoryImpl.class);
+        LOGGER = LoggerFactory.getLogger(ReviewCollectionRepository.class);
         instanceCreated = new AtomicBoolean(false);
         lock = new ReentrantLock();
     }
 
-    private Set<Hotel> set;
+    private Set<Review> set;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
      */
-    private HotelRepositoryImpl() {
+    private ReviewCollectionRepository() {
         if (instanceCreated.get()) {
             LOGGER.error("Tried to clone singleton with reflection api");
             throw new RepositoryException("Tried to clone singleton with reflection api");
@@ -68,12 +66,12 @@ public class HotelRepositoryImpl implements HotelRepository {
         return instance;
     }
 
-    public static HotelRepositoryImpl getInstance() {
+    public static ReviewCollectionRepository getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
             try {
                 if (!instanceCreated.get()) {
-                    instance = new HotelRepositoryImpl();
+                    instance = new ReviewCollectionRepository();
                     instanceCreated.set(true);
                 }
             } finally {
@@ -84,16 +82,16 @@ public class HotelRepositoryImpl implements HotelRepository {
     }
 
     /**
-     * @param hotel object, which be insert into repository
-     * @return boolean, the result of adding country
+     * @param review object, which be insert into repository
+     * @return boolean, the result of adding review
      */
     @Override
-    public boolean add(Hotel hotel) {
-        LOGGER.info("call hotel add method");
+    public boolean add(Review review) {
+        LOGGER.info("call review add method");
 
         lock.lock();
         try {
-            return set.add(hotel);
+            return set.add(review);
         } finally {
             lock.unlock();
         }
@@ -101,73 +99,77 @@ public class HotelRepositoryImpl implements HotelRepository {
 
     /**
      * @param id to define and find object
-     * @return hotel, wrapped into optional
+     * @return review, wrapped into optional
      */
     @Override
-    public Optional<Hotel> get(long id) {
-        LOGGER.info("call hotel get method");
+    public Optional<Review> get(long id) {
+        LOGGER.info("call review get method");
 
         lock.lock();
         try {
-            Iterator<Hotel> iterator = set.iterator();
-            Hotel hotel = null;
+            Iterator<Review> iterator = set.iterator();
+            Review review = null;
             while (iterator.hasNext()) {
-                hotel = iterator.next();
-                if (id == hotel.getId()) {
+                review = iterator.next();
+                if (id == review.getId()) {
                     break;
                 } else {
-                    hotel = null;
+                    review = null;
                 }
             }
-            return Optional.ofNullable(hotel);
+            return Optional.ofNullable(review);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param hotel generic delete method
-     * @return boolean, the result of removing hotel
+     * @param review generic delete method
+     * @return boolean, the result of removing review
      */
     @Override
-    public boolean remove(Hotel hotel) {
-        LOGGER.info("call hotel remove method");
+    public boolean remove(Review review) {
+        LOGGER.info("call review remove method");
 
         lock.lock();
         try {
-            return set.remove(hotel);
+            return set.remove(review);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param hotel generic update method
-     * @return hotel, wrapped into optional
+     * @param review generic update method
+     * @return review, wrapped into optional
      */
     @Override
-    public Optional<Hotel> update(Hotel hotel) {
-        LOGGER.info("call hotel update method");
+    public Optional<Review> update(Review review) {
+        LOGGER.info("call review update method");
 
         lock.lock();
         try {
-            Iterator<Hotel> iterator = set.iterator();
-            Hotel h = null;
+            Iterator<Review> iterator = set.iterator();
+            Review r = null;
             while(iterator.hasNext()) {
-                h = iterator.next();
-                if (h.getId() == hotel.getId()) {
+                r = iterator.next();
+                if (r.getId() == review.getId()) {
                     iterator.remove();
-                    set.add(hotel);
-                    h = hotel;
+                    set.add(review);
+                    r = review;
                     break;
                 } else {
-                    h = null;
+                    r = null;
                 }
             }
 
-            return Optional.ofNullable(h);
+            return Optional.ofNullable(r);
         } finally {
             lock.unlock();
         }
+    }
+
+    private void destroy() {
+        set.clear();
     }
 }

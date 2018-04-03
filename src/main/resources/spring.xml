@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <beans profile="databaseConfig">
+        <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+            <constructor-arg value="dataSource"/>
+        </bean>
+
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="url" value="${}"/>
+            <property name="username" value="${}"/>
+            <property name="password" value="${}"/>
+            <property name="driverClassName" value=""/>
+            <property name="connectionProperties" value=""/>
+            <property name="schema" value=""/>
+        </bean>
+    </beans>
+
+    <beans profile="collectionRepository" default-lazy-init="true" default-destroy-method="destroy">
+        <bean id="countryCollectionRepository" class="com.epam.makedon.agency.repository.collection.CountryCollectionRepository" factory-method="getInstance"/>
+        <bean id="hotelCollectionRepository" class="com.epam.makedon.agency.repository.collection.HotelCollectionRepository" factory-method="getInstance"/>
+        <bean id="reviewCollectionRepository" class="com.epam.makedon.agency.repository.collection.ReviewCollectionRepository" factory-method="getInstance"/>
+        <bean id="tourCollectionRepository" class="com.epam.makedon.agency.repository.collection.TourCollectionRepository" factory-method="getInstance"/>
+        <bean id="tourTypeCollectionRepository" class="com.epam.makedon.agency.repository.collection.TourTypeCollectionRepository" factory-method="getInstance"/>
+        <bean id="userCollectionRepository" class="com.epam.makedon.agency.repository.collection.UserCollectionRepository" factory-method="getInstance"/>
+    </beans>
+
+    <beans profile="databaseRepository" default-lazy-init="true">
+        <bean id="countryDatabaseRepository" class="com.epam.makedon.agency.repository.database.CountryDatabaseRepository" factory-method="getInstance"/>
+        <bean id="hotelDatabaseRepository" class="com.epam.makedon.agency.repository.database.HotelDatabaseRepository" factory-method="getInstance"/>
+        <bean id="reviewDatabaseRepository" class="com.epam.makedon.agency.repository.database.ReviewDatabaseRepository" factory-method="getInstance"/>
+        <bean id="tourDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourDatabaseRepository" factory-method="getInstance"/>
+        <bean id="tourTypeDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourTypeDatabaseRepository" factory-method="getInstance"/>
+        <bean id="userDatabaseRepository" class="com.epam.makedon.agency.repository.database.UserDatabaseRepository" factory-method="getInstance"/>
+    </beans>
+
+    <beans profile="collectionRepositoryService" default-lazy-init="true">
+        <bean id="countryCollectionService" class="com.epam.makedon.agency.service.CountryServiceImpl">
+            <constructor-arg ref="countryCollectionRepository"/>
+        </bean>
+
+        <bean id="hotelCollectionService" class="com.epam.makedon.agency.service.HotelServiceImpl">
+            <constructor-arg ref="hotelCollectionRepository"/>
+        </bean>
+
+        <bean id="reviewCollectionService" class="com.epam.makedon.agency.service.ReviewServiceImpl">
+            <constructor-arg ref="reviewCollectionRepository"/>
+        </bean>
+
+        <bean id="tourCollectionService" class="com.epam.makedon.agency.service.TourServiceImpl">
+            <constructor-arg ref="tourCollectionRepository"/>
+        </bean>
+
+        <bean id="tourTypeCollectionService" class="com.epam.makedon.agency.service.TourTypeServiceImpl">
+            <constructor-arg ref="tourTypeCollectionRepository"/>
+        </bean>
+
+        <bean id="userCollectionService" class="com.epam.makedon.agency.service.UserServiceImpl">
+            <constructor-arg ref="userCollectionRepository"/>
+        </bean>
+    </beans>
+
+    <beans profile="databaseRepositoryService" default-lazy-init="true">
+        <bean id="countryDatabaseService" class="com.epam.makedon.agency.service.CountryServiceImpl">
+            <constructor-arg ref="countryDatabaseRepository"/>
+        </bean>
+
+        <bean id="hotelDatabaseService" class="com.epam.makedon.agency.service.HotelServiceImpl">
+            <constructor-arg ref="hotelDatabaseRepository"/>
+        </bean>
+
+        <bean id="reviewDatabaseService" class="com.epam.makedon.agency.service.ReviewServiceImpl">
+            <constructor-arg ref="reviewDatabaseRepository"/>
+        </bean>
+
+        <bean id="tourDatabaseService" class="com.epam.makedon.agency.service.TourServiceImpl">
+            <constructor-arg ref="tourDatabaseRepository"/>
+        </bean>
+
+        <bean id="tourTypeDatabaseService" class="com.epam.makedon.agency.service.TourTypeServiceImpl">
+            <constructor-arg ref="tourTypeDatabaseRepository"/>
+        </bean>
+
+        <bean id="userDatabaseService" class="com.epam.makedon.agency.service.UserServiceImpl">
+            <constructor-arg ref="userDatabaseRepository"/>
+        </bean>
+    </beans>
+</beans>

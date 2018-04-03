@@ -1,7 +1,6 @@
-package com.epam.makedon.agency.repository.impl;
+package com.epam.makedon.agency.repository.collection;
 
-import com.epam.makedon.agency.entity.impl.Country;
-import com.epam.makedon.agency.repository.CountryRepository;
+import com.epam.makedon.agency.entity.impl.Tour;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * Final singleton class {@code CountryRepositoryImpl} implements CountryRepository interface.
+ * Final singleton class {@code TourCollectionRepository} implements TourCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
  * @author Yahor Makedon
@@ -22,24 +22,24 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public class CountryRepositoryImpl implements CountryRepository {
+public class TourCollectionRepository implements com.epam.makedon.agency.repository.TourRepository {
     private static final Logger LOGGER;
-    private static CountryRepositoryImpl instance;
+    private static TourCollectionRepository instance;
     private static AtomicBoolean instanceCreated;
     private static ReentrantLock lock;
 
-    private Set<Country> set;
-
     static {
-        LOGGER = LoggerFactory.getLogger(CountryRepositoryImpl.class);
+        LOGGER = LoggerFactory.getLogger(TourCollectionRepository.class);
         instanceCreated = new AtomicBoolean(false);
         lock = new ReentrantLock();
     }
 
+    private Set<Tour> set;
+
     /**
      * @throws RepositoryException when try cloning with reflection-api
      */
-    private CountryRepositoryImpl() {
+    private TourCollectionRepository() {
         if (instanceCreated.get()) {
             LOGGER.error("Tried to clone singleton with reflection api");
             throw new RepositoryException("Tried to clone singleton with reflection api");
@@ -67,12 +67,12 @@ public class CountryRepositoryImpl implements CountryRepository {
         return instance;
     }
 
-    public static CountryRepositoryImpl getInstance() {
+    public static TourCollectionRepository getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
             try {
                 if (!instanceCreated.get()) {
-                    instance = new CountryRepositoryImpl();
+                    instance = new TourCollectionRepository();
                     instanceCreated.set(true);
                 }
             } finally {
@@ -83,16 +83,16 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     /**
-     * @param country object, which be insert into repository
-     * @return boolean, the result of adding country
+     * @param tour object, which be insert into repository
+     * @return boolean, the result of adding tour
      */
     @Override
-    public boolean add(Country country) {
-        LOGGER.info("call country add method");
+    public boolean add(Tour tour) {
+        LOGGER.info("call tour add method");
 
         lock.lock();
         try {
-            return set.add(country);
+            return set.add(tour);
         } finally {
             lock.unlock();
         }
@@ -100,73 +100,77 @@ public class CountryRepositoryImpl implements CountryRepository {
 
     /**
      * @param id to define and find object
-     * @return country, wrapped into optional
+     * @return tour, wrapped into optional
      */
     @Override
-    public Optional<Country> get(long id) {
-        LOGGER.info("call country get method");
+    public Optional<Tour> get(long id) {
+        LOGGER.info("call tour get method");
 
         lock.lock();
         try {
-            Iterator<Country> iterator = set.iterator();
-            Country country = null;
+            Iterator<Tour> iterator = set.iterator();
+            Tour tour = null;
             while (iterator.hasNext()) {
-                country = iterator.next();
-                if (id == country.getId()) {
+                tour = iterator.next();
+                if (id == tour.getId()) {
                     break;
                 } else {
-                    country = null;
+                    tour = null;
                 }
             }
-            return Optional.ofNullable(country);
+            return Optional.ofNullable(tour);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param country generic delete method
-     * @return boolean, the result of removing country
+     * @param tour generic delete method
+     * @return boolean, the result of removing tour
      */
     @Override
-    public boolean remove(Country country) {
-        LOGGER.info("call country remove method");
+    public boolean remove(Tour tour) {
+        LOGGER.info("call tour remove method");
 
         lock.lock();
         try {
-            return set.remove(country);
+            return set.remove(tour);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param country generic update method
-     * @return county, wrapped into optional
+     * @param tour generic update method
+     * @return tour, wrapped into optional
      */
     @Override
-    public Optional<Country> update(Country country) {
-        LOGGER.info("call country update method");
+    public Optional<Tour> update(Tour tour) {
+        LOGGER.info("call tour update method");
 
         lock.lock();
         try {
-            Iterator<Country> iterator = set.iterator();
-            Country c = null;
+            Iterator<Tour> iterator = set.iterator();
+            Tour t = null;
             while(iterator.hasNext()) {
-                c = iterator.next();
-                if (c.getId() == country.getId()) {
+                t = iterator.next();
+                if (t.getId() == tour.getId()) {
                     iterator.remove();
-                    set.add(country);
-                    c = country;
+                    set.add(tour);
+                    t = tour;
                     break;
                 } else {
-                    c = null;
+                    t = null;
                 }
             }
 
-            return Optional.ofNullable(c);
+            return Optional.ofNullable(t);
         } finally {
             lock.unlock();
         }
+    }
+
+    private void destroy() {
+        set.clear();
     }
 }

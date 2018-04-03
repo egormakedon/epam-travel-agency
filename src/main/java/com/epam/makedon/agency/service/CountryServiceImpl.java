@@ -1,9 +1,7 @@
-package com.epam.makedon.agency.service.impl;
+package com.epam.makedon.agency.service;
 
 import com.epam.makedon.agency.entity.impl.Country;
-import com.epam.makedon.agency.repository.impl.CountryRepositoryImpl;
-import com.epam.makedon.agency.service.CountryService;
-import com.epam.makedon.agency.service.ServiceException;
+import com.epam.makedon.agency.repository.CountryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,11 +10,17 @@ import java.util.Optional;
 /**
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.service
- * @version 2.0
+ * @version 3.0
  * @since version 1.0
  */
 public class CountryServiceImpl implements CountryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CountryServiceImpl.class);
+
+    private CountryRepository countryRepository;
+
+    public CountryServiceImpl(CountryRepository countryRepository) {
+        this.countryRepository = countryRepository;
+    }
 
     @Override
     public boolean add(Country country) {
@@ -24,12 +28,12 @@ public class CountryServiceImpl implements CountryService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return CountryRepositoryImpl.getInstance().add(country);
+        return countryRepository.add(country);
     }
 
     @Override
     public Optional<Country> get(long id) {
-        return CountryRepositoryImpl.getInstance().get(id);
+        return countryRepository.get(id);
     }
 
     @Override
@@ -38,7 +42,7 @@ public class CountryServiceImpl implements CountryService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return CountryRepositoryImpl.getInstance().remove(country);
+        return countryRepository.remove(country);
     }
 
     @Override
@@ -47,6 +51,6 @@ public class CountryServiceImpl implements CountryService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return CountryRepositoryImpl.getInstance().update(country);
+        return countryRepository.update(country);
     }
 }

@@ -1,9 +1,7 @@
-package com.epam.makedon.agency.service.impl;
+package com.epam.makedon.agency.service;
 
 import com.epam.makedon.agency.entity.impl.Tour;
-import com.epam.makedon.agency.repository.impl.TourRepositoryImpl;
-import com.epam.makedon.agency.service.ServiceException;
-import com.epam.makedon.agency.service.TourService;
+import com.epam.makedon.agency.repository.TourRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,11 +10,17 @@ import java.util.Optional;
 /**
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.service
- * @version 2.0
+ * @version 3.0
  * @since version 1.0
  */
 public class TourServiceImpl implements TourService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TourServiceImpl.class);
+
+    private TourRepository tourRepository;
+
+    public TourServiceImpl(TourRepository tourRepository) {
+        this.tourRepository = tourRepository;
+    }
 
     @Override
     public boolean add(Tour tour) {
@@ -24,12 +28,12 @@ public class TourServiceImpl implements TourService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return TourRepositoryImpl.getInstance().add(tour);
+        return tourRepository.add(tour);
     }
 
     @Override
     public Optional<Tour> get(long id) {
-        return TourRepositoryImpl.getInstance().get(id);
+        return tourRepository.get(id);
     }
 
     @Override
@@ -38,7 +42,7 @@ public class TourServiceImpl implements TourService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return TourRepositoryImpl.getInstance().remove(tour);
+        return tourRepository.remove(tour);
     }
 
     @Override
@@ -47,6 +51,6 @@ public class TourServiceImpl implements TourService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return TourRepositoryImpl.getInstance().update(tour);
+        return tourRepository.update(tour);
     }
 }

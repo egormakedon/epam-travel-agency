@@ -1,8 +1,7 @@
-package com.epam.makedon.agency.repository.impl;
+package com.epam.makedon.agency.repository.collection;
 
 import com.epam.makedon.agency.entity.impl.User;
 import com.epam.makedon.agency.repository.RepositoryException;
-import com.epam.makedon.agency.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Final singleton class {@code UserRepositoryImpl} implements UserRepository interface.
+ * Final singleton class {@code UserCollectionRepository} implements UserCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
  * @author Yahor Makedon
@@ -22,14 +21,14 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public class UserRepositoryImpl implements UserRepository {
+public class UserCollectionRepository implements com.epam.makedon.agency.repository.UserRepository {
     private static final Logger LOGGER;
-    private static UserRepositoryImpl instance;
+    private static UserCollectionRepository instance;
     private static AtomicBoolean instanceCreated;
     private static ReentrantLock lock;
 
     static {
-        LOGGER = LoggerFactory.getLogger(UserRepositoryImpl.class);
+        LOGGER = LoggerFactory.getLogger(UserCollectionRepository.class);
         instanceCreated = new AtomicBoolean(false);
         lock = new ReentrantLock();
     }
@@ -39,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
     /**
      * @throws RepositoryException when try cloning with reflection-api
      */
-    private UserRepositoryImpl() {
+    private UserCollectionRepository() {
         if (instanceCreated.get()) {
             LOGGER.error("Tried to clone singleton with reflection api");
             throw new RepositoryException("Tried to clone singleton with reflection api");
@@ -67,12 +66,12 @@ public class UserRepositoryImpl implements UserRepository {
         return instance;
     }
 
-    public static UserRepositoryImpl getInstance() {
+    public static UserCollectionRepository getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
             try {
                 if (!instanceCreated.get()) {
-                    instance = new UserRepositoryImpl();
+                    instance = new UserCollectionRepository();
                     instanceCreated.set(true);
                 }
             } finally {
@@ -168,5 +167,9 @@ public class UserRepositoryImpl implements UserRepository {
         } finally {
             lock.unlock();
         }
+    }
+
+    private void destroy() {
+        set.clear();
     }
 }

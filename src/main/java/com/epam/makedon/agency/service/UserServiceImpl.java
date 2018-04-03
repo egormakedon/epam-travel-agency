@@ -1,9 +1,7 @@
-package com.epam.makedon.agency.service.impl;
+package com.epam.makedon.agency.service;
 
 import com.epam.makedon.agency.entity.impl.User;
-import com.epam.makedon.agency.repository.impl.UserRepositoryImpl;
-import com.epam.makedon.agency.service.ServiceException;
-import com.epam.makedon.agency.service.UserService;
+import com.epam.makedon.agency.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,11 +10,17 @@ import java.util.Optional;
 /**
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.service
- * @version 2.0
+ * @version 3.0
  * @since version 1.0
  */
 public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    private UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public boolean add(User user) {
@@ -24,12 +28,12 @@ public class UserServiceImpl implements UserService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return UserRepositoryImpl.getInstance().add(user);
+        return userRepository.add(user);
     }
 
     @Override
     public Optional<User> get(long id) {
-        return UserRepositoryImpl.getInstance().get(id);
+        return userRepository.get(id);
     }
 
     @Override
@@ -38,7 +42,7 @@ public class UserServiceImpl implements UserService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return UserRepositoryImpl.getInstance().remove(user);
+        return userRepository.remove(user);
     }
 
     @Override
@@ -47,6 +51,6 @@ public class UserServiceImpl implements UserService {
             LOGGER.error("argument is null");
             throw new ServiceException("argument is null");
         }
-        return UserRepositoryImpl.getInstance().update(user);
+        return userRepository.update(user);
     }
 }

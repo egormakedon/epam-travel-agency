@@ -1,7 +1,9 @@
 package com.epam.makedon.agency.service.impl;
 
+import com.epam.makedon.agency.repository.collection.TourTypeCollectionRepository;
 import com.epam.makedon.agency.service.Service;
 import com.epam.makedon.agency.service.ServiceException;
+import com.epam.makedon.agency.service.TourTypeServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +13,7 @@ public class TourTypeServiceTest {
 
     @Before
     public void init() {
-        service = new TourTypeServiceImpl();
+        service = new TourTypeServiceImpl(TourTypeCollectionRepository.getInstance());
     }
 
     @After

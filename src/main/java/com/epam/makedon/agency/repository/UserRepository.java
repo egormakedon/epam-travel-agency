@@ -3,7 +3,7 @@ package com.epam.makedon.agency.repository;
 import com.epam.makedon.agency.entity.impl.User;
 
 /**
- * Interface {@code UserRepository} mark repository with definite entity.
+ * Interface {@code UserCollectionRepository} mark repository with definite entity.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository

@@ -1,4 +1,4 @@
-package com.epam.makedon.agency.repository.impl;
+package com.epam.makedon.agency.repository.collection;
 
 import com.epam.makedon.agency.entity.impl.Review;
 import com.epam.makedon.agency.entity.impl.Tour;
@@ -24,99 +24,99 @@ public class ReviewRepositoryTest {
     private static Review review;
 
     @Mock
-    private ReviewRepositoryImpl mockObj;
+    private ReviewCollectionRepository mockObj;
 
     @Before
     public void init() {
-        mockObj = mock(ReviewRepositoryImpl.class);
+        mockObj = mock(ReviewCollectionRepository.class);
         review = new Review();
         review.setId(ID);
         review.setTour(TOUR);
         review.setUser(USER);
         review.setContent(CONTENT);
-        ReviewRepositoryImpl.getInstance().remove(review);
+        ReviewCollectionRepository.getInstance().remove(review);
     }
 
     @After
     public void destroy() {
         mockObj = null;
-        ReviewRepositoryImpl.getInstance().remove(review);
+        ReviewCollectionRepository.getInstance().remove(review);
         review = null;
     }
 
     @Test
     public void addTrueTest() {
         when(mockObj.add(review)).thenReturn(true);
-        assertEquals(mockObj.add(review), ReviewRepositoryImpl.getInstance().add(review));
+        assertEquals(mockObj.add(review), ReviewCollectionRepository.getInstance().add(review));
         verify(mockObj).add(review);
     }
 
     @Test
     public void addFalseTest() {
-        ReviewRepositoryImpl.getInstance().add(review);
+        ReviewCollectionRepository.getInstance().add(review);
         when(mockObj.add(review)).thenReturn(false);
-        assertEquals(mockObj.add(review), ReviewRepositoryImpl.getInstance().add(review));
+        assertEquals(mockObj.add(review), ReviewCollectionRepository.getInstance().add(review));
         verify(mockObj).add(review);
     }
 
     @Test
     public void getTrueTest() {
-        ReviewRepositoryImpl.getInstance().add(review);
+        ReviewCollectionRepository.getInstance().add(review);
         when(mockObj.get(1)).thenReturn(Optional.of(review));
-        assertEquals(mockObj.get(1), ReviewRepositoryImpl.getInstance().get(1));
+        assertEquals(mockObj.get(1), ReviewCollectionRepository.getInstance().get(1));
         verify(mockObj).get(1);
     }
 
     @Test
     public void getFalseTest() {
-        ReviewRepositoryImpl.getInstance().add(review);
+        ReviewCollectionRepository.getInstance().add(review);
         when(mockObj.get(2)).thenReturn(Optional.ofNullable(null));
-        assertEquals(mockObj.get(2), ReviewRepositoryImpl.getInstance().get(2));
+        assertEquals(mockObj.get(2), ReviewCollectionRepository.getInstance().get(2));
         verify(mockObj).get(2);
     }
 
     @Test
     public void removeTrueTest() {
-        ReviewRepositoryImpl.getInstance().add(review);
+        ReviewCollectionRepository.getInstance().add(review);
         when(mockObj.remove(review)).thenReturn(true);
-        assertEquals(mockObj.remove(review), ReviewRepositoryImpl.getInstance().remove(review));
+        assertEquals(mockObj.remove(review), ReviewCollectionRepository.getInstance().remove(review));
         verify(mockObj).remove(review);
     }
 
     @Test
     public void removeFalseTest() {
         Review h = new Review();
-        ReviewRepositoryImpl.getInstance().add(review);
+        ReviewCollectionRepository.getInstance().add(review);
         when(mockObj.remove(h)).thenReturn(false);
-        assertEquals(mockObj.remove(h), ReviewRepositoryImpl.getInstance().remove(h));
+        assertEquals(mockObj.remove(h), ReviewCollectionRepository.getInstance().remove(h));
         verify(mockObj).remove(h);
     }
 
     @Test
     public void updateTrueTest() {
-        ReviewRepositoryImpl.getInstance().add(review);
+        ReviewCollectionRepository.getInstance().add(review);
         Review h = new Review();
         h.setId(ID);
         h.setTour(TOUR);
         h.setUser(USER);
         h.setContent("cccccc");
         when(mockObj.update(h)).thenReturn(Optional.of(h));
-        assertEquals(mockObj.update(h), ReviewRepositoryImpl.getInstance().update(h));
+        assertEquals(mockObj.update(h), ReviewCollectionRepository.getInstance().update(h));
         verify(mockObj).update(h);
-        ReviewRepositoryImpl.getInstance().remove(h);
+        ReviewCollectionRepository.getInstance().remove(h);
     }
 
     @Test
     public void updateFalseTest() {
-        ReviewRepositoryImpl.getInstance().add(review);
+        ReviewCollectionRepository.getInstance().add(review);
         Review h = new Review();
         h.setId(3);
         h.setTour(TOUR);
         h.setUser(USER);
         h.setContent("cccccc");
         when(mockObj.update(h)).thenReturn(Optional.ofNullable(null));
-        assertEquals(mockObj.update(h), ReviewRepositoryImpl.getInstance().update(h));
+        assertEquals(mockObj.update(h), ReviewCollectionRepository.getInstance().update(h));
         verify(mockObj).update(h);
-        ReviewRepositoryImpl.getInstance().remove(h);
+        ReviewCollectionRepository.getInstance().remove(h);
     }
 }
