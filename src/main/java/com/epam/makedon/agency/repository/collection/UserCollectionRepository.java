@@ -47,6 +47,10 @@ public class UserCollectionRepository implements com.epam.makedon.agency.reposit
         set = new HashSet<>();
     }
 
+    public void setSet(Set<User> set) {
+        this.set = set;
+    }
+
     /**
      * @return Object
      * @throws CloneNotSupportedException when try cloning

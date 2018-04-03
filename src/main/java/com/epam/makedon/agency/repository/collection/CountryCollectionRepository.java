@@ -47,6 +47,10 @@ public class CountryCollectionRepository implements com.epam.makedon.agency.repo
         set = new HashSet<>();
     }
 
+    public void setSet(Set<Country> set) {
+        this.set = set;
+    }
+
     /**
      * @return Object
      * @throws CloneNotSupportedException when try cloning

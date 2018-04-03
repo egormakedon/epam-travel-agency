@@ -47,6 +47,10 @@ public class ReviewCollectionRepository implements com.epam.makedon.agency.repos
         set = new HashSet<>();
     }
 
+    public void setSet(Set<Review> set) {
+        this.set = set;
+    }
+
     /**
      * @return Object
      * @throws CloneNotSupportedException when try cloning

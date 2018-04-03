@@ -48,6 +48,10 @@ public class HotelCollectionRepository implements com.epam.makedon.agency.reposi
         set = new HashSet<>();
     }
 
+    public void setSet(Set<Hotel> set) {
+        this.set = set;
+    }
+
     /**
      * @return Object
      * @throws CloneNotSupportedException when try cloning

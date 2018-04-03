@@ -47,6 +47,10 @@ public class TourTypeCollectionRepository implements com.epam.makedon.agency.rep
         set = new HashSet<>();
     }
 
+    public void setSet(Set<TourType> set) {
+        this.set = set;
+    }
+
     /**
      * @return Object
      * @throws CloneNotSupportedException when try cloning
