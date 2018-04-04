@@ -5,7 +5,10 @@ import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -30,6 +33,23 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
         instanceCreated = new AtomicBoolean(false);
         lock = new ReentrantLock();
     }
+
+    private static class Mapper implements RowMapper<Country> {
+        private static final Mapper INSTANCE = new Mapper();
+        private Mapper() {}
+        public static Mapper getInstance() { return INSTANCE; }
+
+        private static final String NAME = "name";
+
+        @Override
+        public Country mapRow(ResultSet rs, int i) throws SQLException {
+            return Country.valueOf(rs.getString(NAME));
+        }
+    }
+
+    private static final String SQL_INSERT_COUNTRY = "INSERT INTO country(country_id,country_name) VALUES(?,?)";
+    private static final String SQL_SELECT_COUNTRY_NAME_BY_ID = "SELECT country_name name FROM country WHERE country_id=?";
+    private static final String SQL_DELETE_COUNTRY_BY_ID = "DELETE FROM country WHERE country_id=?";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -81,14 +101,14 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
         return instance;
     }
 
-
     /**
-     * @param entity object, which be insert into repository
+     * @param country object, which be insert into repository
      * @return boolean result
      */
     @Override
-    public boolean add(Country entity) {
-        return false;
+    public boolean add(Country country) {
+        int r = jdbcTemplate.update(SQL_INSERT_COUNTRY, country.getId(), country.toString());
+        return r == 1;
     }
 
     /**
@@ -97,24 +117,32 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
      */
     @Override
     public Optional<Country> get(long id) {
-        return Optional.empty();
+        return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_COUNTRY_NAME_BY_ID, Mapper.getInstance(), id));
     }
 
     /**
-     * @param entity generic delete method
+     * @param country generic delete method
      * @return boolean result
      */
     @Override
-    public boolean remove(Country entity) {
-        return false;
+    public boolean remove(Country country) {
+        int r = jdbcTemplate.update(SQL_DELETE_COUNTRY_BY_ID, country.getId());
+        return (r == 1);
     }
 
     /**
-     * @param entity generic update method
+     * @param country generic update method
      * @return object, wrapped in optional
      */
     @Override
-    public Optional<Country> update(Country entity) {
+    public Optional<Country> update(Country country) {
+        if (remove(country)) {
+            if (add(country)) {
+                return Optional.of(country);
+            } else {
+                throw new RepositoryException("country updated wrong");
+            }
+        }
         return Optional.empty();
     }
 }

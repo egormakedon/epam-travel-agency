@@ -68,12 +68,12 @@ CREATE TABLE IF NOT EXISTS travel_agency.review
 );
 COMMENT ON TABLE travel_agency.review IS 'Keep info about review.';
 
-CREATE TABLE IF NOT EXISTS travel_agency.tour_review
+CREATE TABLE IF NOT EXISTS travel_agency.user_tour
 (
-    id SERIAL PRIMARY KEY NOT NULL,
-    fk_tour_id SERIAL NOT NULL,
-    fk_review_id SERIAL NOT NULL,
-    CONSTRAINT fk_dep_tour_id FOREIGN KEY (fk_tour_id) REFERENCES "travel_agency".tour (tour_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_dep_review_id FOREIGN KEY (fk_review_id) REFERENCES "travel_agency".review (review_id) ON DELETE CASCADE ON UPDATE CASCADE
+  fk_user_id serial NOT NULL,
+  fk_tour_id serial NOT NULL,
+  PRIMARY KEY (fk_user_id,fk_tour_id),
+  CONSTRAINT user_tour_user_user_id_fk FOREIGN KEY (fk_user_id) REFERENCES "travel_agency"."user" (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT user_tour_tour_tour_id_fk FOREIGN KEY (fk_tour_id) REFERENCES "travel_agency".tour (tour_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-COMMENT ON TABLE travel_agency.tour_review IS 'Keep tour review dependency.';
+COMMENT ON TABLE travel_agency.user_tour IS 'Connecting user with tours, that he''s attended.';

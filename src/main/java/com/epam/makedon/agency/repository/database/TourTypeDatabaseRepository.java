@@ -5,7 +5,10 @@ import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -30,6 +33,23 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
         instanceCreated = new AtomicBoolean(false);
         lock = new ReentrantLock();
     }
+
+    private static class Mapper implements RowMapper<TourType> {
+        private static final Mapper INSTANCE = new Mapper();
+        private Mapper() {}
+        public static Mapper getInstance() { return INSTANCE; }
+
+        private static final String NAME = "name";
+
+        @Override
+        public TourType mapRow(ResultSet rs, int i) throws SQLException {
+            return TourType.valueOf(rs.getString(NAME));
+        }
+    }
+
+    private static final String SQL_INSERT_TOUR_TYPE = "INSERT INTO tour_type(tour_type_id,tour_type_name) VALUES(?,?)";
+    private static final String SQL_SELECT_TOUR_TYPE_NAME_BY_ID = "SELECT tour_type_name name FROM tour_type WHERE tour_type_id=?";
+    private static final String SQL_DELETE_TOUR_TYPE_BY_ID = "DELETE FROM tour_type WHERE tour_type_id=?";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -82,12 +102,13 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
     }
 
     /**
-     * @param entity object, which be insert into repository
+     * @param tourType object, which be insert into repository
      * @return boolean result
      */
     @Override
-    public boolean add(TourType entity) {
-        return false;
+    public boolean add(TourType tourType) {
+        int r = jdbcTemplate.update(SQL_INSERT_TOUR_TYPE, tourType.getId(), tourType.toString());
+        return r == 1;
     }
 
     /**
@@ -96,24 +117,32 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
      */
     @Override
     public Optional<TourType> get(long id) {
-        return Optional.empty();
+        return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_TOUR_TYPE_NAME_BY_ID, Mapper.getInstance(), id));
     }
 
     /**
-     * @param entity generic delete method
+     * @param tourType generic delete method
      * @return boolean result
      */
     @Override
-    public boolean remove(TourType entity) {
-        return false;
+    public boolean remove(TourType tourType) {
+        int r = jdbcTemplate.update(SQL_DELETE_TOUR_TYPE_BY_ID, tourType.getId());
+        return (r == 1);
     }
 
     /**
-     * @param entity generic update method
+     * @param tourType generic update method
      * @return object, wrapped in optional
      */
     @Override
-    public Optional<TourType> update(TourType entity) {
+    public Optional<TourType> update(TourType tourType) {
+        if (remove(tourType)) {
+            if (add(tourType)) {
+                return Optional.of(tourType);
+            } else {
+                throw new RepositoryException("tourType updated wrong");
+            }
+        }
         return Optional.empty();
     }
 }

@@ -82,11 +82,11 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
     }
 
     /**
-     * @param entity object, which be insert into repository
+     * @param tour object, which be insert into repository
      * @return boolean result
      */
     @Override
-    public boolean add(Tour entity) {
+    public boolean add(Tour tour) {
         return false;
     }
 
@@ -100,20 +100,20 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
     }
 
     /**
-     * @param entity generic delete method
+     * @param tour generic delete method
      * @return boolean result
      */
     @Override
-    public boolean remove(Tour entity) {
+    public boolean remove(Tour tour) {
         return false;
     }
 
     /**
-     * @param entity generic update method
+     * @param tour generic update method
      * @return object, wrapped in optional
      */
     @Override
-    public Optional<Tour> update(Tour entity) {
+    public Optional<Tour> update(Tour tour) {
         return Optional.empty();
     }
 }

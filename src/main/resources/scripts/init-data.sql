@@ -21,6 +21,6 @@ INSERT INTO travel_agency.tour(tour_photo, tour_date, tour_duration, tour_descri
 INSERT INTO travel_agency.review(fk_tour_id, fk_user_id, review_content)
     VALUES(1, 1, 'it was the best tour'),(1,2,'average'),(2,4,'the worst tour ever'),(2,5,'very bad for mach cost');
 
-INSERT INTO travel_agency.tour_review(fk_tour_id, fk_review_id)
-    VALUES (1, 1),(1, 2),(2, 3),(2, 4);
+INSERT INTO travel_agency.user_tour(fk_user_id, fk_tour_id)
+    VALUES (1, 1),(2, 1),(4, 2),(5, 2),(3,1),(3,2);
 
