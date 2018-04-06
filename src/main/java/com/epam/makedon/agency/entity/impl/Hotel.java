@@ -9,7 +9,7 @@ import com.epam.makedon.agency.entity.IdCounter;
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.entity
- * @version 3.0
+ * @version 4.0
  * @since version 1.0
  */
 public class Hotel implements Entity {
@@ -18,7 +18,6 @@ public class Hotel implements Entity {
     private long hotelId;
     private String name;
     private String phone;
-    private Country country;
     private byte stars;
 
     public Hotel() {
@@ -38,10 +37,6 @@ public class Hotel implements Entity {
         this.phone = phone;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
     public void setStars(byte stars) {
         this.stars = stars;
     }
@@ -57,10 +52,6 @@ public class Hotel implements Entity {
 
     public String getPhone() {
         return phone;
-    }
-
-    public Country getCountry() {
-        return country;
     }
 
     public byte getStars() {
@@ -81,14 +72,12 @@ public class Hotel implements Entity {
         return hotelId == hotel.getId() &&
                 stars == hotel.getStars() &&
                 (name != null && name.equals(hotel.getName())) &&
-                (phone != null && phone.equals(hotel.getPhone())) &&
-                (country != null && country.equals(hotel.getCountry()));
+                (phone != null && phone.equals(hotel.getPhone()));
     }
 
     @Override
     public int hashCode() {
         return (int) (31 * hotelId + (name == null ? 0 : name.hashCode()) +
-                (phone == null ? 0 : phone.hashCode()) + (int) stars +
-                (country == null ? 0 : country.ordinal()));
+                (phone == null ? 0 : phone.hashCode()) + (int) stars);
     }
 }

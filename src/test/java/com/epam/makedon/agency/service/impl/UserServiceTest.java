@@ -1,7 +1,9 @@
 package com.epam.makedon.agency.service.impl;
 
+import com.epam.makedon.agency.repository.collection.UserCollectionRepository;
 import com.epam.makedon.agency.service.Service;
 import com.epam.makedon.agency.service.ServiceException;
+import com.epam.makedon.agency.service.UserServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +13,7 @@ public class UserServiceTest {
 
     @Before
     public void init() {
-        service = new UserServiceImpl();
+        service = new UserServiceImpl(UserCollectionRepository.getInstance());
     }
 
     @After

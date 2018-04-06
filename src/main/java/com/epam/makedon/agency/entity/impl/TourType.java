@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Enum {@code TourTypeRepository} is Entity class.
+ * Enum {@code TourTypeCollectionRepository} is Entity class.
  * It stores type of tours, which exists in the project.
  *
  * @author Yahor Makedon
@@ -18,6 +18,7 @@ public enum TourType implements Entity {
     CHILDREN(1), WEEKEND(2), WEDDING(3), SHOPING(4), EXCURSION(5);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TourType.class);
+
     private long id;
 
     TourType(long id) {

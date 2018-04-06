@@ -4,6 +4,7 @@ import com.epam.makedon.agency.entity.Entity;
 import com.epam.makedon.agency.entity.IdCounter;
 
 import java.awt.*;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 
@@ -27,7 +28,7 @@ public class Tour implements Entity {
     private Hotel hotel;
     private TourType type;
     private String description;
-    private int cost;
+    private BigDecimal cost;
 
     public Tour() {
         tourId = IdCounter.incrementId(id);
@@ -66,7 +67,7 @@ public class Tour implements Entity {
         this.description = description;
     }
 
-    public void setCost(int cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
@@ -103,7 +104,7 @@ public class Tour implements Entity {
         return description;
     }
 
-    public int getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
@@ -134,6 +135,7 @@ public class Tour implements Entity {
         return (int) (31 * tourId + (photo == null ? 0 : photo.hashCode()) +
                 (date == null ? 0 : date.hashCode()) + (duration == null ? 0 : duration.hashCode()) +
                 (country == null ? 0 : country.hashCode()) + (hotel == null ? 0 : hotel.hashCode()) +
-                (type == null ? 0 : type.hashCode()) + (description == null ? 0 : description.hashCode()) + cost);
+                (type == null ? 0 : type.hashCode()) + (description == null ? 0 : description.hashCode()) +
+                (cost == null ? 0 : cost.hashCode()));
     }
 }

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <beans profile="collectionRepository" default-lazy-init="true" default-destroy-method="destroy">
+        <bean id="countryCollectionRepository" class="com.epam.makedon.agency.repository.collection.CountryCollectionRepository" factory-method="getInstance">
+            <property name="set">
+                <util:set>
+                    <value type="com.epam.makedon.agency.entity.impl.Country">BELARUS</value>
+                    <value type="com.epam.makedon.agency.entity.impl.Country">USA</value>
+                    <value type="com.epam.makedon.agency.entity.impl.Country">CHINA</value>
+                    <value type="com.epam.makedon.agency.entity.impl.Country">POLAND</value>
+                    <value type="com.epam.makedon.agency.entity.impl.Country">RUSSIA</value>
+                    <value type="com.epam.makedon.agency.entity.impl.Country">UKRAINE</value>
+                    <value type="com.epam.makedon.agency.entity.impl.Country">SPAIN</value>
+                </util:set>
+            </property>
+        </bean>
+
+        <bean id="hotelCollectionRepository" class="com.epam.makedon.agency.repository.collection.HotelCollectionRepository" factory-method="getInstance">
+            <property name="set">
+                <util:set>
+                    <bean class="com.epam.makedon.agency.entity.impl.Hotel">
+                        <property name="id" value="1"/>
+                        <property name="name" value="hotel1"/>
+                        <property name="phone" value="1234567"/>
+                        <property name="stars" value="5"/>
+                    </bean>
+
+                    <bean class="com.epam.makedon.agency.entity.impl.Hotel">
+                        <property name="id" value="2"/>
+                        <property name="name" value="hotel2"/>
+                        <property name="phone" value="123456789"/>
+                        <property name="stars" value="2"/>
+                    </bean>
+
+                    <bean class="com.epam.makedon.agency.entity.impl.Hotel">
+                        <property name="id" value="3"/>
+                        <property name="name" value="hotel3"/>
+                        <property name="phone" value="1234567891"/>
+                        <property name="stars" value="0"/>
+                    </bean>
+                </util:set>
+            </property>
+        </bean>
+
+        <bean id="reviewCollectionRepository" class="com.epam.makedon.agency.repository.collection.ReviewCollectionRepository" factory-method="getInstance">
+            <property name="set">
+                <util:set>
+                    <bean class="com.epam.makedon.agency.entity.impl.Review">
+                        <property name="content" value="It was the best tour, that I've ever had"/>
+                        <property name="tour" value="#{tourCollectionRepository.get(0).get()}"/>
+                        <property name="user" value="#{userCollectionRepository.get(0).get()}"/>
+                    </bean>
+                </util:set>
+            </property>
+        </bean>
+
+        <bean id="tourCollectionRepository" class="com.epam.makedon.agency.repository.collection.TourCollectionRepository" factory-method="getInstance">
+            <property name="set">
+                <util:set>
+                    <bean class="com.epam.makedon.agency.entity.impl.Tour">
+                        <property name="photo" value="#{null}"/>
+                        <property name="date">
+                            <bean class="java.time.LocalDate">
+                                <constructor-arg value="2018"/>
+                                <constructor-arg value="10"/>
+                                <constructor-arg value="3"/>
+                            </bean>
+                        </property>
+                        <property name="country" value="#{countryCollectionRepository.get(5).get()}"/>
+                        <property name="cost" value="323"/>
+                        <property name="description" value="The tour"/>
+                        <property name="duration" value="#{T(java.time.Duration).ofDays(10)}"/>
+                        <property name="hotel" value="#{hotelCollectionRepository.get(2).get()}"/>
+                        <property name="type" value="#{tourTypeCollectionRepository.get(2).get()}"/>
+                    </bean>
+                </util:set>
+            </property>
+        </bean>
+
+        <bean id="tourTypeCollectionRepository" class="com.epam.makedon.agency.repository.collection.TourTypeCollectionRepository" factory-method="getInstance">
+            <property name="set">
+                <util:set>
+                    <value type="com.epam.makedon.agency.entity.impl.TourType">WEEKEND</value>
+                    <value type="com.epam.makedon.agency.entity.impl.TourType">WEDDING</value>
+                    <value type="com.epam.makedon.agency.entity.impl.TourType">EXCURSION</value>
+                    <value type="com.epam.makedon.agency.entity.impl.TourType">SHOPING</value>
+                    <value type="com.epam.makedon.agency.entity.impl.TourType">CHILDREN</value>
+                </util:set>
+            </property>
+        </bean>
+
+        <bean id="userCollectionRepository" class="com.epam.makedon.agency.repository.collection.UserCollectionRepository" factory-method="getInstance">
+            <property name="set">
+                <util:set>
+                    <bean class="com.epam.makedon.agency.entity.impl.User">
+                        <property name="login" value="user1"/>
+                        <property name="password" value="user1"/>
+                        <property name="reviewList">
+                            <list value-type="com.epam.makedon.agency.entity.impl.Review">
+                                <ref bean="#{reviewCollectionRepository.get(0).get()}"/>
+                            </list>
+                        </property>
+                        <property name="tourList">
+                            <list value-type="com.epam.makedon.agency.entity.impl.Tour">
+                                <ref bean="#{tourCollectionRepository.get(0).get()}"/>
+                            </list>
+                        </property>
+                    </bean>
+                </util:set>
+            </property>
+        </bean>
+    </beans>
+
+    <beans profile="databaseRepository" default-lazy-init="true">
+        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="locations">
+                <list>
+                    <value>classpath:/property/database.properties</value>
+                </list>
+            </property>
+
+            <property name="ignoreResourceNotFound" value="false"/>
+        </bean>
+
+        <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+            <constructor-arg ref="dataSource"/>
+        </bean>
+
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="url" value="${database.url}"/>
+            <property name="username" value="${database.user}"/>
+            <property name="password" value="${database.password}"/>
+            <property name="driverClassName" value="${database.driverClass}"/>
+            <property name="schema" value="${database.schema}"/>
+            <property name="connectionProperties">
+                <props>
+                    <prop key="characterEncoding">UTF-8</prop>
+                    <prop key="useUnicode">true</prop>
+                </props>
+            </property>
+        </bean>
+
+        <bean id="countryDatabaseRepository" class="com.epam.makedon.agency.repository.database.CountryDatabaseRepository" factory-method="getInstance">
+            <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
+        </bean>
+
+        <bean id="hotelDatabaseRepository" class="com.epam.makedon.agency.repository.database.HotelDatabaseRepository" factory-method="getInstance">
+            <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
+        </bean>
+
+        <bean id="reviewDatabaseRepository" class="com.epam.makedon.agency.repository.database.ReviewDatabaseRepository" factory-method="getInstance">
+            <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
+        </bean>
+
+        <bean id="tourDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourDatabaseRepository" factory-method="getInstance">
+            <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
+        </bean>
+
+        <bean id="tourTypeDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourTypeDatabaseRepository" factory-method="getInstance">
+            <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
+        </bean>
+
+        <bean id="userDatabaseRepository" class="com.epam.makedon.agency.repository.database.UserDatabaseRepository" factory-method="getInstance">
+            <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
+        </bean>
+    </beans>
+
+    <beans profile="collectionRepositoryService" default-lazy-init="true">
+        <bean id="countryCollectionService" class="com.epam.makedon.agency.service.CountryServiceImpl">
+            <constructor-arg ref="countryCollectionRepository"/>
+        </bean>
+
+        <bean id="hotelCollectionService" class="com.epam.makedon.agency.service.HotelServiceImpl">
+            <constructor-arg ref="hotelCollectionRepository"/>
+        </bean>
+
+        <bean id="reviewCollectionService" class="com.epam.makedon.agency.service.ReviewServiceImpl">
+            <constructor-arg ref="reviewCollectionRepository"/>
+        </bean>
+
+        <bean id="tourCollectionService" class="com.epam.makedon.agency.service.TourServiceImpl">
+            <constructor-arg ref="tourCollectionRepository"/>
+        </bean>
+
+        <bean id="tourTypeCollectionService" class="com.epam.makedon.agency.service.TourTypeServiceImpl">
+            <constructor-arg ref="tourTypeCollectionRepository"/>
+        </bean>
+
+        <bean id="userCollectionService" class="com.epam.makedon.agency.service.UserServiceImpl">
+            <constructor-arg ref="userCollectionRepository"/>
+        </bean>
+    </beans>
+
+    <beans profile="databaseRepositoryService" default-lazy-init="true">
+        <bean id="countryDatabaseService" class="com.epam.makedon.agency.service.CountryServiceImpl">
+            <constructor-arg ref="countryDatabaseRepository"/>
+        </bean>
+
+        <bean id="hotelDatabaseService" class="com.epam.makedon.agency.service.HotelServiceImpl">
+            <constructor-arg ref="hotelDatabaseRepository"/>
+        </bean>
+
+        <bean id="reviewDatabaseService" class="com.epam.makedon.agency.service.ReviewServiceImpl">
+            <constructor-arg ref="reviewDatabaseRepository"/>
+        </bean>
+
+        <bean id="tourDatabaseService" class="com.epam.makedon.agency.service.TourServiceImpl">
+            <constructor-arg ref="tourDatabaseRepository"/>
+        </bean>
+
+        <bean id="tourTypeDatabaseService" class="com.epam.makedon.agency.service.TourTypeServiceImpl">
+            <constructor-arg ref="tourTypeDatabaseRepository"/>
+        </bean>
+
+        <bean id="userDatabaseService" class="com.epam.makedon.agency.service.UserServiceImpl">
+            <constructor-arg ref="userDatabaseRepository"/>
+        </bean>
+    </beans>
+</beans>

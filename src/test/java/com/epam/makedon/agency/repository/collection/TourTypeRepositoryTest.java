@@ -1,4 +1,4 @@
-package com.epam.makedon.agency.repository.impl;
+package com.epam.makedon.agency.repository.collection;
 
 import com.epam.makedon.agency.entity.impl.TourType;
 import org.junit.After;
@@ -17,66 +17,66 @@ public class TourTypeRepositoryTest {
     private static TourType tourType;
 
     @Mock
-    private TourTypeRepositoryImpl mockObj;
+    private TourTypeCollectionRepository mockObj;
 
     @Before
     public void init() {
-        mockObj = mock(TourTypeRepositoryImpl.class);
+        mockObj = mock(TourTypeCollectionRepository.class);
         tourType = TourType.CHILDREN;
-        TourTypeRepositoryImpl.getInstance().remove(tourType);
+        TourTypeCollectionRepository.getInstance().remove(tourType);
     }
 
     @After
     public void destroy() {
         mockObj = null;
-        TourTypeRepositoryImpl.getInstance().remove(tourType);
+        TourTypeCollectionRepository.getInstance().remove(tourType);
         tourType = null;
     }
 
     @Test
     public void addTrueTest() {
         when(mockObj.add(tourType)).thenReturn(true);
-        assertEquals(mockObj.add(tourType), TourTypeRepositoryImpl.getInstance().add(tourType));
+        assertEquals(mockObj.add(tourType), TourTypeCollectionRepository.getInstance().add(tourType));
         verify(mockObj).add(tourType);
     }
 
     @Test
     public void addFalseTest() {
-        TourTypeRepositoryImpl.getInstance().add(tourType);
+        TourTypeCollectionRepository.getInstance().add(tourType);
         when(mockObj.add(tourType)).thenReturn(false);
-        assertEquals(mockObj.add(tourType), TourTypeRepositoryImpl.getInstance().add(tourType));
+        assertEquals(mockObj.add(tourType), TourTypeCollectionRepository.getInstance().add(tourType));
     }
 
     @Test
     public void getTrueTest() {
-        TourTypeRepositoryImpl.getInstance().add(tourType);
+        TourTypeCollectionRepository.getInstance().add(tourType);
         when(mockObj.get(1)).thenReturn(Optional.of(tourType));
-        assertEquals(mockObj.get(1), TourTypeRepositoryImpl.getInstance().get(1));
+        assertEquals(mockObj.get(1), TourTypeCollectionRepository.getInstance().get(1));
         verify(mockObj).get(1);
     }
 
     @Test
     public void getFalseTest() {
-        TourTypeRepositoryImpl.getInstance().add(tourType);
+        TourTypeCollectionRepository.getInstance().add(tourType);
         when(mockObj.get(2)).thenReturn(Optional.ofNullable(null));
-        assertEquals(mockObj.get(2), TourTypeRepositoryImpl.getInstance().get(2));
+        assertEquals(mockObj.get(2), TourTypeCollectionRepository.getInstance().get(2));
         verify(mockObj).get(2);
     }
 
     @Test
     public void removeTrueTest() {
-        TourTypeRepositoryImpl.getInstance().add(tourType);
+        TourTypeCollectionRepository.getInstance().add(tourType);
         when(mockObj.remove(tourType)).thenReturn(true);
-        assertEquals(mockObj.remove(tourType), TourTypeRepositoryImpl.getInstance().remove(tourType));
+        assertEquals(mockObj.remove(tourType), TourTypeCollectionRepository.getInstance().remove(tourType));
         verify(mockObj).remove(tourType);
     }
 
     @Test
     public void removeFalseTest() {
         TourType c = TourType.WEEKEND;
-        TourTypeRepositoryImpl.getInstance().add(tourType);
+        TourTypeCollectionRepository.getInstance().add(tourType);
         when(mockObj.remove(c)).thenReturn(false);
-        assertEquals(mockObj.remove(c), TourTypeRepositoryImpl.getInstance().remove(c));
+        assertEquals(mockObj.remove(c), TourTypeCollectionRepository.getInstance().remove(c));
         verify(mockObj).remove(c);
     }
 }

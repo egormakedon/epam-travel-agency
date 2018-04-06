@@ -1,8 +1,7 @@
-package com.epam.makedon.agency.repository.impl;
+package com.epam.makedon.agency.repository.collection;
 
-import com.epam.makedon.agency.entity.impl.TourType;
+import com.epam.makedon.agency.entity.impl.Tour;
 import com.epam.makedon.agency.repository.RepositoryException;
-import com.epam.makedon.agency.repository.TourTypeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +12,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * Final singleton class {@code TourTypeRepositoryImpl} implements TourTypeRepository interface.
+ * Final singleton class {@code TourCollectionRepository} implements TourCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
  * @author Yahor Makedon
@@ -22,30 +22,34 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public class TourTypeRepositoryImpl implements TourTypeRepository {
+public class TourCollectionRepository implements com.epam.makedon.agency.repository.TourRepository {
     private static final Logger LOGGER;
-    private static TourTypeRepositoryImpl instance;
+    private static TourCollectionRepository instance;
     private static AtomicBoolean instanceCreated;
     private static ReentrantLock lock;
 
     static {
-        LOGGER = LoggerFactory.getLogger(TourTypeRepositoryImpl.class);
+        LOGGER = LoggerFactory.getLogger(TourCollectionRepository.class);
         instanceCreated = new AtomicBoolean(false);
         lock = new ReentrantLock();
     }
 
-    private Set<TourType> set;
+    private Set<Tour> set;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
      */
-    private TourTypeRepositoryImpl() {
+    private TourCollectionRepository() {
         if (instanceCreated.get()) {
             LOGGER.error("Tried to clone singleton with reflection api");
             throw new RepositoryException("Tried to clone singleton with reflection api");
         }
 
         set = new HashSet<>();
+    }
+
+    public void setSet(Set<Tour> set) {
+        this.set = set;
     }
 
     /**
@@ -67,12 +71,12 @@ public class TourTypeRepositoryImpl implements TourTypeRepository {
         return instance;
     }
 
-    public static TourTypeRepositoryImpl getInstance() {
+    public static TourCollectionRepository getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
             try {
                 if (!instanceCreated.get()) {
-                    instance = new TourTypeRepositoryImpl();
+                    instance = new TourCollectionRepository();
                     instanceCreated.set(true);
                 }
             } finally {
@@ -83,16 +87,16 @@ public class TourTypeRepositoryImpl implements TourTypeRepository {
     }
 
     /**
-     * @param tourType object, which be insert into repository
+     * @param tour object, which be insert into repository
      * @return boolean, the result of adding tour
      */
     @Override
-    public boolean add(TourType tourType) {
-        LOGGER.info("call tourType add method");
+    public boolean add(Tour tour) {
+        LOGGER.info("call tour add method");
 
         lock.lock();
         try {
-            return set.add(tourType);
+            return set.add(tour);
         } finally {
             lock.unlock();
         }
@@ -100,64 +104,64 @@ public class TourTypeRepositoryImpl implements TourTypeRepository {
 
     /**
      * @param id to define and find object
-     * @return tourType, wrapped into optional
+     * @return tour, wrapped into optional
      */
     @Override
-    public Optional<TourType> get(long id) {
-        LOGGER.info("call tourType get method");
+    public Optional<Tour> get(long id) {
+        LOGGER.info("call tour get method");
 
         lock.lock();
         try {
-            Iterator<TourType> iterator = set.iterator();
-            TourType tourType = null;
+            Iterator<Tour> iterator = set.iterator();
+            Tour tour = null;
             while (iterator.hasNext()) {
-                tourType = iterator.next();
-                if (id == tourType.getId()) {
+                tour = iterator.next();
+                if (id == tour.getId()) {
                     break;
                 } else {
-                    tourType = null;
+                    tour = null;
                 }
             }
-            return Optional.ofNullable(tourType);
+            return Optional.ofNullable(tour);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param tourType generic delete method
-     * @return boolean, the result of removing tourType
+     * @param tour generic delete method
+     * @return boolean, the result of removing tour
      */
     @Override
-    public boolean remove(TourType tourType) {
-        LOGGER.info("call tourType remove method");
+    public boolean remove(Tour tour) {
+        LOGGER.info("call tour remove method");
 
         lock.lock();
         try {
-            return set.remove(tourType);
+            return set.remove(tour);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param tourType generic update method
-     * @return tourType, wrapped into optional
+     * @param tour generic update method
+     * @return tour, wrapped into optional
      */
     @Override
-    public Optional<TourType> update(TourType tourType) {
-        LOGGER.info("call tourType update method");
+    public Optional<Tour> update(Tour tour) {
+        LOGGER.info("call tour update method");
 
         lock.lock();
         try {
-            Iterator<TourType> iterator = set.iterator();
-            TourType t = null;
+            Iterator<Tour> iterator = set.iterator();
+            Tour t = null;
             while(iterator.hasNext()) {
                 t = iterator.next();
-                if (t.getId() == tourType.getId()) {
+                if (t.getId() == tour.getId()) {
                     iterator.remove();
-                    set.add(tourType);
-                    t = tourType;
+                    set.add(tour);
+                    t = tour;
                     break;
                 } else {
                     t = null;
@@ -168,5 +172,9 @@ public class TourTypeRepositoryImpl implements TourTypeRepository {
         } finally {
             lock.unlock();
         }
+    }
+
+    private void destroy() {
+        set.clear();
     }
 }

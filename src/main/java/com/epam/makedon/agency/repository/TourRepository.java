@@ -3,7 +3,7 @@ package com.epam.makedon.agency.repository;
 import com.epam.makedon.agency.entity.impl.Tour;
 
 /**
- * Interface {@code TourRepository} mark repository with definite entity.
+ * Interface {@code TourCollectionRepository} mark repository with definite entity.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository

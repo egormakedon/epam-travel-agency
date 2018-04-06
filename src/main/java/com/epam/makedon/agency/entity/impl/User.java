@@ -44,6 +44,14 @@ public class User implements Entity {
         this.password = password;
     }
 
+    public void setTourList(List<Tour> tourList) {
+        this.tourList = tourList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
+    }
+
     public void addTourList(Tour tour) {
         tourList.add(tour);
     }

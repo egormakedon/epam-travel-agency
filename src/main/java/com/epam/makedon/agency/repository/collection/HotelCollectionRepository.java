@@ -1,7 +1,6 @@
-package com.epam.makedon.agency.repository.impl;
+package com.epam.makedon.agency.repository.collection;
 
-import com.epam.makedon.agency.entity.impl.Country;
-import com.epam.makedon.agency.repository.CountryRepository;
+import com.epam.makedon.agency.entity.impl.Hotel;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * Final singleton class {@code CountryRepositoryImpl} implements CountryRepository interface.
+ * Final singleton class {@code HotelCollectionRepository} implements HotelCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
  * @author Yahor Makedon
@@ -22,30 +22,34 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public class CountryRepositoryImpl implements CountryRepository {
+public class HotelCollectionRepository implements com.epam.makedon.agency.repository.HotelRepository {
     private static final Logger LOGGER;
-    private static CountryRepositoryImpl instance;
+    private static HotelCollectionRepository instance;
     private static AtomicBoolean instanceCreated;
     private static ReentrantLock lock;
 
-    private Set<Country> set;
-
     static {
-        LOGGER = LoggerFactory.getLogger(CountryRepositoryImpl.class);
+        LOGGER = LoggerFactory.getLogger(HotelCollectionRepository.class);
         instanceCreated = new AtomicBoolean(false);
         lock = new ReentrantLock();
     }
 
+    private Set<Hotel> set;
+
     /**
      * @throws RepositoryException when try cloning with reflection-api
      */
-    private CountryRepositoryImpl() {
+    private HotelCollectionRepository() {
         if (instanceCreated.get()) {
             LOGGER.error("Tried to clone singleton with reflection api");
             throw new RepositoryException("Tried to clone singleton with reflection api");
         }
 
         set = new HashSet<>();
+    }
+
+    public void setSet(Set<Hotel> set) {
+        this.set = set;
     }
 
     /**
@@ -67,12 +71,12 @@ public class CountryRepositoryImpl implements CountryRepository {
         return instance;
     }
 
-    public static CountryRepositoryImpl getInstance() {
+    public static HotelCollectionRepository getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
             try {
                 if (!instanceCreated.get()) {
-                    instance = new CountryRepositoryImpl();
+                    instance = new HotelCollectionRepository();
                     instanceCreated.set(true);
                 }
             } finally {
@@ -83,16 +87,16 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     /**
-     * @param country object, which be insert into repository
+     * @param hotel object, which be insert into repository
      * @return boolean, the result of adding country
      */
     @Override
-    public boolean add(Country country) {
-        LOGGER.info("call country add method");
+    public boolean add(Hotel hotel) {
+        LOGGER.info("call hotel add method");
 
         lock.lock();
         try {
-            return set.add(country);
+            return set.add(hotel);
         } finally {
             lock.unlock();
         }
@@ -100,73 +104,77 @@ public class CountryRepositoryImpl implements CountryRepository {
 
     /**
      * @param id to define and find object
-     * @return country, wrapped into optional
+     * @return hotel, wrapped into optional
      */
     @Override
-    public Optional<Country> get(long id) {
-        LOGGER.info("call country get method");
+    public Optional<Hotel> get(long id) {
+        LOGGER.info("call hotel get method");
 
         lock.lock();
         try {
-            Iterator<Country> iterator = set.iterator();
-            Country country = null;
+            Iterator<Hotel> iterator = set.iterator();
+            Hotel hotel = null;
             while (iterator.hasNext()) {
-                country = iterator.next();
-                if (id == country.getId()) {
+                hotel = iterator.next();
+                if (id == hotel.getId()) {
                     break;
                 } else {
-                    country = null;
+                    hotel = null;
                 }
             }
-            return Optional.ofNullable(country);
+            return Optional.ofNullable(hotel);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param country generic delete method
-     * @return boolean, the result of removing country
+     * @param hotel generic delete method
+     * @return boolean, the result of removing hotel
      */
     @Override
-    public boolean remove(Country country) {
-        LOGGER.info("call country remove method");
+    public boolean remove(Hotel hotel) {
+        LOGGER.info("call hotel remove method");
 
         lock.lock();
         try {
-            return set.remove(country);
+            return set.remove(hotel);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param country generic update method
-     * @return county, wrapped into optional
+     * @param hotel generic update method
+     * @return hotel, wrapped into optional
      */
     @Override
-    public Optional<Country> update(Country country) {
-        LOGGER.info("call country update method");
+    public Optional<Hotel> update(Hotel hotel) {
+        LOGGER.info("call hotel update method");
 
         lock.lock();
         try {
-            Iterator<Country> iterator = set.iterator();
-            Country c = null;
+            Iterator<Hotel> iterator = set.iterator();
+            Hotel h = null;
             while(iterator.hasNext()) {
-                c = iterator.next();
-                if (c.getId() == country.getId()) {
+                h = iterator.next();
+                if (h.getId() == hotel.getId()) {
                     iterator.remove();
-                    set.add(country);
-                    c = country;
+                    set.add(hotel);
+                    h = hotel;
                     break;
                 } else {
-                    c = null;
+                    h = null;
                 }
             }
 
-            return Optional.ofNullable(c);
+            return Optional.ofNullable(h);
         } finally {
             lock.unlock();
         }
+    }
+
+    private void destroy() {
+        set.clear();
     }
 }

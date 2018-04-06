@@ -1,8 +1,7 @@
-package com.epam.makedon.agency.repository.impl;
+package com.epam.makedon.agency.repository.collection;
 
-import com.epam.makedon.agency.entity.impl.User;
+import com.epam.makedon.agency.entity.impl.Review;
 import com.epam.makedon.agency.repository.RepositoryException;
-import com.epam.makedon.agency.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Final singleton class {@code UserRepositoryImpl} implements UserRepository interface.
+ * Final singleton class {@code ReviewCollectionRepository} implements ReviewCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
  * @author Yahor Makedon
@@ -22,30 +21,34 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 3.0
  * @since version 3.0
  */
-public class UserRepositoryImpl implements UserRepository {
+public class ReviewCollectionRepository implements com.epam.makedon.agency.repository.ReviewRepository {
     private static final Logger LOGGER;
-    private static UserRepositoryImpl instance;
+    private static ReviewCollectionRepository instance;
     private static AtomicBoolean instanceCreated;
     private static ReentrantLock lock;
 
     static {
-        LOGGER = LoggerFactory.getLogger(UserRepositoryImpl.class);
+        LOGGER = LoggerFactory.getLogger(ReviewCollectionRepository.class);
         instanceCreated = new AtomicBoolean(false);
         lock = new ReentrantLock();
     }
 
-    private Set<User> set;
+    private Set<Review> set;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
      */
-    private UserRepositoryImpl() {
+    private ReviewCollectionRepository() {
         if (instanceCreated.get()) {
             LOGGER.error("Tried to clone singleton with reflection api");
             throw new RepositoryException("Tried to clone singleton with reflection api");
         }
 
         set = new HashSet<>();
+    }
+
+    public void setSet(Set<Review> set) {
+        this.set = set;
     }
 
     /**
@@ -67,12 +70,12 @@ public class UserRepositoryImpl implements UserRepository {
         return instance;
     }
 
-    public static UserRepositoryImpl getInstance() {
+    public static ReviewCollectionRepository getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
             try {
                 if (!instanceCreated.get()) {
-                    instance = new UserRepositoryImpl();
+                    instance = new ReviewCollectionRepository();
                     instanceCreated.set(true);
                 }
             } finally {
@@ -83,16 +86,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     /**
-     * @param user object, which be insert into repository
-     * @return boolean, the result of adding user
+     * @param review object, which be insert into repository
+     * @return boolean, the result of adding review
      */
     @Override
-    public boolean add(User user) {
-        LOGGER.info("call user add method");
+    public boolean add(Review review) {
+        LOGGER.info("call review add method");
 
         lock.lock();
         try {
-            return set.add(user);
+            return set.add(review);
         } finally {
             lock.unlock();
         }
@@ -100,73 +103,77 @@ public class UserRepositoryImpl implements UserRepository {
 
     /**
      * @param id to define and find object
-     * @return user, wrapped into optional
+     * @return review, wrapped into optional
      */
     @Override
-    public Optional<User> get(long id) {
-        LOGGER.info("call user get method");
+    public Optional<Review> get(long id) {
+        LOGGER.info("call review get method");
 
         lock.lock();
         try {
-            Iterator<User> iterator = set.iterator();
-            User user = null;
+            Iterator<Review> iterator = set.iterator();
+            Review review = null;
             while (iterator.hasNext()) {
-                user = iterator.next();
-                if (id == user.getId()) {
+                review = iterator.next();
+                if (id == review.getId()) {
                     break;
                 } else {
-                    user = null;
+                    review = null;
                 }
             }
-            return Optional.ofNullable(user);
+            return Optional.ofNullable(review);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param user generic delete method
-     * @return boolean, the result of removing user
+     * @param review generic delete method
+     * @return boolean, the result of removing review
      */
     @Override
-    public boolean remove(User user) {
-        LOGGER.info("call user remove method");
+    public boolean remove(Review review) {
+        LOGGER.info("call review remove method");
 
         lock.lock();
         try {
-            return set.remove(user);
+            return set.remove(review);
         } finally {
             lock.unlock();
         }
     }
 
     /**
-     * @param user generic update method
-     * @return user, wrapped into optional
+     * @param review generic update method
+     * @return review, wrapped into optional
      */
     @Override
-    public Optional<User> update(User user) {
-        LOGGER.info("call user update method");
+    public Optional<Review> update(Review review) {
+        LOGGER.info("call review update method");
 
         lock.lock();
         try {
-            Iterator<User> iterator = set.iterator();
-            User us = null;
+            Iterator<Review> iterator = set.iterator();
+            Review r = null;
             while(iterator.hasNext()) {
-                us = iterator.next();
-                if (us.getId() == user.getId()) {
+                r = iterator.next();
+                if (r.getId() == review.getId()) {
                     iterator.remove();
-                    set.add(user);
-                    us = user;
+                    set.add(review);
+                    r = review;
                     break;
                 } else {
-                    us = null;
+                    r = null;
                 }
             }
 
-            return Optional.ofNullable(us);
+            return Optional.ofNullable(r);
         } finally {
             lock.unlock();
         }
+    }
+
+    private void destroy() {
+        set.clear();
     }
 }
