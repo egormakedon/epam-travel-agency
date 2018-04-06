@@ -1,6 +1,5 @@
 package com.epam.makedon.agency.repository.collection;
 
-import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.entity.impl.Hotel;
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +18,6 @@ public class HotelRepositoryTest {
     private static final String NAME = "name";
     private static final byte STARS = 5;
     private static final String PHONE = "12345";
-    private static final Country COUNTRY = Country.BELARUS;
 
     private static Hotel hotel;
 
@@ -32,7 +30,6 @@ public class HotelRepositoryTest {
         hotel = new Hotel();
         hotel.setId(ID);
         hotel.setName(NAME);
-        hotel.setCountry(COUNTRY);
         hotel.setPhone(PHONE);
         hotel.setStars(STARS);
         HotelCollectionRepository.getInstance().remove(hotel);
@@ -99,7 +96,6 @@ public class HotelRepositoryTest {
         Hotel h = new Hotel();
         h.setId(ID);
         h.setName("new Name");
-        h.setCountry(COUNTRY);
         h.setPhone(PHONE);
         h.setStars(STARS);
         when(mockObj.update(h)).thenReturn(Optional.of(h));
@@ -114,7 +110,6 @@ public class HotelRepositoryTest {
         Hotel h = new Hotel();
         h.setId(3);
         h.setName("new Name");
-        h.setCountry(COUNTRY);
         h.setPhone(PHONE);
         h.setStars(STARS);
         when(mockObj.update(h)).thenReturn(Optional.ofNullable(null));

@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 public class TourRepositoryTest {
     private static final long ID = 1;
-    private static final int COST = 10;
+    private static final BigDecimal COST = BigDecimal.valueOf(10);
 
     private static Tour tour;
 
@@ -91,7 +92,7 @@ public class TourRepositoryTest {
         TourCollectionRepository.getInstance().add(tour);
         Tour h = new Tour();
         h.setId(ID);
-        h.setCost(20);
+        h.setCost(BigDecimal.valueOf(10));
         when(mockObj.update(h)).thenReturn(Optional.of(h));
         assertEquals(mockObj.update(h), TourCollectionRepository.getInstance().update(h));
         verify(mockObj).update(h);
@@ -103,7 +104,7 @@ public class TourRepositoryTest {
         TourCollectionRepository.getInstance().add(tour);
         Tour h = new Tour();
         h.setId(3);
-        h.setCost(20);
+        h.setCost(BigDecimal.valueOf(10));
         when(mockObj.update(h)).thenReturn(Optional.ofNullable(null));
         assertEquals(mockObj.update(h), TourCollectionRepository.getInstance().update(h));
         verify(mockObj).update(h);

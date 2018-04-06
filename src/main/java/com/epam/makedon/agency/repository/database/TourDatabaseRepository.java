@@ -7,13 +7,15 @@ import com.epam.makedon.agency.entity.impl.TourType;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -58,27 +60,52 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
         public Tour mapRow(ResultSet rs, int i) throws SQLException {
             Tour tour = new Tour();
             tour.setId(rs.getLong(TOUR_ID));
-            tour.setCost(rs.getInt(TOUR_COST));
-            tour.setCountry(Country.values()[rs.getInt(COUNTRY_ID) - 1]);
+            tour.setCost(rs.getBigDecimal(TOUR_COST));
+
+            long countryId = rs.getLong(COUNTRY_ID);
+            Country[] countries = Country.values();
+            Country country = null;
+            for (Country c : countries) {
+                if (c.getId() == countryId) {
+                    country = c;
+                    break;
+                }
+            }
+            tour.setCountry(country);
+
+            long tourTypeId = rs.getLong(TOUR_TYPE_ID);
+            TourType[] tourTypes = TourType.values();
+            TourType tourType = null;
+            for (TourType t : tourTypes) {
+                if (t.getId() == tourTypeId) {
+                    tourType = t;
+                    break;
+                }
+            }
+            tour.setType(tourType);
+
             tour.setDate(rs.getDate(TOUR_DATE).toLocalDate());
             tour.setDescription(rs.getString(TOUR_DESCRIPTION));
-            tour.setType(TourType.values()[rs.getInt(TOUR_TYPE_ID) - 1]);
-            tour.setPhoto(null);
-            tour.setDuration(Duration.ofDays(rs.getDate(TOUR_DURATION).getTime()));
+            tour.setDuration(Duration.ofDays(rs.getLong(TOUR_DURATION)));
 
             Hotel hotel = new Hotel();
             hotel.setId(rs.getLong(HOTEL_ID));
             tour.setHotel(hotel);
 
+            tour.setPhoto(null); //
+
             return tour;
         }
     }
 
-    private static final String SQL_INSERT_TOUR = "INSERT INTO tour(tour_id,tour_photo,tour_date,tour_duration,fk_country_id,fk_hotel_id,fk_tour_type_id,tour_description,tour_cost) VALUES(?,?,?,?,?,?,?,?,?)";
-    private static final String SQL_SELECT_TOUR_BY_ID = "SELECT tour_id, tour_photo, tour_date, tour_duration, fk_country_id, fk_hotel_id, fk_tour_type_id, tour_description, tour_cost FROM tour WHERE tour_id=?";
-    private static final String SQL_DELETE_TOUR_BY_ID = "DELETE FROM tour WHERE tour_id=?";
+    private static final String SQL_INSERT_TOUR = "INSERT INTO tour (tour_photo,tour_date,tour_duration,fk_country_id,fk_hotel_id,fk_tour_type_id,tour_description,tour_cost) " +
+            "VALUES(:tourPhoto, :tourDate, :tourDuration, :countryId, :hotelId, :tourType, :tourDescription, :tourCost)";
+    private static final String SQL_SELECT_TOUR_BY_ID = "SELECT tour_id, tour_photo, tour_date, tour_duration, fk_country_id, fk_hotel_id, fk_tour_type_id, tour_description, tour_cost FROM tour WHERE tour_id=:tourId";
+    private static final String SQL_DELETE_TOUR_BY_ID = "DELETE FROM tour WHERE tour_id=:tourId";
+    private static final String SQL_UPDATE_TOUR_BY_ID = "UPDATE tour SET tour_photo=:tourPhoto, tour_date=:tourDate, tour_duration=:tourDuration, fk_country_id=:countryId," +
+            "fk_hotel_id=:hotelId, fk_tour_type_id=:tourType, tour_description=:tourDescription, tour_cost=:tourCost";
 
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
@@ -90,8 +117,8 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
         }
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     /**
@@ -134,8 +161,17 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
      */
     @Override
     public boolean add(Tour tour) {
-        int r = jdbcTemplate.update(SQL_INSERT_TOUR, tour.getId(), "null", tour.getDate(), tour.getDuration(), tour.getCountry().getId(), tour.getHotel().getId(), tour.getType().getId(), tour.getDescription(), tour.getCost());
-        return (r == 1);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("tourPhoto", "null");
+        parameters.put("tourDate", Date.valueOf(tour.getDate()));
+        parameters.put("tourDuration", tour.getDuration().toDays());
+        parameters.put("countryId", tour.getCountry().getId());
+        parameters.put("hotelId", tour.getHotel().getId());
+        parameters.put("tourType", tour.getType().getId());
+        parameters.put("tourDescription", tour.getDescription());
+        parameters.put("tourCost", tour.getCost());
+        int r = namedParameterJdbcTemplate.update(SQL_INSERT_TOUR, parameters);
+        return r == 1;
     }
 
     /**
@@ -144,7 +180,9 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
      */
     @Override
     public Optional<Tour> get(long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_TOUR_BY_ID, Mapper.getInstance(), id));
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("tourId", id);
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_TOUR_BY_ID, parameters, Mapper.getInstance()));
     }
 
     /**
@@ -153,8 +191,10 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
      */
     @Override
     public boolean remove(Tour tour) {
-        int r = jdbcTemplate.update(SQL_DELETE_TOUR_BY_ID, tour.getId());
-        return (r == 1);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("tourId", tour.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_DELETE_TOUR_BY_ID, parameters);
+        return r == 1;
     }
 
     /**
@@ -163,12 +203,18 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
      */
     @Override
     public Optional<Tour> update(Tour tour) {
-        if (remove(tour)) {
-            if (add(tour)) {
-                return Optional.of(tour);
-            } else {
-                throw new RepositoryException("tour updated wrong");
-            }
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("tourPhoto", "null");
+        parameters.put("tourDate", Date.valueOf(tour.getDate()));
+        parameters.put("tourDuration", tour.getDuration().toDays());
+        parameters.put("countryId", tour.getCountry().getId());
+        parameters.put("hotelId", tour.getHotel().getId());
+        parameters.put("tourType", tour.getType().getId());
+        parameters.put("tourDescription", tour.getDescription());
+        parameters.put("tourCost", tour.getCost());
+        int r = namedParameterJdbcTemplate.update(SQL_UPDATE_TOUR_BY_ID, parameters);
+        if (r == 1) {
+            return Optional.of(tour);
         }
         return Optional.empty();
     }

@@ -28,7 +28,7 @@
         <mockito.version>2.16.0</mockito.version>
         <spring.version>4.3.14.RELEASE</spring.version>
         <postgresql.version>42.2.2</postgresql.version>
-        <h2.version>1.4.197</h2.version>
+        <h2.version>1.4.196</h2.version>
     </properties>
 
     <reporting>

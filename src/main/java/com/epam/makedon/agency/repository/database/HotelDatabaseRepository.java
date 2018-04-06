@@ -5,11 +5,13 @@ import com.epam.makedon.agency.entity.impl.Hotel;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -41,32 +43,27 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
         public static Mapper getInstance() { return INSTANCE; }
 
         private static final String ID = "id";
-        private static final String HOTEL_NAME = "hotelName";
-        private static final String COUNTRY_NAME = "countryName";
+        private static final String NAME = "name";
         private static final String PHONE = "phone";
         private static final String STARS = "stars";
 
         @Override
         public Hotel mapRow(ResultSet rs, int i) throws SQLException {
-            String countryName = rs.getString(COUNTRY_NAME);
-            Country country = Country.valueOf(countryName);
-
             Hotel hotel = new Hotel();
             hotel.setId(rs.getLong(ID));
-            hotel.setName(rs.getString(HOTEL_NAME));
+            hotel.setName(rs.getString(NAME));
             hotel.setPhone(rs.getString(PHONE));
             hotel.setStars(rs.getByte(STARS));
-            hotel.setCountry(country);
             return hotel;
         }
     }
 
-    private static final String SQL_SELECT_COUNTRY_ID_BY_NAME = "SELECT country_id id FROM country WHERE country_name=?";
-    private static final String SQL_INSERT_HOTEL = "INSERT INTO hotel(hotel_id, hotel_name, hotel_phone, fk_country_id, hotel_stars) VALUES(?,?,?,?,?)";
-    private static final String SQL_SELECT_HOTEL_BY_ID = "SELECT hotel.hotel_id id, hotel.hotel_name hotelName, hotel.hotel_phone phone, hotel.hotel_stars stars, country.country_name countryName FROM hotel INNER JOIN country ON hotel.fk_country_id=country.country_id WHERE hotel.hotel_id=?";
-    private static final String SQL_DELETE_HOTEL_BY_ID = "DELETE FROM hotel WHERE hotel_id=?";
+    private static final String SQL_INSERT_HOTEL = "INSERT INTO hotel (hotel_name, hotel_phone, hotel_stars) VALUES(:hotelName,:hotelPhone,:hotelStars)";
+    private static final String SQL_SELECT_HOTEL_BY_ID = "SELECT hotel_id id, hotel_name name, hotel_phone phone, hotel_stars stars FROM hotel WHERE hotel_id=:hotelId";
+    private static final String SQL_DELETE_HOTEL_BY_ID = "DELETE FROM hotel WHERE hotel_id=:hotelId";
+    private static final String SQL_UPDATE_HOTEL_BY_ID = "UPDATE hotel SET hotel_name=:hotelName,hotel_phone=:hotelPhone,hotel_stars=:hotelStars WHERE hotel_id=:hotelId";
 
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
@@ -78,8 +75,8 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
         }
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     /**
@@ -122,9 +119,12 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
      */
     @Override
     public boolean add(Hotel hotel) {
-        int countryId = jdbcTemplate.queryForObject(SQL_SELECT_COUNTRY_ID_BY_NAME, Integer.class, hotel.getCountry().toString());
-        int r = jdbcTemplate.update(SQL_INSERT_HOTEL, hotel.getId(), hotel.getName(), hotel.getPhone(), countryId, hotel.getStars());
-        return (r == 1);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("hotelName", hotel.getName());
+        parameters.put("hotelPhone", hotel.getPhone());
+        parameters.put("hotelStars", hotel.getStars());
+        int r = namedParameterJdbcTemplate.update(SQL_INSERT_HOTEL, parameters);
+        return r == 1;
     }
 
     /**
@@ -133,7 +133,9 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
      */
     @Override
     public Optional<Hotel> get(long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_HOTEL_BY_ID, Mapper.getInstance(), id));
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("hotelId", id);
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_HOTEL_BY_ID, parameters, Mapper.getInstance()));
     }
 
     /**
@@ -142,8 +144,10 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
      */
     @Override
     public boolean remove(Hotel hotel) {
-        int r = jdbcTemplate.update(SQL_DELETE_HOTEL_BY_ID, hotel.getId());
-        return (r == 1);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("hotelId", hotel.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_DELETE_HOTEL_BY_ID, parameters);
+        return r == 1;
     }
 
     /**
@@ -152,12 +156,14 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
      */
     @Override
     public Optional<Hotel> update(Hotel hotel) {
-        if (remove(hotel)) {
-            if (add(hotel)) {
-                return Optional.of(hotel);
-            } else {
-                throw new RepositoryException("hotel updated wrong");
-            }
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("hotelName", hotel.getName());
+        parameters.put("hotelPhone", hotel.getPhone());
+        parameters.put("hotelStars", hotel.getStars());
+        parameters.put("hotelId", hotel.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_UPDATE_HOTEL_BY_ID, parameters);
+        if (r == 1) {
+            return Optional.of(hotel);
         }
         return Optional.empty();
     }

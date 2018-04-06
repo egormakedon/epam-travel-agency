@@ -4,11 +4,13 @@ import com.epam.makedon.agency.entity.impl.TourType;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -47,11 +49,11 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
         }
     }
 
-    private static final String SQL_INSERT_TOUR_TYPE = "INSERT INTO tour_type(tour_type_id,tour_type_name) VALUES(?,?)";
-    private static final String SQL_SELECT_TOUR_TYPE_NAME_BY_ID = "SELECT tour_type_name name FROM tour_type WHERE tour_type_id=?";
-    private static final String SQL_DELETE_TOUR_TYPE_BY_ID = "DELETE FROM tour_type WHERE tour_type_id=?";
+    private static final String SQL_INSERT_TOUR_TYPE = "INSERT INTO tour_type (tour_type_id,tour_type_name) VALUES(:tourTypeId,:tourTypeName)";
+    private static final String SQL_SELECT_TOUR_TYPE_NAME_BY_ID = "SELECT tour_type_name name FROM tour_type WHERE tour_type_id=:tourTypeId";
+    private static final String SQL_DELETE_TOUR_TYPE_BY_ID = "DELETE FROM tour_type WHERE tour_type_id=:tourTypeId";
 
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
@@ -63,8 +65,8 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
         }
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     /**
@@ -107,7 +109,10 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
      */
     @Override
     public boolean add(TourType tourType) {
-        int r = jdbcTemplate.update(SQL_INSERT_TOUR_TYPE, tourType.getId(), tourType.toString());
+        Map<String,Object> parameters = new HashMap<>();
+        parameters.put("tourTypeId", tourType.getId());
+        parameters.put("tourTypeName", tourType.toString());
+        int r = namedParameterJdbcTemplate.update(SQL_INSERT_TOUR_TYPE, parameters);
         return r == 1;
     }
 
@@ -117,7 +122,9 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
      */
     @Override
     public Optional<TourType> get(long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_TOUR_TYPE_NAME_BY_ID, Mapper.getInstance(), id));
+        Map<String,Object> parameters = new HashMap<>();
+        parameters.put("tourTypeId", id);
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_TOUR_TYPE_NAME_BY_ID, parameters, Mapper.getInstance()));
     }
 
     /**
@@ -126,8 +133,10 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
      */
     @Override
     public boolean remove(TourType tourType) {
-        int r = jdbcTemplate.update(SQL_DELETE_TOUR_TYPE_BY_ID, tourType.getId());
-        return (r == 1);
+        Map<String,Object> parameters = new HashMap<>();
+        parameters.put("tourTypeId", tourType.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_DELETE_TOUR_TYPE_BY_ID, parameters);
+        return r == 1;
     }
 
     /**

@@ -6,16 +6,12 @@ import com.epam.makedon.agency.entity.impl.User;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -40,10 +36,10 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
         lock = new ReentrantLock();
     }
 
-    private static class UserInfoMapper implements RowMapper<User> {
-        private static final UserInfoMapper INSTANCE = new UserInfoMapper();
-        private UserInfoMapper() {}
-        public static UserInfoMapper getInstance() { return INSTANCE; }
+    private static class UserMapper implements RowMapper<User> {
+        private static final UserMapper INSTANCE = new UserMapper();
+        private UserMapper() {}
+        public static UserMapper getInstance() { return INSTANCE; }
 
         private static final String ID = "id";
         private static final String LOGIN = "login";
@@ -54,11 +50,10 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
             User user = new User();
             user.setId(rs.getLong(ID));
             user.setLogin(rs.getString(LOGIN));
-            user.setPassword(PASSWORD);
+            user.setPassword(rs.getString(PASSWORD));
             return user;
         }
     }
-
     private static class TourMapper implements RowMapper<Tour> {
         private static final TourMapper INSTANCE = new TourMapper();
         private TourMapper() {}
@@ -73,7 +68,6 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
             return tour;
         }
     }
-
     private static final class ReviewMapper implements RowMapper<Review> {
         private static final ReviewMapper INSTANCE = new ReviewMapper();
         private ReviewMapper() {}
@@ -89,69 +83,7 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
         }
     }
 
-    private static final class TourButchSetter implements BatchPreparedStatementSetter {
-        private static final TourButchSetter INSTANCE = new TourButchSetter();
-        private TourButchSetter() {}
-        public static TourButchSetter getInstance() { return INSTANCE; }
-
-        private List<Tour> tourList = new ArrayList<>();
-        private long userId;
-        public void setTourList(List<Tour> tourList) {
-            this.tourList = tourList;
-        }
-        public void setUserId(long userId) {
-            this.userId = userId;
-        }
-
-        @Override
-        public void setValues(PreparedStatement ps, int i) throws SQLException {
-            Tour tour = tourList.get(i);
-            ps.setLong(1, userId);
-            ps.setLong(2, tour.getId());
-        }
-
-        @Override
-        public int getBatchSize() {
-            return tourList.size();
-        }
-    }
-
-    private static final class ReviewButchSetter implements BatchPreparedStatementSetter {
-        private static final ReviewButchSetter INSTANCE = new ReviewButchSetter();
-        private ReviewButchSetter() {}
-        public static ReviewButchSetter getInstance() { return INSTANCE; }
-
-        private List<Review> reviewList = new ArrayList<>();
-        public void setReviewList(List<Review> reviewList) {
-            this.reviewList = reviewList;
-        }
-
-        @Override
-        public void setValues(PreparedStatement ps, int i) throws SQLException {
-            Review review = reviewList.get(i);
-            ps.setLong(1, review.getId());
-            ps.setLong(2, review.getTour().getId());
-            ps.setLong(3, review.getUser().getId());
-            ps.setString(4, review.getContent());
-        }
-
-        @Override
-        public int getBatchSize() {
-            return reviewList.size();
-        }
-    }
-
-    private static final String SQL_INSERT_USER_INFO = "INSERT INTO user(user_id,user_login,user_password) VALUES(?,?,crypt(?, gen_salt('md5')))";
-    private static final String SQL_INSERT_USER_TOUR_INFO = "INSERT INTO user_tour(fk_user_id,fk_tour_id) VALUES(?,?)";
-    private static final String SQL_INSERT_REVIEW_INFO = "INSERT INTO review(review_id,fk_tour_id,fk_user_id,review_content) VALUE(?,?,?,?)";
-
-    private static final String SQL_SELECT_USER_INFO_BY_ID = "SELECT user_id id,user_login login,user_password password FROM user WHERE user_id=?";
-    private static final String SQL_SELECT_TOUR_LIST_BY_USER_ID = "SELECT fk_tour_id id FROM user_tour WHERE fk_user_id=?";
-    private static final String SQL_SELECT_REVIEW_LIST_BY_USER_ID = "SELECT review_id id FROM review WHERE fk_user_id=?";
-
-    private static final String SQL_DELETE_USER_BY_ID = "DELETE FROM user WHERE user_id=?";
-
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
@@ -163,8 +95,8 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
         }
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     /**
@@ -207,28 +139,25 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
      */
     @Override
     public boolean add(User user) {
-        int r = jdbcTemplate.update(SQL_INSERT_USER_INFO, user.getId(), user.getLogin(), user.getPassword());
-        if (r !=1 ) {
+        final String SQL_INSERT_USER = "INSERT INTO user (user_login,user_password) VALUES (:userLogin, :userPassword)";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userLogin", user.getLogin());
+        parameters.put("userPassword", user.getPassword());
+        int r = namedParameterJdbcTemplate.update(SQL_INSERT_USER, parameters);
+        if (r != 1) {
             return false;
         }
 
-
-        TourButchSetter.getInstance().setTourList(user.getTourList());
-        TourButchSetter.getInstance().setUserId(user.getId());
-        int[] res = jdbcTemplate.batchUpdate(SQL_INSERT_USER_TOUR_INFO, TourButchSetter.getInstance());
-        for (int index : res) {
-            if (index != 1) {
-                return false;
-            }
+        if (user.getTourList().isEmpty()) {
+            return true;
         }
 
-        ReviewButchSetter.getInstance().setReviewList(user.getReviewList());
-        res = jdbcTemplate.batchUpdate(SQL_INSERT_REVIEW_INFO, ReviewButchSetter.getInstance());
-        for (int index : res) {
-            if (index != 1) {
-                return false;
-            }
-        }
+        final String SQL_SELECT_USER_ID_BY_LOGIN = "SELECT user_id userId FROM user WHERE user_login=:userLogin";
+        parameters.clear();
+        parameters.put("userLogin", user.getLogin());
+        long userId = namedParameterJdbcTemplate.queryForObject(SQL_SELECT_USER_ID_BY_LOGIN, parameters, Long.class);
+
+        insertUserTour(userId, user.getTourList());
 
         return true;
     }
@@ -239,15 +168,22 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
      */
     @Override
     public Optional<User> get(long id) {
-        User user = jdbcTemplate.queryForObject(SQL_SELECT_USER_INFO_BY_ID, UserInfoMapper.getInstance(), id);
+        final String SQL_SELECT_USER_BY_ID = "SELECT user_id id,user_login login,user_password password FROM user WHERE user_id=:userId";
+        final String SQL_SELECT_TOUR_USER_ID = "SELECT fk_tour_id id FROM user_tour WHERE fk_user_id=:userId";
+        final String SQL_SELECT_REVIEW_BY_USER_ID = "SELECT review_id id FROM review WHERE fk_user_id=:userId";
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userId", id);
+
+        User user = namedParameterJdbcTemplate.queryForObject(SQL_SELECT_USER_BY_ID, parameters, UserMapper.getInstance());
         if (user == null) {
-            throw new RepositoryException("user doesn't exist");
+            return Optional.empty();
         }
 
-        List<Tour> tourList = jdbcTemplate.query(SQL_SELECT_TOUR_LIST_BY_USER_ID, TourMapper.getInstance(), id);
+        List<Tour> tourList = namedParameterJdbcTemplate.query(SQL_SELECT_TOUR_USER_ID, parameters, TourMapper.getInstance());
         user.setTourList(tourList);
 
-        List<Review> reviewList = jdbcTemplate.query(SQL_SELECT_REVIEW_LIST_BY_USER_ID, ReviewMapper.getInstance(), id);
+        List<Review> reviewList = namedParameterJdbcTemplate.query(SQL_SELECT_REVIEW_BY_USER_ID, parameters, ReviewMapper.getInstance());
         user.setReviewList(reviewList);
 
         return Optional.of(user);
@@ -259,8 +195,11 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
      */
     @Override
     public boolean remove(User user) {
-        int r = jdbcTemplate.update(SQL_DELETE_USER_BY_ID, user.getId());
-        return (r == 1);
+        final String SQL_DELETE_USER_BY_ID = "DELETE FROM user WHERE user_id=:userId";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userId", user.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_DELETE_USER_BY_ID, parameters);
+        return r == 1;
     }
 
     /**
@@ -269,13 +208,38 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
      */
     @Override
     public Optional<User> update(User user) {
-        if (remove(user)) {
-            if (add(user)) {
-                return Optional.of(user);
-            } else {
-                throw new RepositoryException("user updated wrong");
-            }
+        final String SQL_UPDATE_USER = "UPDATE user SET user_login=:userLogin, user_password=:userPassword WHERE user_id=:userId";
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userLogin", user.getLogin());
+        parameters.put("userPassword", user.getPassword());
+        parameters.put("userId", user.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_UPDATE_USER, parameters);
+        if (r != 1) {
+            return Optional.empty();
         }
-        return Optional.empty();
+
+        final String SQL_DELETE_USER_TOUR_BY_USER_ID = "DELETE FROM user_tour WHERE fk_user_id=:userId";
+        parameters.clear();
+        parameters.put("userId", user.getId());
+        namedParameterJdbcTemplate.update(SQL_DELETE_USER_TOUR_BY_USER_ID, parameters);
+
+        if (user.getTourList().isEmpty()) {
+            return Optional.of(user);
+        }
+
+        insertUserTour(user.getId(), user.getTourList());
+
+        return Optional.of(user);
+    }
+
+    private void insertUserTour(long userId, List<Tour> tourList) {
+        final String SQL_INSERT_USER_TOUR = "INSERT INTO user_tour (fk_user_id,fk_tour_id) VALUES(:userId,:tourId)";
+        Map<String, Object>[] batch = new HashMap[tourList.size()];
+        for (int index = 0; index < tourList.size(); index++) {
+            batch[index].put("userId", userId);
+            batch[index].put("tourId", tourList.get(index).getId());
+        }
+        namedParameterJdbcTemplate.batchUpdate(SQL_INSERT_USER_TOUR, batch);
     }
 }

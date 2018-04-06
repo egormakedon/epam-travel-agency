@@ -6,11 +6,13 @@ import com.epam.makedon.agency.entity.impl.User;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -64,11 +66,12 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
         }
     }
 
-    private static final String SQL_INSERT_REVIEW = "INSERT INTO review(review_id,fk_tour_id,fk_user_id,review_content) VALUES(?,?,?,?)";
-    private static final String SQL_SELECT_REVIEW_BY_ID = "SELECT review_id id, review_content content, fk_tour_id tourId, fk_user_id userId FROM review WHERE review_id=?";
-    private static final String SQL_DELETE_REVIEW = "DELETE FROM review WHERE review_id=?";
+    private static final String SQL_INSERT_REVIEW = "INSERT INTO review (fk_tour_id,fk_user_id,review_content) VALUES(:tourId,:userId,:reviewContent)";
+    private static final String SQL_SELECT_REVIEW_BY_ID = "SELECT review_id id, review_content content, fk_tour_id tourId, fk_user_id userId FROM review WHERE review_id=:reviewId";
+    private static final String SQL_DELETE_REVIEW = "DELETE FROM review WHERE review_id=:reviewId";
+    private static final String SQL_UPDATE_REVIEW_BY_ID = "UPDATE review SET fk_tour_id=:tourId,fk_user_id=:userId,review_content=:reviewContent WHERE review_id=:reviewId";
 
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
@@ -80,8 +83,8 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
         }
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     /**
@@ -124,8 +127,12 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
      */
     @Override
     public boolean add(Review review) {
-        int r = jdbcTemplate.update(SQL_INSERT_REVIEW, review.getId(), review.getTour().getId(), review.getUser().getId(), review.getContent());
-        return (r == 1);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("tourId", review.getTour().getId());
+        parameters.put("userId", review.getUser().getId());
+        parameters.put("reviewContent", review.getContent());
+        int r = namedParameterJdbcTemplate.update(SQL_INSERT_REVIEW, parameters);
+        return r == 1;
     }
 
     /**
@@ -134,7 +141,9 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
      */
     @Override
     public Optional<Review> get(long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_REVIEW_BY_ID, Mapper.getInstance(), id));
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("reviewId", id);
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_REVIEW_BY_ID, parameters, Mapper.getInstance()));
     }
 
     /**
@@ -143,8 +152,10 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
      */
     @Override
     public boolean remove(Review review) {
-        int r = jdbcTemplate.update(SQL_DELETE_REVIEW, review.getId());
-        return (r == 1);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("reviewId", review.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_DELETE_REVIEW, parameters);
+        return r == 1;
     }
 
     /**
@@ -153,12 +164,14 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
      */
     @Override
     public Optional<Review> update(Review review) {
-        if (remove(review)) {
-            if (add(review)) {
-                return Optional.of(review);
-            } else {
-                throw new RepositoryException("review updated wrong");
-            }
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("tourId", review.getTour().getId());
+        parameters.put("userId", review.getUser().getId());
+        parameters.put("reviewContent", review.getContent());
+        parameters.put("reviewId", review.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_UPDATE_REVIEW_BY_ID, parameters);
+        if (r == 1) {
+            return Optional.of(review);
         }
         return Optional.empty();
     }

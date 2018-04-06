@@ -4,36 +4,36 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <jdbs:embedded-database id="dataSource" type="H2">
-        <jdbs:script location="classpath:/databaseScripts/h2/schema.sql"/>
-        <jdbs:script location="classpath:/databaseScripts/h2/init-data.sql"/>
+        <jdbs:script location="classpath:/databaseScripts/schema.sql"/>
+        <jdbs:script location="classpath:/databaseScripts/init-data.sql"/>
     </jdbs:embedded-database>
 
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate" scope="prototype">
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="countryDatabaseRepository" class="com.epam.makedon.agency.repository.database.CountryDatabaseRepository" factory-method="getInstance">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    <bean id="countryDatabaseRepository" class="com.epam.makedon.agency.repository.database.CountryDatabaseRepository" factory-method="getInstance" scope="prototype">
+        <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
 
-    <bean id="hotelDatabaseRepository" class="com.epam.makedon.agency.repository.database.HotelDatabaseRepository" factory-method="getInstance">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    <bean id="hotelDatabaseRepository" class="com.epam.makedon.agency.repository.database.HotelDatabaseRepository" factory-method="getInstance" scope="prototype">
+        <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
 
-    <bean id="reviewDatabaseRepository" class="com.epam.makedon.agency.repository.database.ReviewDatabaseRepository" factory-method="getInstance">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    <bean id="reviewDatabaseRepository" class="com.epam.makedon.agency.repository.database.ReviewDatabaseRepository" factory-method="getInstance" scope="prototype">
+        <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
 
-    <bean id="tourDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourDatabaseRepository" factory-method="getInstance">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    <bean id="tourDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourDatabaseRepository" factory-method="getInstance" scope="prototype">
+        <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
 
-    <bean id="tourTypeDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourTypeDatabaseRepository" factory-method="getInstance">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    <bean id="tourTypeDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourTypeDatabaseRepository" factory-method="getInstance" scope="prototype">
+        <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
 
-    <bean id="userDatabaseRepository" class="com.epam.makedon.agency.repository.database.UserDatabaseRepository" factory-method="getInstance">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    <bean id="userDatabaseRepository" class="com.epam.makedon.agency.repository.database.UserDatabaseRepository" factory-method="getInstance" scope="prototype">
+        <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
 
 </beans>

@@ -4,11 +4,13 @@ import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -47,11 +49,11 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
         }
     }
 
-    private static final String SQL_INSERT_COUNTRY = "INSERT INTO country(country_id,country_name) VALUES(?,?)";
-    private static final String SQL_SELECT_COUNTRY_NAME_BY_ID = "SELECT country_name name FROM country WHERE country_id=?";
-    private static final String SQL_DELETE_COUNTRY_BY_ID = "DELETE FROM country WHERE country_id=?";
+    private static final String SQL_INSERT_COUNTRY = "INSERT INTO country (country_id,country_name) VALUES(:countryId,:countryName)";
+    private static final String SQL_SELECT_COUNTRY_NAME_BY_ID = "SELECT country_name name FROM country WHERE country_id=:countryId";
+    private static final String SQL_DELETE_COUNTRY_BY_ID = "DELETE FROM country WHERE country_id=:countryId";
 
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
      * @throws RepositoryException when try cloning with reflection-api
@@ -63,8 +65,8 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
         }
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     /**
@@ -107,7 +109,10 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
      */
     @Override
     public boolean add(Country country) {
-        int r = jdbcTemplate.update(SQL_INSERT_COUNTRY, country.getId(), country.toString());
+        Map<String,Object> parameters = new HashMap<>();
+        parameters.put("countryId", country.getId());
+        parameters.put("countryName", country.toString());
+        int r = namedParameterJdbcTemplate.update(SQL_INSERT_COUNTRY, parameters);
         return r == 1;
     }
 
@@ -117,7 +122,9 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
      */
     @Override
     public Optional<Country> get(long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_COUNTRY_NAME_BY_ID, Mapper.getInstance(), id));
+        Map<String,Object> parameters = new HashMap<>();
+        parameters.put("countryId", id);
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_COUNTRY_NAME_BY_ID, parameters, Mapper.getInstance()));
     }
 
     /**
@@ -126,8 +133,10 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
      */
     @Override
     public boolean remove(Country country) {
-        int r = jdbcTemplate.update(SQL_DELETE_COUNTRY_BY_ID, country.getId());
-        return (r == 1);
+        Map<String,Object> parameters = new HashMap<>();
+        parameters.put("countryId", country.getId());
+        int r = namedParameterJdbcTemplate.update(SQL_DELETE_COUNTRY_BY_ID, parameters);
+        return r == 1;
     }
 
     /**
