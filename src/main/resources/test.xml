@@ -15,25 +15,19 @@
     <bean id="countryDatabaseRepository" class="com.epam.makedon.agency.repository.database.CountryDatabaseRepository" factory-method="getInstance" scope="prototype">
         <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
-
     <bean id="hotelDatabaseRepository" class="com.epam.makedon.agency.repository.database.HotelDatabaseRepository" factory-method="getInstance" scope="prototype">
         <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
-
     <bean id="reviewDatabaseRepository" class="com.epam.makedon.agency.repository.database.ReviewDatabaseRepository" factory-method="getInstance" scope="prototype">
         <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
-
     <bean id="tourDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourDatabaseRepository" factory-method="getInstance" scope="prototype">
         <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
-
     <bean id="tourTypeDatabaseRepository" class="com.epam.makedon.agency.repository.database.TourTypeDatabaseRepository" factory-method="getInstance" scope="prototype">
         <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
-
     <bean id="userDatabaseRepository" class="com.epam.makedon.agency.repository.database.UserDatabaseRepository" factory-method="getInstance" scope="prototype">
         <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"/>
     </bean>
-
 </beans>
