@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Final singleton class {@code ReviewCollectionRepository} implements ReviewCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
- * @deprecated since version 5.0, old review repository implementation, {@see ReviewDatabaseRepository}
+ * @deprecated since version 5.0, old review repository implementation
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
  * @version 3.0

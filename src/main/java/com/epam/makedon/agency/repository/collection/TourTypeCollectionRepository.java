@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Final singleton class {@code TourTypeCollectionRepository} implements TourTypeCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
- * @deprecated since version 5.0, old tour type repository implementation, {@see TourTypeDatabaseRepository}
+ * @deprecated since version 5.0, old tour type repository implementation
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
  * @version 3.0

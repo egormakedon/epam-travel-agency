@@ -17,7 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Final singleton class {@code HotelCollectionRepository} implements HotelCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
- * @deprecated since version 5.0, old hotel repository implementation, {@see HotelDatabaseRepository}
+ * @deprecated since version 5.0, old hotel repository implementation
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
  * @version 3.0

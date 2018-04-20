@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Final singleton class {@code CountryCollectionRepository} implements CountryCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
- * @deprecated since version 5.0, old country repository implementation, {@see CountryDatabaseRepository}
+ * @deprecated since version 5.0, old country repository implementation
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
  * @version 3.0

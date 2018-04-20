@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Final singleton class {@code UserCollectionRepository} implements UserCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
- * @deprecated since version 5.0, old user repository implementation, {@see UserDatabaseRepository}
+ * @deprecated since version 5.0, old user repository implementation
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
  * @version 3.0
