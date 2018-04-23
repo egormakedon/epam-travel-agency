@@ -1,5 +1,6 @@
 package com.epam.makedon.agency.repository.database;
 
+import com.epam.makedon.agency.config.TestConfiguration;
 import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.entity.impl.Hotel;
 import com.epam.makedon.agency.entity.impl.Tour;
@@ -8,19 +9,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 
-import javax.sql.DataSource;
 import java.awt.*;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
 
 public class TourDatabaseRepositoryTest {
     private static ApplicationContext context;
@@ -40,7 +39,7 @@ public class TourDatabaseRepositoryTest {
 
     @Before
     public void init() {
-        context = new ClassPathXmlApplicationContext("test.xml");
+        context = new AnnotationConfigApplicationContext(TestConfiguration.class);
         repository = context.getBean("tourDatabaseRepository", TourDatabaseRepository.class);
 
         tour = new Tour();
@@ -57,13 +56,7 @@ public class TourDatabaseRepositoryTest {
 
     @After
     public void destroy() {
-        DataSource dataSource = context.getBean("dataSource", DataSource.class);
-        try {
-            dataSource.getConnection().createStatement().execute("SHUTDOWN");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        ((EmbeddedDatabase)context.getBean("dataSource")).shutdown();
         context = null;
         repository = null;
         tour = null;

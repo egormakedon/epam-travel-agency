@@ -11,9 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Optional;
 
 public class CountryDatabaseRepositoryTest {
@@ -28,12 +27,7 @@ public class CountryDatabaseRepositoryTest {
 
     @After
     public void destroy() {
-        DataSource dataSource = context.getBean("dataSource", DataSource.class);
-        try {
-            dataSource.getConnection().createStatement().execute("SHUTDOWN");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ((EmbeddedDatabase)context.getBean("dataSource")).shutdown();
         context = null;
         repository = null;
     }
