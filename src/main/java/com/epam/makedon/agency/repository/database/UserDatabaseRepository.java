@@ -6,6 +6,7 @@ import com.epam.makedon.agency.entity.impl.User;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -84,7 +85,10 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
         }
     }
 
+    @Autowired(required = false)
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired(required = false)
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**

@@ -1,5 +1,6 @@
 package com.epam.makedon.agency.repository.database;
 
+import com.epam.makedon.agency.config.TestConfiguration;
 import com.epam.makedon.agency.entity.impl.Country;
 import org.junit.After;
 import static org.junit.Assert.*;
@@ -7,7 +8,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
@@ -21,7 +22,7 @@ public class CountryDatabaseRepositoryTest {
 
     @Before
     public void init() {
-        context = new ClassPathXmlApplicationContext("test.xml");
+        context = new AnnotationConfigApplicationContext(TestConfiguration.class);
         repository = context.getBean("countryDatabaseRepository", CountryDatabaseRepository.class);
     }
 

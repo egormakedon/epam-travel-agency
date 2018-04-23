@@ -1,10 +1,10 @@
 package com.epam.makedon.agency.repository.database;
 
-import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.entity.impl.Hotel;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -64,7 +64,10 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
     private static final String SQL_DELETE_HOTEL_BY_ID = "DELETE FROM hotel WHERE hotel_id=:hotelId";
     private static final String SQL_UPDATE_HOTEL_BY_ID = "UPDATE hotel SET hotel_name=:hotelName,hotel_phone=:hotelPhone,hotel_stars=:hotelStars WHERE hotel_id=:hotelId";
 
+    @Autowired(required = false)
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired(required = false)
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**

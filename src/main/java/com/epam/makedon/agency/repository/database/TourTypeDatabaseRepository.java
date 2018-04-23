@@ -4,6 +4,7 @@ import com.epam.makedon.agency.entity.impl.TourType;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -54,7 +55,10 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
     private static final String SQL_SELECT_TOUR_TYPE_NAME_BY_ID = "SELECT tour_type_name name FROM tour_type WHERE tour_type_id=:tourTypeId";
     private static final String SQL_DELETE_TOUR_TYPE_BY_ID = "DELETE FROM tour_type WHERE tour_type_id=:tourTypeId";
 
+    @Autowired(required = false)
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired(required = false)
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
