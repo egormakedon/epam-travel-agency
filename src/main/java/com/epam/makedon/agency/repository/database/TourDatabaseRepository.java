@@ -7,6 +7,8 @@ import com.epam.makedon.agency.entity.impl.TourType;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -105,6 +107,10 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
     private static final String SQL_UPDATE_TOUR_BY_ID = "UPDATE tour SET tour_photo=:tourPhoto, tour_date=:tourDate, tour_duration=:tourDuration, fk_country_id=:countryId," +
             "fk_hotel_id=:hotelId, fk_tour_type_id=:tourType, tour_description=:tourDescription, tour_cost=:tourCost";
 
+    @Autowired(required = false)
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired(required = false)
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
@@ -115,6 +121,10 @@ public class TourDatabaseRepository implements com.epam.makedon.agency.repositor
             LOGGER.error("Tried to clone singleton with reflection api");
             throw new RepositoryException("Tried to clone singleton with reflection api");
         }
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {

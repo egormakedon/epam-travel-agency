@@ -1,7 +1,6 @@
 package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.repository.collection.ReviewCollectionRepository;
-import com.epam.makedon.agency.service.ReviewServiceImpl;
 import com.epam.makedon.agency.service.Service;
 import com.epam.makedon.agency.service.ServiceException;
 import org.junit.After;

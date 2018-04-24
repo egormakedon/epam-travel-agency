@@ -17,11 +17,13 @@ import java.util.concurrent.locks.ReentrantLock;
  * Final singleton class {@code HotelCollectionRepository} implements HotelCollectionRepository interface.
  * Is thead-safe and protected from any cloning
  *
+ * @deprecated since version 5.0, old hotel repository implementation
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
  * @version 3.0
- * @since version 3.0
+ * @since version 1.0
  */
+@Deprecated
 public class HotelCollectionRepository implements com.epam.makedon.agency.repository.HotelRepository {
     private static final Logger LOGGER;
     private static HotelCollectionRepository instance;

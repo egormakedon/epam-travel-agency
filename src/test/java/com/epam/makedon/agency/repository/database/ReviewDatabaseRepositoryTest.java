@@ -1,5 +1,6 @@
 package com.epam.makedon.agency.repository.database;
 
+import com.epam.makedon.agency.config.TestConfiguration;
 import com.epam.makedon.agency.entity.impl.Review;
 import com.epam.makedon.agency.entity.impl.Tour;
 import com.epam.makedon.agency.entity.impl.User;
@@ -8,11 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -25,7 +25,7 @@ public class ReviewDatabaseRepositoryTest {
 
     @Before
     public void init() {
-        context = new ClassPathXmlApplicationContext("test.xml");
+        context = new AnnotationConfigApplicationContext(TestConfiguration.class);
         repository = context.getBean("reviewDatabaseRepository", ReviewRepository.class);
 
         review = new Review();
@@ -41,13 +41,7 @@ public class ReviewDatabaseRepositoryTest {
 
     @After
     public void destroy() {
-        DataSource dataSource = context.getBean("dataSource", DataSource.class);
-        try {
-            dataSource.getConnection().createStatement().execute("SHUTDOWN");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        ((EmbeddedDatabase)context.getBean("dataSource")).shutdown();
         context = null;
         repository = null;
         review = null;

@@ -1,9 +1,12 @@
-package com.epam.makedon.agency.service;
+package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.entity.impl.Hotel;
 import com.epam.makedon.agency.repository.HotelRepository;
+import com.epam.makedon.agency.service.HotelService;
+import com.epam.makedon.agency.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -16,9 +19,18 @@ import java.util.Optional;
 public class HotelServiceImpl implements HotelService {
     private static final Logger LOGGER = LoggerFactory.getLogger(HotelServiceImpl.class);
 
+    @Autowired
     private HotelRepository hotelRepository;
 
+    public HotelServiceImpl() {}
+
+    @Autowired(required = false)
     public HotelServiceImpl(HotelRepository hotelRepository) {
+        this.hotelRepository = hotelRepository;
+    }
+
+    @Autowired(required = false)
+    public void setHotelRepository(HotelRepository hotelRepository) {
         this.hotelRepository = hotelRepository;
     }
 

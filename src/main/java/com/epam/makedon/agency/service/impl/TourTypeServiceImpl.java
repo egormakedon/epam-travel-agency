@@ -1,9 +1,12 @@
-package com.epam.makedon.agency.service;
+package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.entity.impl.TourType;
 import com.epam.makedon.agency.repository.TourTypeRepository;
+import com.epam.makedon.agency.service.ServiceException;
+import com.epam.makedon.agency.service.TourTypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -16,9 +19,18 @@ import java.util.Optional;
 public class TourTypeServiceImpl implements TourTypeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TourTypeServiceImpl.class);
 
+    @Autowired
     private TourTypeRepository tourTypeRepository;
 
+    public TourTypeServiceImpl() {}
+
+    @Autowired(required = false)
     public TourTypeServiceImpl(TourTypeRepository tourTypeRepository) {
+        this.tourTypeRepository = tourTypeRepository;
+    }
+
+    @Autowired(required = false)
+    public void setTourTypeRepository(TourTypeRepository tourTypeRepository) {
         this.tourTypeRepository = tourTypeRepository;
     }
 

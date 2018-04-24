@@ -1,7 +1,6 @@
 package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.repository.collection.CountryCollectionRepository;
-import com.epam.makedon.agency.service.CountryServiceImpl;
 import com.epam.makedon.agency.service.Service;
 import com.epam.makedon.agency.service.ServiceException;
 import org.junit.After;
