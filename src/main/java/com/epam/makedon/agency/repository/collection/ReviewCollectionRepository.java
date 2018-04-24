@@ -4,6 +4,7 @@ import com.epam.makedon.agency.entity.impl.Review;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since version 1.0
  */
 @Deprecated
+@Transactional
 public class ReviewCollectionRepository implements com.epam.makedon.agency.repository.ReviewRepository {
     private static final Logger LOGGER;
     private static ReviewCollectionRepository instance;
@@ -92,6 +94,7 @@ public class ReviewCollectionRepository implements com.epam.makedon.agency.repos
      * @return boolean, the result of adding review
      */
     @Override
+    @Transactional
     public boolean add(Review review) {
         LOGGER.info("call review add method");
 
@@ -108,6 +111,7 @@ public class ReviewCollectionRepository implements com.epam.makedon.agency.repos
      * @return review, wrapped into optional
      */
     @Override
+    @Transactional
     public Optional<Review> get(long id) {
         LOGGER.info("call review get method");
 
@@ -134,6 +138,7 @@ public class ReviewCollectionRepository implements com.epam.makedon.agency.repos
      * @return boolean, the result of removing review
      */
     @Override
+    @Transactional
     public boolean remove(Review review) {
         LOGGER.info("call review remove method");
 
@@ -150,6 +155,7 @@ public class ReviewCollectionRepository implements com.epam.makedon.agency.repos
      * @return review, wrapped into optional
      */
     @Override
+    @Transactional
     public Optional<Review> update(Review review) {
         LOGGER.info("call review update method");
 

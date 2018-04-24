@@ -1,7 +1,6 @@
 package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.repository.collection.HotelCollectionRepository;
-import com.epam.makedon.agency.service.HotelServiceImpl;
 import com.epam.makedon.agency.service.Service;
 import com.epam.makedon.agency.service.ServiceException;
 import org.junit.After;

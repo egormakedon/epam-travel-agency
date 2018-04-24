@@ -4,6 +4,7 @@ import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since version 1.0
  */
 @Deprecated
+@Transactional
 public class CountryCollectionRepository implements com.epam.makedon.agency.repository.CountryRepository {
     private static final Logger LOGGER;
     private static CountryCollectionRepository instance;
@@ -92,6 +94,7 @@ public class CountryCollectionRepository implements com.epam.makedon.agency.repo
      * @return boolean, the result of adding country
      */
     @Override
+    @Transactional
     public boolean add(Country country) {
         LOGGER.info("call country add method");
 
@@ -108,6 +111,7 @@ public class CountryCollectionRepository implements com.epam.makedon.agency.repo
      * @return country, wrapped into optional
      */
     @Override
+    @Transactional
     public Optional<Country> get(long id) {
         LOGGER.info("call country get method");
 
@@ -134,6 +138,7 @@ public class CountryCollectionRepository implements com.epam.makedon.agency.repo
      * @return boolean, the result of removing country
      */
     @Override
+    @Transactional
     public boolean remove(Country country) {
         LOGGER.info("call country remove method");
 
@@ -150,6 +155,7 @@ public class CountryCollectionRepository implements com.epam.makedon.agency.repo
      * @return county, wrapped into optional
      */
     @Override
+    @Transactional
     public Optional<Country> update(Country country) {
         LOGGER.info("call country update method");
 

@@ -1,9 +1,12 @@
-package com.epam.makedon.agency.service;
+package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.entity.impl.User;
 import com.epam.makedon.agency.repository.UserRepository;
+import com.epam.makedon.agency.service.ServiceException;
+import com.epam.makedon.agency.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -16,9 +19,18 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    @Autowired
     private UserRepository userRepository;
 
+    public UserServiceImpl() {}
+
+    @Autowired(required = false)
     public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Autowired(required = false)
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

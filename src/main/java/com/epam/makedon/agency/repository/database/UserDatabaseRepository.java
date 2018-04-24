@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,6 +27,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 1.0
  * @since version 4.0
  */
+@Transactional
 public class UserDatabaseRepository implements com.epam.makedon.agency.repository.UserRepository {
     private static final Logger LOGGER;
     private static UserDatabaseRepository instance;
@@ -148,6 +150,7 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
      * @return boolean result
      */
     @Override
+    @Transactional
     public boolean add(User user) {
         final String SQL_INSERT_USER = "INSERT INTO user (user_login,user_password) VALUES (:userLogin, :userPassword)";
         Map<String, Object> parameters = new HashMap<>();
@@ -177,6 +180,7 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
      * @return object, wrapped in optional
      */
     @Override
+    @Transactional
     public Optional<User> get(long id) {
         final String SQL_SELECT_USER_BY_ID = "SELECT user_id id,user_login login,user_password password FROM user WHERE user_id=:userId";
         final String SQL_SELECT_TOUR_USER_ID = "SELECT fk_tour_id id FROM user_tour WHERE fk_user_id=:userId";
@@ -204,6 +208,7 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
      * @return boolean result
      */
     @Override
+    @Transactional
     public boolean remove(User user) {
         final String SQL_DELETE_USER_BY_ID = "DELETE FROM user WHERE user_id=:userId";
         Map<String, Object> parameters = new HashMap<>();
@@ -217,6 +222,7 @@ public class UserDatabaseRepository implements com.epam.makedon.agency.repositor
      * @return object, wrapped in optional
      */
     @Override
+    @Transactional
     public Optional<User> update(User user) {
         final String SQL_UPDATE_USER = "UPDATE user SET user_login=:userLogin, user_password=:userPassword WHERE user_id=:userId";
 

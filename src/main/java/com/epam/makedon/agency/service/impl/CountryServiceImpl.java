@@ -1,9 +1,12 @@
-package com.epam.makedon.agency.service;
+package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.repository.CountryRepository;
+import com.epam.makedon.agency.service.CountryService;
+import com.epam.makedon.agency.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -16,9 +19,18 @@ import java.util.Optional;
 public class CountryServiceImpl implements CountryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CountryServiceImpl.class);
 
+    @Autowired
     private CountryRepository countryRepository;
 
+    public CountryServiceImpl() {}
+
+    @Autowired(required = false)
     public CountryServiceImpl(CountryRepository countryRepository) {
+        this.countryRepository = countryRepository;
+    }
+
+    @Autowired(required = false)
+    public void setCountryRepository(CountryRepository countryRepository) {
         this.countryRepository = countryRepository;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,6 +27,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 1.0
  * @since version 4.0
  */
+@Transactional
 public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repository.TourTypeRepository {
     private static final Logger LOGGER;
     private static TourTypeDatabaseRepository instance;
@@ -118,6 +120,7 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
      * @return boolean result
      */
     @Override
+    @Transactional
     public boolean add(TourType tourType) {
         Map<String,Object> parameters = new HashMap<>();
         parameters.put("tourTypeId", tourType.getId());
@@ -131,6 +134,7 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
      * @return object, wrapped in optional
      */
     @Override
+    @Transactional
     public Optional<TourType> get(long id) {
         Map<String,Object> parameters = new HashMap<>();
         parameters.put("tourTypeId", id);
@@ -142,6 +146,7 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
      * @return boolean result
      */
     @Override
+    @Transactional
     public boolean remove(TourType tourType) {
         Map<String,Object> parameters = new HashMap<>();
         parameters.put("tourTypeId", tourType.getId());
@@ -154,6 +159,7 @@ public class TourTypeDatabaseRepository implements com.epam.makedon.agency.repos
      * @return object, wrapped in optional
      */
     @Override
+    @Transactional
     public Optional<TourType> update(TourType tourType) {
         if (remove(tourType)) {
             if (add(tourType)) {

@@ -4,6 +4,7 @@ import com.epam.makedon.agency.entity.impl.TourType;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since version 1.0
  */
 @Deprecated
+@Transactional
 public class TourTypeCollectionRepository implements com.epam.makedon.agency.repository.TourTypeRepository {
     private static final Logger LOGGER;
     private static TourTypeCollectionRepository instance;
@@ -92,6 +94,7 @@ public class TourTypeCollectionRepository implements com.epam.makedon.agency.rep
      * @return boolean, the result of adding tour
      */
     @Override
+    @Transactional
     public boolean add(TourType tourType) {
         LOGGER.info("call tourType add method");
 
@@ -108,6 +111,7 @@ public class TourTypeCollectionRepository implements com.epam.makedon.agency.rep
      * @return tourType, wrapped into optional
      */
     @Override
+    @Transactional
     public Optional<TourType> get(long id) {
         LOGGER.info("call tourType get method");
 
@@ -134,6 +138,7 @@ public class TourTypeCollectionRepository implements com.epam.makedon.agency.rep
      * @return boolean, the result of removing tourType
      */
     @Override
+    @Transactional
     public boolean remove(TourType tourType) {
         LOGGER.info("call tourType remove method");
 
@@ -150,6 +155,7 @@ public class TourTypeCollectionRepository implements com.epam.makedon.agency.rep
      * @return tourType, wrapped into optional
      */
     @Override
+    @Transactional
     public Optional<TourType> update(TourType tourType) {
         LOGGER.info("call tourType update method");
 
