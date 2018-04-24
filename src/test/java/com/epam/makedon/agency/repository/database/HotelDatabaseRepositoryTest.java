@@ -2,6 +2,7 @@ package com.epam.makedon.agency.repository.database;
 
 import com.epam.makedon.agency.config.TestConfiguration;
 import com.epam.makedon.agency.entity.impl.Hotel;
+import com.epam.makedon.agency.repository.HotelRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import static org.junit.Assert.*;
 
 public class HotelDatabaseRepositoryTest {
     private static ApplicationContext context;
-    private static HotelDatabaseRepository repository;
+    private static HotelRepository repository;
 
     private static final long ID = 4;
     private static final String NAME = "name";
@@ -28,7 +29,7 @@ public class HotelDatabaseRepositoryTest {
     @Before
     public void init() {
         context = new AnnotationConfigApplicationContext(TestConfiguration.class);
-        repository = context.getBean("hotelDatabaseRepository", HotelDatabaseRepository.class);
+        repository = context.getBean("hotelDatabaseRepository", HotelRepository.class);
 
         hotel = new Hotel();
         hotel.setId(ID);

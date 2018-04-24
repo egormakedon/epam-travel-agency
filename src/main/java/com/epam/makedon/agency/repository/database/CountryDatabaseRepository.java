@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +26,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 1.0
  * @since version 4.0
  */
-@Transactional
 public class CountryDatabaseRepository implements com.epam.makedon.agency.repository.CountryRepository {
     private static final Logger LOGGER;
     private static CountryDatabaseRepository instance;
@@ -120,7 +118,6 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
      * @return boolean result
      */
     @Override
-    @Transactional
     public boolean add(Country country) {
         Map<String,Object> parameters = new HashMap<>();
         parameters.put("countryId", country.getId());
@@ -134,7 +131,6 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
      * @return object, wrapped in optional
      */
     @Override
-    @Transactional
     public Optional<Country> get(long id) {
         Map<String,Object> parameters = new HashMap<>();
         parameters.put("countryId", id);
@@ -146,7 +142,6 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
      * @return boolean result
      */
     @Override
-    @Transactional
     public boolean remove(Country country) {
         Map<String,Object> parameters = new HashMap<>();
         parameters.put("countryId", country.getId());
@@ -159,7 +154,6 @@ public class CountryDatabaseRepository implements com.epam.makedon.agency.reposi
      * @return object, wrapped in optional
      */
     @Override
-    @Transactional
     public Optional<Country> update(Country country) {
         if (remove(country)) {
             if (add(country)) {

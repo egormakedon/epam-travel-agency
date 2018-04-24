@@ -6,7 +6,6 @@ import com.epam.makedon.agency.service.impl.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -96,12 +95,10 @@ public class MainConfiguration {
         public HikariDataSource hikariDataSource() {
             return new HikariDataSource(hikariConfig);
         }
-
         @Bean(name = "jdbcTemplate")
         public JdbcTemplate jdbcTemplate() {
             return new JdbcTemplate(dataSource);
         }
-
         @Bean(name = "namedParameterJdbcTemplate")
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
             return new NamedParameterJdbcTemplate(dataSource);
@@ -111,27 +108,20 @@ public class MainConfiguration {
         public CountryDatabaseRepository countryDatabaseRepository() {
             return CountryDatabaseRepository.getInstance();
         }
-
         @Bean(name = "hotelDatabaseRepository")
         public HotelDatabaseRepository hotelDatabaseRepository() {
             return HotelDatabaseRepository.getInstance();
         }
-
         @Bean(name = "reviewDatabaseRepository")
         public ReviewDatabaseRepository reviewDatabaseRepository() {
             return ReviewDatabaseRepository.getInstance();
         }
-
         @Bean(name = "tourDatabaseRepository")
         public TourDatabaseRepository tourDatabaseRepository() {
             return TourDatabaseRepository.getInstance();
         }
-
         @Bean(name = "tourTypeDatabaseRepository")
-        public TourTypeDatabaseRepository tourTypeDatabaseRepository() {
-            return TourTypeDatabaseRepository.getInstance();
-        }
-
+        public TourTypeDatabaseRepository tourTypeDatabaseRepository() { return TourTypeDatabaseRepository.getInstance(); }
         @Bean(name = "userDatabaseRepository")
         public UserDatabaseRepository userDatabaseRepository() {
             return UserDatabaseRepository.getInstance();
@@ -143,27 +133,22 @@ public class MainConfiguration {
         public CountryService countryService() {
             return new CountryServiceImpl();
         }
-
         @Bean("hotelDatabaseService")
         public HotelService hotelService() {
             return new HotelServiceImpl();
         }
-
         @Bean("reviewDatabaseService")
         public ReviewService reviewService() {
             return new ReviewServiceImpl();
         }
-
         @Bean("tourDatabaseService")
         public TourService tourService() {
             return new TourServiceImpl();
         }
-
         @Bean("tourTypeDatabaseService")
         public TourTypeService tourTypeService() {
             return new TourTypeServiceImpl();
         }
-
         @Bean("userDatabaseService")
         public UserService userService() {
             return new UserServiceImpl();

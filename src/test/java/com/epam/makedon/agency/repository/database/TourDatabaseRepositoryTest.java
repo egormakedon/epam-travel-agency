@@ -5,6 +5,7 @@ import com.epam.makedon.agency.entity.impl.Country;
 import com.epam.makedon.agency.entity.impl.Hotel;
 import com.epam.makedon.agency.entity.impl.Tour;
 import com.epam.makedon.agency.entity.impl.TourType;
+import com.epam.makedon.agency.repository.TourRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,7 @@ import static org.junit.Assert.*;
 
 public class TourDatabaseRepositoryTest {
     private static ApplicationContext context;
-    private static TourDatabaseRepository repository;
+    private static TourRepository repository;
 
     private static final long ID = 3;
     private static final LocalDate DATE = LocalDate.now();
@@ -40,7 +41,7 @@ public class TourDatabaseRepositoryTest {
     @Before
     public void init() {
         context = new AnnotationConfigApplicationContext(TestConfiguration.class);
-        repository = context.getBean("tourDatabaseRepository", TourDatabaseRepository.class);
+        repository = context.getBean("tourDatabaseRepository", TourRepository.class);
 
         tour = new Tour();
         tour.setType(TYPE);

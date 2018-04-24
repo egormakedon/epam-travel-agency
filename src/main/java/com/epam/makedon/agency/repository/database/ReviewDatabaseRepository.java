@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +28,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 1.0
  * @since version 4.0
  */
-@Transactional
 public class ReviewDatabaseRepository implements com.epam.makedon.agency.repository.ReviewRepository {
     private static final Logger LOGGER;
     private static ReviewDatabaseRepository instance;
@@ -138,7 +136,6 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
      * @return boolean result
      */
     @Override
-    @Transactional
     public boolean add(Review review) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("tourId", review.getTour().getId());
@@ -153,7 +150,6 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
      * @return object, wrapped in optional
      */
     @Override
-    @Transactional
     public Optional<Review> get(long id) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("reviewId", id);
@@ -165,7 +161,6 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
      * @return boolean result
      */
     @Override
-    @Transactional
     public boolean remove(Review review) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("reviewId", review.getId());
@@ -178,7 +173,6 @@ public class ReviewDatabaseRepository implements com.epam.makedon.agency.reposit
      * @return object, wrapped in optional
      */
     @Override
-    @Transactional
     public Optional<Review> update(Review review) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("tourId", review.getTour().getId());

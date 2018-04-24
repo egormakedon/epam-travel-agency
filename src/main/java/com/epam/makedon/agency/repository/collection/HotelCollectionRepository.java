@@ -4,7 +4,6 @@ import com.epam.makedon.agency.entity.impl.Hotel;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,7 +24,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since version 1.0
  */
 @Deprecated
-@Transactional
 public class HotelCollectionRepository implements com.epam.makedon.agency.repository.HotelRepository {
     private static final Logger LOGGER;
     private static HotelCollectionRepository instance;
@@ -95,7 +93,6 @@ public class HotelCollectionRepository implements com.epam.makedon.agency.reposi
      * @return boolean, the result of adding country
      */
     @Override
-    @Transactional
     public boolean add(Hotel hotel) {
         LOGGER.info("call hotel add method");
 
@@ -112,7 +109,6 @@ public class HotelCollectionRepository implements com.epam.makedon.agency.reposi
      * @return hotel, wrapped into optional
      */
     @Override
-    @Transactional
     public Optional<Hotel> get(long id) {
         LOGGER.info("call hotel get method");
 
@@ -139,7 +135,6 @@ public class HotelCollectionRepository implements com.epam.makedon.agency.reposi
      * @return boolean, the result of removing hotel
      */
     @Override
-    @Transactional
     public boolean remove(Hotel hotel) {
         LOGGER.info("call hotel remove method");
 
@@ -156,7 +151,6 @@ public class HotelCollectionRepository implements com.epam.makedon.agency.reposi
      * @return hotel, wrapped into optional
      */
     @Override
-    @Transactional
     public Optional<Hotel> update(Hotel hotel) {
         LOGGER.info("call hotel update method");
 

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +26,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @version 1.0
  * @since version 4.0
  */
-@Transactional
 public class HotelDatabaseRepository implements com.epam.makedon.agency.repository.HotelRepository {
     private static final Logger LOGGER;
     private static HotelDatabaseRepository instance;
@@ -129,7 +127,6 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
      * @return boolean result
      */
     @Override
-    @Transactional
     public boolean add(Hotel hotel) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("hotelName", hotel.getName());
@@ -144,7 +141,6 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
      * @return object, wrapped in optional
      */
     @Override
-    @Transactional
     public Optional<Hotel> get(long id) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("hotelId", id);
@@ -156,7 +152,6 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
      * @return boolean result
      */
     @Override
-    @Transactional
     public boolean remove(Hotel hotel) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("hotelId", hotel.getId());
@@ -169,7 +164,6 @@ public class HotelDatabaseRepository implements com.epam.makedon.agency.reposito
      * @return object, wrapped in optional
      */
     @Override
-    @Transactional
     public Optional<Hotel> update(Hotel hotel) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("hotelName", hotel.getName());

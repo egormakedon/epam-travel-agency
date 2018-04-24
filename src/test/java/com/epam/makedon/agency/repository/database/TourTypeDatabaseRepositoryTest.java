@@ -2,6 +2,7 @@ package com.epam.makedon.agency.repository.database;
 
 import com.epam.makedon.agency.config.TestConfiguration;
 import com.epam.makedon.agency.entity.impl.TourType;
+import com.epam.makedon.agency.repository.TourTypeRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,12 +18,12 @@ import static org.junit.Assert.*;
 
 public class TourTypeDatabaseRepositoryTest {
     private static ApplicationContext context;
-    private static TourTypeDatabaseRepository repository;
+    private static TourTypeRepository repository;
 
     @Before
     public void init() {
         context = new AnnotationConfigApplicationContext(TestConfiguration.class);
-        repository = context.getBean("tourTypeDatabaseRepository", TourTypeDatabaseRepository.class);
+        repository = context.getBean("tourTypeDatabaseRepository", TourTypeRepository.class);
     }
 
     @After
