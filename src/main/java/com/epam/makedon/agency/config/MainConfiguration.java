@@ -18,6 +18,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@EnableAspectJAutoProxy
 public class MainConfiguration {
 
     @Configuration

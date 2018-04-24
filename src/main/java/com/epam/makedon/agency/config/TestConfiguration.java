@@ -1,9 +1,14 @@
 package com.epam.makedon.agency.config;
 
+import com.epam.makedon.agency.aspect.RepositoryLogger;
+import com.epam.makedon.agency.repository.Repository;
 import com.epam.makedon.agency.repository.database.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
@@ -15,6 +20,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
+@EnableAspectJAutoProxy
 public class TestConfiguration {
 
     @Autowired
@@ -68,5 +74,17 @@ public class TestConfiguration {
     @Bean(name = "userDatabaseRepository")
     public UserDatabaseRepository userDatabaseRepository() {
         return UserDatabaseRepository.getInstance();
+    }
+
+    //-----
+
+    @Bean("repositoryLogger")
+    public RepositoryLogger repositoryLogger() {
+        return new RepositoryLogger();
+    }
+
+    @Bean("logger")
+    public Logger logger() {
+        return LoggerFactory.getLogger(Repository.class);
     }
 }
