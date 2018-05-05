@@ -7,6 +7,8 @@ import com.epam.makedon.agency.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,6 +36,7 @@ public class HotelServiceImpl implements HotelService {
         this.hotelRepository = hotelRepository;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean add(Hotel hotel) {
         if (hotel == null) {
@@ -43,11 +46,13 @@ public class HotelServiceImpl implements HotelService {
         return hotelRepository.add(hotel);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Optional<Hotel> get(long id) {
         return hotelRepository.get(id);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean remove(Hotel hotel) {
         if (hotel == null) {
@@ -57,6 +62,7 @@ public class HotelServiceImpl implements HotelService {
         return hotelRepository.remove(hotel);
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Optional<Hotel> update(Hotel hotel) {
         if (hotel == null) {

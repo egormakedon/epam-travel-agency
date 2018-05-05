@@ -7,6 +7,8 @@ import com.epam.makedon.agency.service.TourService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,6 +36,7 @@ public class TourServiceImpl implements TourService {
         this.tourRepository = tourRepository;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean add(Tour tour) {
         if (tour == null) {
@@ -43,11 +46,13 @@ public class TourServiceImpl implements TourService {
         return tourRepository.add(tour);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Optional<Tour> get(long id) {
         return tourRepository.get(id);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean remove(Tour tour) {
         if (tour == null) {
@@ -57,6 +62,7 @@ public class TourServiceImpl implements TourService {
         return tourRepository.remove(tour);
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Optional<Tour> update(Tour tour) {
         if (tour == null) {

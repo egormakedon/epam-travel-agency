@@ -7,6 +7,8 @@ import com.epam.makedon.agency.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean add(User user) {
         if (user == null) {
@@ -43,11 +46,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.add(user);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Optional<User> get(long id) {
         return userRepository.get(id);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean remove(User user) {
         if (user == null) {
@@ -57,6 +62,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.remove(user);
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Optional<User> update(User user) {
         if (user == null) {

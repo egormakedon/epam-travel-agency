@@ -7,6 +7,8 @@ import com.epam.makedon.agency.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,6 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean add(Review review) {
         if (review == null) {
@@ -43,11 +46,13 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.add(review);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Optional<Review> get(long id) {
         return reviewRepository.get(id);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean remove(Review review) {
         if (review == null) {
@@ -57,6 +62,7 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.remove(review);
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Optional<Review> update(Review review) {
         if (review == null) {

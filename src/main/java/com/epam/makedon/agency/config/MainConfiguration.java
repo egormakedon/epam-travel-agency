@@ -11,6 +11,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -66,11 +67,6 @@ public class MainConfiguration {
         @Autowired
         private DataSource dataSource;
 
-        @Bean()
-        public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-            return new PropertySourcesPlaceholderConfigurer();
-        }
-
         @Bean(name = "hikariConfig")
         public HikariConfig hikariConfig() {
             HikariConfig hikariConfig = new HikariConfig();
@@ -103,6 +99,10 @@ public class MainConfiguration {
         @Bean(name = "namedParameterJdbcTemplate")
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
             return new NamedParameterJdbcTemplate(dataSource);
+        }
+        @Bean(name = "txManager")
+        public DataSourceTransactionManager dataSourceTransactionManager() {
+            return new DataSourceTransactionManager(dataSource);
         }
 
         @Bean(name = "countryDatabaseRepository")

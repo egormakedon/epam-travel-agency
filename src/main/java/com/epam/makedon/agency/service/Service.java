@@ -13,7 +13,6 @@ import java.util.Optional;
  * @version 3.0
  * @since version 1.0
  */
-@Transactional
 public interface Service<T extends Entity> {
 
     /**
@@ -22,7 +21,6 @@ public interface Service<T extends Entity> {
      * @param entity object, which be insert into repository
      * @return the result of adding (true/false)
      */
-    @Transactional
     boolean add(T entity);
 
     /**
@@ -31,7 +29,6 @@ public interface Service<T extends Entity> {
      * @param id to define and find object
      * @return entity, wrapper in optional, cause can return null
      */
-    @Transactional
     Optional<T> get(long id);
 
     /**
@@ -40,7 +37,6 @@ public interface Service<T extends Entity> {
      * @param entity generic delete method
      * @return the result of removing (true/false)
      */
-    @Transactional
     boolean remove(T entity);
 
     /**
@@ -49,6 +45,5 @@ public interface Service<T extends Entity> {
      * @param entity generic update method
      * @return updated entity, wrapper in optional, cause can return null
      */
-    @Transactional
     Optional<T> update(T entity);
 }

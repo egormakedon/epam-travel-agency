@@ -7,6 +7,8 @@ import com.epam.makedon.agency.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,6 +36,7 @@ public class CountryServiceImpl implements CountryService {
         this.countryRepository = countryRepository;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean add(Country country) {
         if (country == null) {
@@ -43,11 +46,13 @@ public class CountryServiceImpl implements CountryService {
         return countryRepository.add(country);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Optional<Country> get(long id) {
         return countryRepository.get(id);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public boolean remove(Country country) {
         if (country == null) {
@@ -57,6 +62,7 @@ public class CountryServiceImpl implements CountryService {
         return countryRepository.remove(country);
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Optional<Country> update(Country country) {
         if (country == null) {
