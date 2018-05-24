@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.service.impl;
 
-import com.epam.makedon.agency.entity.impl.Hotel;
+import com.epam.makedon.agency.domain.impl.Hotel;
 import com.epam.makedon.agency.repository.HotelRepository;
 import com.epam.makedon.agency.service.HotelService;
 import com.epam.makedon.agency.service.ServiceException;

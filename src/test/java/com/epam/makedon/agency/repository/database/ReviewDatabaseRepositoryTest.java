@@ -1,9 +1,9 @@
 package com.epam.makedon.agency.repository.database;
 
 import com.epam.makedon.agency.config.TestConfiguration;
-import com.epam.makedon.agency.entity.impl.Review;
-import com.epam.makedon.agency.entity.impl.Tour;
-import com.epam.makedon.agency.entity.impl.User;
+import com.epam.makedon.agency.domain.impl.Review;
+import com.epam.makedon.agency.domain.impl.Tour;
+import com.epam.makedon.agency.domain.impl.User;
 import com.epam.makedon.agency.repository.ReviewRepository;
 import org.junit.After;
 import org.junit.Before;

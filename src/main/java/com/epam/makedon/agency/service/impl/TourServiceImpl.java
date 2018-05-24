@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.service.impl;
 
-import com.epam.makedon.agency.entity.impl.Tour;
+import com.epam.makedon.agency.domain.impl.Tour;
 import com.epam.makedon.agency.repository.TourRepository;
 import com.epam.makedon.agency.service.ServiceException;
 import com.epam.makedon.agency.service.TourService;

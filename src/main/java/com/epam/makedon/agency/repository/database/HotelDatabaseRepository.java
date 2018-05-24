@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.repository.database;
 
-import com.epam.makedon.agency.entity.impl.Hotel;
+import com.epam.makedon.agency.domain.impl.Hotel;
 import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

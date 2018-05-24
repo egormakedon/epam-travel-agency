@@ -1,7 +1,6 @@
-package com.epam.makedon.agency.entity.impl;
+package com.epam.makedon.agency.domain.impl;
 
-import com.epam.makedon.agency.entity.Entity;
-import com.epam.makedon.agency.entity.IdCounter;
+import com.epam.makedon.agency.domain.Entity;
 import lombok.Data;
 
 import java.awt.*;
@@ -14,15 +13,13 @@ import java.time.LocalDate;
  * It stores information about tour data.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.entity
+ * @see com.epam.makedon.agency.domain
  * @version 3.0
  * @since version 1.0
  */
 @Data
 public class Tour implements Entity {
-    private static Long id = 0L;
-
-    private long tourId;
+    private long id;
     private Image photo;
     private LocalDate date;
     private Duration duration;
@@ -31,14 +28,4 @@ public class Tour implements Entity {
     private TourType type;
     private String description;
     private BigDecimal cost;
-
-    @Override
-    public void setId(long tourId) {
-        this.tourId = tourId;
-    }
-
-    @Override
-    public long getId() {
-        return tourId;
-    }
 }

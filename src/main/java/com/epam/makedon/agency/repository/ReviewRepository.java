@@ -1,9 +1,9 @@
 package com.epam.makedon.agency.repository;
 
-import com.epam.makedon.agency.entity.impl.Review;
+import com.epam.makedon.agency.domain.impl.Review;
 
 /**
- * Interface {@code ReviewCollectionRepository} mark repository with definite entity.
+ * Interface {@code ReviewCollectionRepository} mark repository with definite domain.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository

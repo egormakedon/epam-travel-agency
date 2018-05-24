@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.service.impl;
 
-import com.epam.makedon.agency.entity.impl.Country;
+import com.epam.makedon.agency.domain.impl.Country;
 import com.epam.makedon.agency.repository.CountryRepository;
 import com.epam.makedon.agency.service.CountryService;
 import com.epam.makedon.agency.service.ServiceException;

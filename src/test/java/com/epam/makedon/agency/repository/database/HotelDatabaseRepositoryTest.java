@@ -1,7 +1,7 @@
 package com.epam.makedon.agency.repository.database;
 
 import com.epam.makedon.agency.config.TestConfiguration;
-import com.epam.makedon.agency.entity.impl.Hotel;
+import com.epam.makedon.agency.domain.impl.Hotel;
 import com.epam.makedon.agency.repository.HotelRepository;
 import org.junit.After;
 import org.junit.Before;

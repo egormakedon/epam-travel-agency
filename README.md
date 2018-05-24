@@ -1,13 +1,9 @@
 #Travel Agency
 
-###jenkins admin credentials
-
+##jenkins admin credentials
 username: egormakedon<br>
 password: elzzz147
 
-###--
-
-###jenkins developer credentials
-
+##jenkins developer credentials
 username: developer<br>
 password: elzzz147

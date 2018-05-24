@@ -1,7 +1,6 @@
-package com.epam.makedon.agency.entity.impl;
+package com.epam.makedon.agency.domain.impl;
 
-import com.epam.makedon.agency.entity.Entity;
-import com.epam.makedon.agency.entity.NotSupportedOperation;
+import com.epam.makedon.agency.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,14 +9,12 @@ import org.slf4j.LoggerFactory;
  * This enum consists of country names and their id.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.entity
+ * @see com.epam.makedon.agency.domain
  * @version 2.0
  * @since version 1.0
  */
 public enum Country implements Entity {
     BELARUS(1), RUSSIA(2), POLAND(3), SPAIN(4), ENGLAND(5), UKRAINE(6), USA(7), CHINA(8);
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(Country.class);
 
     private long id;
 
@@ -25,14 +22,7 @@ public enum Country implements Entity {
         this.id = id;
     }
 
-    @Override
     public long getId() {
         return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        LOGGER.error("Not supported operation");
-        throw new NotSupportedOperation();
     }
 }

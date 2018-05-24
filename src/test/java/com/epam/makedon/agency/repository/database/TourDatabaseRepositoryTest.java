@@ -1,10 +1,10 @@
 package com.epam.makedon.agency.repository.database;
 
 import com.epam.makedon.agency.config.TestConfiguration;
-import com.epam.makedon.agency.entity.impl.Country;
-import com.epam.makedon.agency.entity.impl.Hotel;
-import com.epam.makedon.agency.entity.impl.Tour;
-import com.epam.makedon.agency.entity.impl.TourType;
+import com.epam.makedon.agency.domain.impl.Country;
+import com.epam.makedon.agency.domain.impl.Hotel;
+import com.epam.makedon.agency.domain.impl.Tour;
+import com.epam.makedon.agency.domain.impl.TourType;
 import com.epam.makedon.agency.repository.TourRepository;
 import org.junit.After;
 import org.junit.Before;

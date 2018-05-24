@@ -1,7 +1,6 @@
 package com.epam.makedon.agency.service;
 
-import com.epam.makedon.agency.entity.Entity;
-import org.springframework.transaction.annotation.Transactional;
+import com.epam.makedon.agency.domain.Entity;
 
 import java.util.Optional;
 
@@ -27,7 +26,7 @@ public interface Service<T extends Entity> {
      * added @Transactional support
      *
      * @param id to define and find object
-     * @return entity, wrapper in optional, cause can return null
+     * @return domain, wrapper in optional, cause can return null
      */
     Optional<T> get(long id);
 
@@ -43,7 +42,7 @@ public interface Service<T extends Entity> {
      * added @Transactional support
      *
      * @param entity generic update method
-     * @return updated entity, wrapper in optional, cause can return null
+     * @return updated domain, wrapper in optional, cause can return null
      */
     Optional<T> update(T entity);
 }
