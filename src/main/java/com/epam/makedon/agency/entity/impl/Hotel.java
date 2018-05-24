@@ -2,6 +2,7 @@ package com.epam.makedon.agency.entity.impl;
 
 import com.epam.makedon.agency.entity.Entity;
 import com.epam.makedon.agency.entity.IdCounter;
+import lombok.Data;
 
 /**
  * Class {@code Hotel} is Entity class.
@@ -12,6 +13,7 @@ import com.epam.makedon.agency.entity.IdCounter;
  * @version 4.0
  * @since version 1.0
  */
+@Data
 public class Hotel implements Entity {
     private static Long id = 0L;
 
@@ -20,25 +22,9 @@ public class Hotel implements Entity {
     private String phone;
     private byte stars;
 
-    public Hotel() {
-        hotelId = IdCounter.incrementId(id);
-    }
-
     @Override
     public void setId(long hotelId) {
         this.hotelId = hotelId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setStars(byte stars) {
-        this.stars = stars;
     }
 
     @Override
@@ -46,38 +32,4 @@ public class Hotel implements Entity {
         return hotelId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public byte getStars() {
-        return stars;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || this.getClass() != o.getClass()) {
-            return false;
-        }
-
-        Hotel hotel = (Hotel) o;
-        return hotelId == hotel.getId() &&
-                stars == hotel.getStars() &&
-                (name != null && name.equals(hotel.getName())) &&
-                (phone != null && phone.equals(hotel.getPhone()));
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (31 * hotelId + (name == null ? 0 : name.hashCode()) +
-                (phone == null ? 0 : phone.hashCode()) + (int) stars);
-    }
 }

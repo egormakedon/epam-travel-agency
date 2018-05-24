@@ -2,6 +2,7 @@ package com.epam.makedon.agency.entity.impl;
 
 import com.epam.makedon.agency.entity.Entity;
 import com.epam.makedon.agency.entity.IdCounter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @version 3.0
  * @since version 1.0
  */
+@Data
 public class User implements Entity {
     private static Long id = 0L;
 
@@ -36,70 +38,8 @@ public class User implements Entity {
         this.userId = userId;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setTourList(List<Tour> tourList) {
-        this.tourList = tourList;
-    }
-
-    public void setReviewList(List<Review> reviewList) {
-        this.reviewList = reviewList;
-    }
-
-    public void addTourList(Tour tour) {
-        tourList.add(tour);
-    }
-
-    public void addReviewList(Review review) {
-        reviewList.add(review);
-    }
-
     @Override
     public long getId() {
         return userId;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public List<Tour> getTourList() {
-        return tourList;
-    }
-
-    public List<Review> getReviewList() {
-        return reviewList;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || this.getClass() != o.getClass()) {
-            return false;
-        }
-
-        User user = (User) o;
-        return userId == user.getId() &&
-                (login != null && login.equals(user.getLogin())) &&
-                (password != null && password.equals(user.getPassword()));
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (31 * userId + (login == null ? 0 : login.hashCode()) +
-                (password == null ? 0 : password.hashCode()));
     }
 }
