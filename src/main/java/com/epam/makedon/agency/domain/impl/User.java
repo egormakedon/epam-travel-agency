@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class {@code User} is Entity class.
+ * Class User is Entity class.
  * It stores user information.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.domain
- * @version 3.0
  * @since version 1.0
  */
 @Data

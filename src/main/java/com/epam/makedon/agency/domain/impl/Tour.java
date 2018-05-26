@@ -9,12 +9,11 @@ import java.time.Duration;
 import java.time.LocalDate;
 
 /**
- * Class {@code Tour} is Entity class.
+ * Class Tour is Entity class.
  * It stores information about tour data.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.domain
- * @version 3.0
  * @since version 1.0
  */
 @Data
