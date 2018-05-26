@@ -1,8 +1,8 @@
-package com.epam.makedon.agency.repository.database;
+package com.epam.makedon.agency.repository.databaseimpl;
 
 import com.epam.makedon.agency.config.TestConfiguration;
-import com.epam.makedon.agency.domain.impl.TourType;
-import com.epam.makedon.agency.repository.TourTypeRepository;
+import com.epam.makedon.agency.domain.impl.Country;
+import com.epam.makedon.agency.repository.CountryRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,14 +16,14 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-public class TourTypeDatabaseRepositoryTest {
+public class CountryDatabaseRepositoryTest {
     private static ApplicationContext context;
-    private static TourTypeRepository repository;
+    private static CountryRepository repository;
 
     @Before
     public void init() {
         context = new AnnotationConfigApplicationContext(TestConfiguration.class);
-        repository = context.getBean("tourTypeDatabaseRepository", TourTypeRepository.class);
+        repository = context.getBean("countryDatabaseRepository", CountryRepository.class);
     }
 
     @After
@@ -35,46 +35,46 @@ public class TourTypeDatabaseRepositoryTest {
 
     @Test
     public void addTrueTest() {
-        TourType c = TourType.EXCURSION;
+        Country c = Country.CHINA;
         assertTrue(repository.add(c));
     }
 
     @Test(expected = DuplicateKeyException.class)
     public void addExcTest() {
-        TourType c = TourType.CHILDREN;
-        repository.add(c);
+        Country s = Country.SPAIN;
+        repository.add(s);
         fail();
     }
 
     @Test
     public void getTrueTest() {
-        TourType c = TourType.CHILDREN;
-        Optional<TourType> opt = repository.get(1);
-        assertEquals(c, opt.get());
+        Country s = Country.SPAIN;
+        Optional<Country> opt = repository.get(4);
+        assertEquals(s, opt.get());
     }
 
     @Test
     public void getFalseTest() {
-        TourType c = TourType.CHILDREN;
-        Optional<TourType> opt = repository.get(4);
-        assertNotEquals(c, opt.get());
+        Country s = Country.SPAIN;
+        Optional<Country> opt = repository.get(5);
+        assertNotEquals(s, opt.get());
     }
 
     @Test(expected = EmptyResultDataAccessException.class)
     public void getExcTest() {
-        Optional<TourType> opt = repository.get(100);
+        Optional<Country> opt = repository.get(100);
         fail();
     }
 
     @Test
     public void removeTrueTest() {
-        TourType c = TourType.CHILDREN;
-        assertTrue(repository.remove(c));
+        Country s = Country.SPAIN;
+        assertTrue(repository.remove(s));
     }
 
     @Test
     public void removeExcTest() {
-        TourType c = TourType.EXCURSION;
+        Country c = Country.CHINA;
         assertFalse(repository.remove(c));
     }
 }

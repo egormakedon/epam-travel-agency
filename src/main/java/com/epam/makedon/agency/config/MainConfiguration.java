@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.config;
 
-import com.epam.makedon.agency.repository.database.*;
+import com.epam.makedon.agency.repository.databaseimpl.*;
 import com.epam.makedon.agency.service.*;
 import com.epam.makedon.agency.service.impl.*;
 import com.zaxxer.hikari.HikariConfig;
@@ -8,7 +8,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;

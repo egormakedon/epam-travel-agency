@@ -1,4 +1,4 @@
-package com.epam.makedon.agency.repository.database;
+package com.epam.makedon.agency.repository.databaseimpl;
 
 import com.epam.makedon.agency.config.TestConfiguration;
 import com.epam.makedon.agency.domain.impl.User;

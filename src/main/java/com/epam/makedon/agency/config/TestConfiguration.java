@@ -2,7 +2,7 @@ package com.epam.makedon.agency.config;
 
 import com.epam.makedon.agency.aspect.RepositoryLogger;
 import com.epam.makedon.agency.repository.Repository;
-import com.epam.makedon.agency.repository.database.*;
+import com.epam.makedon.agency.repository.databaseimpl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

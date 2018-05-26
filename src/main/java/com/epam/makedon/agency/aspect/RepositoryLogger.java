@@ -11,7 +11,7 @@ public class RepositoryLogger {
     @Autowired
     private Logger logger;
 
-    @Pointcut("within(com.epam.makedon.agency.repository.database..*)")
+    @Pointcut("within(com.epam.makedon.agency.repository.databaseimpl..*)")
     public void databaseRepository() {}
 
     @Pointcut("execution(public * add(..))")

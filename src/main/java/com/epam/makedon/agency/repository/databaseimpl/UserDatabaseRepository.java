@@ -1,9 +1,8 @@
-package com.epam.makedon.agency.repository.database;
+package com.epam.makedon.agency.repository.databaseimpl;
 
 import com.epam.makedon.agency.domain.impl.Review;
 import com.epam.makedon.agency.domain.impl.Tour;
 import com.epam.makedon.agency.domain.impl.User;
-import com.epam.makedon.agency.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Class {@code UserDatabaseRepository} implements {@code UserRepository} interface.
- * This class realize methods for connecting with database.
+ * This class realize methods for connecting with databaseimpl.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
