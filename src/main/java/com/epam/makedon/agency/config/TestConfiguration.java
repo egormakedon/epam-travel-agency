@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,6 +22,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
+@ComponentScan("com.epam.makedon.agency.repository")
 public class TestConfiguration {
 
     @Autowired
@@ -46,10 +48,10 @@ public class TestConfiguration {
         return new NamedParameterJdbcTemplate(dataSource);
     }
 
-    @Bean(name = "countryDatabaseRepository")
-    public CountryDatabaseRepository countryDatabaseRepository() {
-        return CountryDatabaseRepository.getInstance();
-    }
+//    @Bean(name = "countryDatabaseRepository")
+//    public CountryDatabaseRepository countryDatabaseRepository() {
+//        return new CountryDatabaseRepository();
+//    }
 
     @Bean(name = "hotelDatabaseRepository")
     public HotelDatabaseRepository hotelDatabaseRepository() {

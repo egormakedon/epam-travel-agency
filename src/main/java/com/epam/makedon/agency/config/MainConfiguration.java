@@ -104,10 +104,10 @@ public class MainConfiguration {
             return new DataSourceTransactionManager(dataSource);
         }
 
-        @Bean(name = "countryDatabaseRepository")
-        public CountryDatabaseRepository countryDatabaseRepository() {
-            return CountryDatabaseRepository.getInstance();
-        }
+//        @Bean(name = "countryDatabaseRepository")
+//        public CountryDatabaseRepository countryDatabaseRepository() {
+//            return new CountryDatabaseRepository();
+//        }
         @Bean(name = "hotelDatabaseRepository")
         public HotelDatabaseRepository hotelDatabaseRepository() {
             return HotelDatabaseRepository.getInstance();
