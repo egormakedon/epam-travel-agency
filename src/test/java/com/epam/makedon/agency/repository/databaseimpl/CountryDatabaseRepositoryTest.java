@@ -6,7 +6,6 @@ import com.epam.makedon.agency.repository.CountryRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,12 +16,15 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class CountryDatabaseRepositoryTest {
-    private static ApplicationContext context;
+    private static AnnotationConfigApplicationContext context;
     private static CountryRepository repository;
 
     @Before
     public void init() {
-        context = new AnnotationConfigApplicationContext(TestConfiguration.class);
+        context = new AnnotationConfigApplicationContext();
+        context.getEnvironment().setActiveProfiles("databaseRepository");
+        context.register(TestConfiguration.class);
+        context.refresh();
         repository = context.getBean("countryDatabaseRepository", CountryRepository.class);
     }
 

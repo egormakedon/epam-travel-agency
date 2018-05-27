@@ -5,8 +5,6 @@ import com.epam.makedon.agency.domain.impl.Tour;
 import com.epam.makedon.agency.domain.impl.User;
 import com.epam.makedon.agency.repository.UserRepository;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
@@ -31,8 +29,6 @@ import java.util.Optional;
 @Repository
 @Profile("databaseRepository")
 public class UserDatabaseRepository implements UserRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserDatabaseRepository.class);
-
     private UserMapper userMapper = new UserMapper();
     private TourMapper tourMapper = new TourMapper();
     private ReviewMapper reviewMapper = new ReviewMapper();

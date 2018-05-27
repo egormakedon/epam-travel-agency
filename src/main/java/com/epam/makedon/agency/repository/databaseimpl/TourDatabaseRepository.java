@@ -6,8 +6,6 @@ import com.epam.makedon.agency.domain.impl.Tour;
 import com.epam.makedon.agency.domain.impl.TourType;
 import com.epam.makedon.agency.repository.TourRepository;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
@@ -33,7 +31,6 @@ import java.util.Optional;
 @Repository
 @Profile("databaseRepository")
 public class TourDatabaseRepository implements TourRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TourDatabaseRepository.class);
     private Mapper mapper = new Mapper();
 
     @Autowired

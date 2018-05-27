@@ -2,7 +2,6 @@ package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.domain.impl.TourType;
 import com.epam.makedon.agency.repository.TourTypeRepository;
-import com.epam.makedon.agency.service.ServiceException;
 import com.epam.makedon.agency.service.TourTypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

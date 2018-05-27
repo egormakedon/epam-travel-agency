@@ -3,7 +3,6 @@ package com.epam.makedon.agency.service.impl;
 import com.epam.makedon.agency.domain.impl.Country;
 import com.epam.makedon.agency.repository.CountryRepository;
 import com.epam.makedon.agency.service.CountryService;
-import com.epam.makedon.agency.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

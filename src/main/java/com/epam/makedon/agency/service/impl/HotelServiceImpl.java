@@ -3,7 +3,6 @@ package com.epam.makedon.agency.service.impl;
 import com.epam.makedon.agency.domain.impl.Hotel;
 import com.epam.makedon.agency.repository.HotelRepository;
 import com.epam.makedon.agency.service.HotelService;
-import com.epam.makedon.agency.service.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
