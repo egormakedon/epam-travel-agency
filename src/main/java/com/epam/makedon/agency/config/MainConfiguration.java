@@ -1,6 +1,5 @@
 package com.epam.makedon.agency.config;
 
-import com.epam.makedon.agency.repository.databaseimpl.*;
 import com.epam.makedon.agency.service.*;
 import com.epam.makedon.agency.service.impl.*;
 import com.zaxxer.hikari.HikariConfig;
@@ -102,29 +101,6 @@ public class MainConfiguration {
         @Bean(name = "txManager")
         public DataSourceTransactionManager dataSourceTransactionManager() {
             return new DataSourceTransactionManager(dataSource);
-        }
-
-//        @Bean(name = "countryDatabaseRepository")
-//        public CountryDatabaseRepository countryDatabaseRepository() {
-//            return new CountryDatabaseRepository();
-//        }
-        @Bean(name = "hotelDatabaseRepository")
-        public HotelDatabaseRepository hotelDatabaseRepository() {
-            return HotelDatabaseRepository.getInstance();
-        }
-        @Bean(name = "reviewDatabaseRepository")
-        public ReviewDatabaseRepository reviewDatabaseRepository() {
-            return ReviewDatabaseRepository.getInstance();
-        }
-        @Bean(name = "tourDatabaseRepository")
-        public TourDatabaseRepository tourDatabaseRepository() {
-            return TourDatabaseRepository.getInstance();
-        }
-        @Bean(name = "tourTypeDatabaseRepository")
-        public TourTypeDatabaseRepository tourTypeDatabaseRepository() { return TourTypeDatabaseRepository.getInstance(); }
-        @Bean(name = "userDatabaseRepository")
-        public UserDatabaseRepository userDatabaseRepository() {
-            return UserDatabaseRepository.getInstance();
         }
 
         //-----

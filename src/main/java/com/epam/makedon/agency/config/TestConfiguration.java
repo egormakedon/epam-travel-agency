@@ -2,7 +2,6 @@ package com.epam.makedon.agency.config;
 
 import com.epam.makedon.agency.aspect.RepositoryLogger;
 import com.epam.makedon.agency.repository.Repository;
-import com.epam.makedon.agency.repository.databaseimpl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -28,6 +26,7 @@ public class TestConfiguration {
     @Autowired
     private DataSource dataSource;
 
+
     @Bean(name = "dataSource")
     public DataSource dataSource() {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
@@ -42,43 +41,6 @@ public class TestConfiguration {
     public DataSourceTransactionManager dataSourceTransactionManager() {
         return new DataSourceTransactionManager(dataSource);
     }
-
-    @Bean(name = "namedParameterJdbcTemplate")
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-        return new NamedParameterJdbcTemplate(dataSource);
-    }
-
-//    @Bean(name = "countryDatabaseRepository")
-//    public CountryDatabaseRepository countryDatabaseRepository() {
-//        return new CountryDatabaseRepository();
-//    }
-
-    @Bean(name = "hotelDatabaseRepository")
-    public HotelDatabaseRepository hotelDatabaseRepository() {
-        return HotelDatabaseRepository.getInstance();
-    }
-
-    @Bean(name = "reviewDatabaseRepository")
-    public ReviewDatabaseRepository reviewDatabaseRepository() {
-        return ReviewDatabaseRepository.getInstance();
-    }
-
-    @Bean(name = "tourDatabaseRepository")
-    public TourDatabaseRepository tourDatabaseRepository() {
-        return TourDatabaseRepository.getInstance();
-    }
-
-    @Bean(name = "tourTypeDatabaseRepository")
-    public TourTypeDatabaseRepository tourTypeDatabaseRepository() {
-        return TourTypeDatabaseRepository.getInstance();
-    }
-
-    @Bean(name = "userDatabaseRepository")
-    public UserDatabaseRepository userDatabaseRepository() {
-        return UserDatabaseRepository.getInstance();
-    }
-
-    //-----
 
     @Bean("repositoryLogger")
     public RepositoryLogger repositoryLogger() {
