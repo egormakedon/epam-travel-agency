@@ -66,6 +66,11 @@ public class HotelServiceImpl implements HotelService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Optional<Hotel> get(long id) {
+        if (id < 1) {
+            LOGGER.error("id = " + id + " - invalid, id can be >= 1");
+            throw new ServiceException("id = " + id + " - invalid, id can be >= 1");
+        }
+
         try {
             return hotelRepository.get(id);
         } catch (Exception e) {

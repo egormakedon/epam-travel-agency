@@ -66,6 +66,11 @@ public class CountryServiceImpl implements CountryService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Optional<Country> get(long id) {
+        if (id < 1) {
+            LOGGER.error("id = " + id + " - invalid, id can be >= 1");
+            throw new ServiceException("id = " + id + " - invalid, id can be >= 1");
+        }
+
         try {
             return countryRepository.get(id);
         } catch (Exception e) {
