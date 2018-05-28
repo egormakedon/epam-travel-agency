@@ -1,14 +1,10 @@
 package com.epam.makedon.agency.config;
 
-import com.epam.makedon.agency.service.*;
-import com.epam.makedon.agency.service.impl.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -18,116 +14,79 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
+@ComponentScan("com.epam.makedon.agency.repository")
+@ComponentScan("com.epam.makedon.agency.service")
+@Lazy
+@PropertySource(value = "classpath:/property/database.properties")
 public class MainConfiguration {
 
-    @Configuration
-    @Profile("databaseRepository")
-    @Lazy
-    @PropertySource(value = "classpath:/property/database.properties")
-    public class DatabaseRepositoryConfiguration {
+    @Value("${database.password}")
+    private String password;
 
-        @Value("${database.password}")
-        private String password;
+    @Value("${database.schema}")
+    private String schema;
 
-        @Value("${database.schema}")
-        private String schema;
+    @Value("${database.user}")
+    private String user;
 
-        @Value("${database.user}")
-        private String user;
+    @Value("${database.driverClass}")
+    private String driverClass;
 
-        @Value("${database.driverClass}")
-        private String driverClass;
+    @Value("${database.url}")
+    private String url;
 
-        @Value("${database.url}")
-        private String url;
+    @Value("${database.poolName}")
+    private String poolName;
 
-        @Value("${database.poolName}")
-        private String poolName;
+    @Value("${database.dataSourceClassName}")
+    private String dataSourceClassName;
 
-        @Value("${database.dataSourceClassName}")
-        private String dataSourceClassName;
+    @Value("${database.poolSize}")
+    private int poolSize;
 
-        @Value("${database.poolSize}")
-        private int poolSize;
+    @Value("${database.idleTimeout}")
+    private int idleTimeout;
 
-        @Value("${database.idleTimeout}")
-        private int idleTimeout;
+    @Value("${database.characterEncoding}")
+    private String characterEncoding;
 
-        @Value("${database.characterEncoding}")
-        private String characterEncoding;
+    @Value("${database.useUnicode}")
+    private String useUnicode;
 
-        @Value("${database.useUnicode}")
-        private String useUnicode;
+    @Autowired
+    private HikariConfig hikariConfig;
 
-        @Autowired
-        private HikariConfig hikariConfig;
+    @Autowired
+    private DataSource dataSource;
 
-        @Autowired
-        private DataSource dataSource;
+    @Bean(name = "hikariConfig")
+    public HikariConfig hikariConfig() {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setPassword(password);
+        hikariConfig.setSchema(schema);
+        hikariConfig.setUsername(user);
+        hikariConfig.setDriverClassName(driverClass);
+        hikariConfig.setJdbcUrl(url);
+        hikariConfig.setPoolName(poolName);
+        hikariConfig.setDataSourceClassName(dataSourceClassName);
+        hikariConfig.setMaximumPoolSize(poolSize);
+        hikariConfig.setIdleTimeout(idleTimeout);
 
-        @Bean(name = "hikariConfig")
-        public HikariConfig hikariConfig() {
-            HikariConfig hikariConfig = new HikariConfig();
-            hikariConfig.setPassword(password);
-            hikariConfig.setSchema(schema);
-            hikariConfig.setUsername(user);
-            hikariConfig.setDriverClassName(driverClass);
-            hikariConfig.setJdbcUrl(url);
-            hikariConfig.setPoolName(poolName);
-            hikariConfig.setDataSourceClassName(dataSourceClassName);
-            hikariConfig.setMaximumPoolSize(poolSize);
-            hikariConfig.setIdleTimeout(idleTimeout);
+        Properties properties = new Properties();
+        properties.put("characterEncoding", characterEncoding);
+        properties.put("useUnicode", useUnicode);
+        hikariConfig.setDataSourceProperties(properties);
 
-            Properties properties = new Properties();
-            properties.put("characterEncoding", characterEncoding);
-            properties.put("useUnicode", useUnicode);
-            hikariConfig.setDataSourceProperties(properties);
+        return hikariConfig;
+    }
 
-            return hikariConfig;
-        }
+    @Bean(name = "dataSource", destroyMethod = "close")
+    public HikariDataSource hikariDataSource() {
+        return new HikariDataSource(hikariConfig);
+    }
 
-        @Bean(name = "dataSource", destroyMethod = "close")
-        public HikariDataSource hikariDataSource() {
-            return new HikariDataSource(hikariConfig);
-        }
-        @Bean(name = "jdbcTemplate")
-        public JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource);
-        }
-        @Bean(name = "namedParameterJdbcTemplate")
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-            return new NamedParameterJdbcTemplate(dataSource);
-        }
-        @Bean(name = "txManager")
-        public DataSourceTransactionManager dataSourceTransactionManager() {
-            return new DataSourceTransactionManager(dataSource);
-        }
-
-        //-----
-
-        @Bean("countryDatabaseService")
-        public CountryService countryService() {
-            return new CountryServiceImpl();
-        }
-        @Bean("hotelDatabaseService")
-        public HotelService hotelService() {
-            return new HotelServiceImpl();
-        }
-        @Bean("reviewDatabaseService")
-        public ReviewService reviewService() {
-            return new ReviewServiceImpl();
-        }
-        @Bean("tourDatabaseService")
-        public TourService tourService() {
-            return new TourServiceImpl();
-        }
-        @Bean("tourTypeDatabaseService")
-        public TourTypeService tourTypeService() {
-            return new TourTypeServiceImpl();
-        }
-        @Bean("userDatabaseService")
-        public UserService userService() {
-            return new UserServiceImpl();
-        }
+    @Bean(name = "txManager")
+    public DataSourceTransactionManager dataSourceTransactionManager() {
+        return new DataSourceTransactionManager(dataSource);
     }
 }
