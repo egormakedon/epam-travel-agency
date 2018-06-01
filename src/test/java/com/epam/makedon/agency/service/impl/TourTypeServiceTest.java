@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles({"databaseRepository", "service"})
@@ -29,26 +30,31 @@ public class TourTypeServiceTest {
     @Test(expected = ServiceException.class)
     public void exceptionAddTest() {
         service.add(null);
+        fail();
     }
 
     @Test(expected = ServiceException.class)
     public void exceptionRemoveTest() {
         service.remove(null);
+        fail();
     }
 
     @Test(expected = ServiceException.class)
     public void exceptionUpdateTest() {
         service.update(null);
+        fail();
     }
 
     @Test(expected = ServiceException.class)
     public void exceptionGetTest1() {
         service.get(0);
+        fail();
     }
 
     @Test(expected = ServiceException.class)
     public void exceptionGetTest2() {
         service.get(-3);
+        fail();
     }
 
     @Test

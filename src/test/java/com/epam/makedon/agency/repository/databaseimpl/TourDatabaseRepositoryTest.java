@@ -71,6 +71,7 @@ public class TourDatabaseRepositoryTest {
     @Test(expected = EmptyResultDataAccessException.class)
     public void getExcTest() {
         repository.get(100);
+        fail();
     }
 
     @Test

@@ -29,26 +29,31 @@ public class HotelServiceTest {
     @Test(expected = ServiceException.class)
     public void exceptionAddTest() {
         service.add(null);
+        fail();
     }
 
     @Test(expected = ServiceException.class)
     public void exceptionRemoveTest() {
         service.remove(null);
+        fail();
     }
 
     @Test(expected = ServiceException.class)
     public void exceptionUpdateTest() {
         service.update(null);
+        fail();
     }
 
     @Test(expected = ServiceException.class)
     public void exceptionGetTest1() {
         service.get(0);
+        fail();
     }
 
     @Test(expected = ServiceException.class)
     public void exceptionGetTest2() {
         service.get(-3);
+        fail();
     }
 
     @Test
