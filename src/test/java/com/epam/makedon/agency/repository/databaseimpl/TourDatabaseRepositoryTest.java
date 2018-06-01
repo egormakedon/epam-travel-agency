@@ -44,15 +44,15 @@ public class TourDatabaseRepositoryTest {
         repository = context.getBean("tourDatabaseRepository", TourRepository.class);
 
         tour = new Tour();
-        tour.setType(TYPE);
-        tour.setCountry(COUNTRY);
-        tour.setId(ID);
+        tour.setType(TourType.WEEKEND);
+        tour.setCountry(Country.SPAIN);
+        tour.setId(3);
         HOTEL.setId(1);
-        tour.setHotel(HOTEL);
-        tour.setDuration(DURATION);
-        tour.setDescription(DESCRIPTION);
-        tour.setDate(DATE);
-        tour.setCost(COST);
+        tour.setHotel(new Hotel());
+        tour.setDuration(Duration.ofDays(10));
+        tour.setDescription("description");
+        tour.setDate(LocalDate.now());
+        tour.setCost(BigDecimal.valueOf(120));
     }
 
     @After

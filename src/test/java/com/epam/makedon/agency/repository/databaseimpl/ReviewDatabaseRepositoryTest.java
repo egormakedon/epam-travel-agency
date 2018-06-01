@@ -5,29 +5,31 @@ import com.epam.makedon.agency.domain.impl.Review;
 import com.epam.makedon.agency.domain.impl.Tour;
 import com.epam.makedon.agency.domain.impl.User;
 import com.epam.makedon.agency.repository.ReviewRepository;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles({"databaseRepository", "service"})
+@ContextConfiguration(classes = TestConfiguration.class)
 public class ReviewDatabaseRepositoryTest {
-    private static ApplicationContext context;
-    private static ReviewRepository repository;
 
-    private static Review review;
+    @Autowired
+    private ReviewRepository repository;
+
+    private Review review;
 
     @Before
     public void init() {
-        context = new AnnotationConfigApplicationContext(TestConfiguration.class);
-        repository = context.getBean("reviewDatabaseRepository", ReviewRepository.class);
-
         review = new Review();
         review.setId(5);
         User user = new User();
@@ -37,14 +39,6 @@ public class ReviewDatabaseRepositoryTest {
         review.setUser(user);
         review.setTour(tour);
         review.setContent("ll");
-    }
-
-    @After
-    public void destroy() {
-        ((EmbeddedDatabase)context.getBean("dataSource")).shutdown();
-        context = null;
-        repository = null;
-        review = null;
     }
 
     @Test

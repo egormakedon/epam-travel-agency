@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.domain.impl.Tour;
+import com.epam.makedon.agency.repository.TourRepository;
 import com.epam.makedon.agency.service.ServiceException;
 import com.epam.makedon.agency.service.TourService;
 import lombok.Setter;
@@ -28,7 +29,7 @@ public class TourServiceImpl implements TourService {
 
     @Autowired
     @Setter
-    private TourService tourService;
+    private TourRepository tourRepository;
 
     public TourServiceImpl() {}
 
@@ -48,7 +49,7 @@ public class TourServiceImpl implements TourService {
         }
 
         try {
-            return tourService.add(tour);
+            return tourRepository.add(tour);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -71,7 +72,7 @@ public class TourServiceImpl implements TourService {
         }
 
         try {
-            return tourService.get(id);
+            return tourRepository.get(id);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -94,7 +95,7 @@ public class TourServiceImpl implements TourService {
         }
 
         try {
-            return tourService.remove(tour);
+            return tourRepository.remove(tour);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -117,7 +118,7 @@ public class TourServiceImpl implements TourService {
         }
 
         try {
-            return tourService.update(tour);
+            return tourRepository.update(tour);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);

@@ -4,20 +4,31 @@ import com.epam.makedon.agency.config.TestConfiguration;
 import com.epam.makedon.agency.domain.impl.Hotel;
 import com.epam.makedon.agency.repository.HotelRepository;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+@Transactional
+@RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("databaseRepository")
+@ContextConfiguration(classes = TestConfiguration.class)
 public class HotelDatabaseRepositoryTest {
-    private static ApplicationContext context;
-    private static HotelRepository repository;
+
+    @Autowired
+    private HotelRepository repository;
+
+    @Autowired
+    private DataSource dataSource;
 
     private static final long ID = 4;
     private static final String NAME = "name";
@@ -26,11 +37,7 @@ public class HotelDatabaseRepositoryTest {
 
     private static Hotel hotel;
 
-    @Before
-    public void init() {
-        context = new AnnotationConfigApplicationContext(TestConfiguration.class);
-        repository = context.getBean("hotelDatabaseRepository", HotelRepository.class);
-
+    static {
         hotel = new Hotel();
         hotel.setId(ID);
         hotel.setName(NAME);
@@ -40,10 +47,7 @@ public class HotelDatabaseRepositoryTest {
 
     @After
     public void destroy() {
-        ((EmbeddedDatabase)context.getBean("dataSource")).shutdown();
-        context = null;
-        repository = null;
-        hotel = null;
+//        ((EmbeddedDatabase)dataSource).shutdown();
     }
 
     @Test
@@ -51,11 +55,9 @@ public class HotelDatabaseRepositoryTest {
         assertTrue(repository.add(hotel));
     }
 
-
     @Test
     public void getTrueTest() {
         repository.add(hotel);
-        hotel.setId(4);
         Optional<Hotel> opt = Optional.of(hotel);
         assertEquals(repository.get(4).get(), opt.get());
     }
@@ -75,7 +77,6 @@ public class HotelDatabaseRepositoryTest {
     @Test
     public void removeTrueTest() {
         repository.add(hotel);
-        hotel.setId(4);
         assertTrue(repository.remove(hotel));
     }
 

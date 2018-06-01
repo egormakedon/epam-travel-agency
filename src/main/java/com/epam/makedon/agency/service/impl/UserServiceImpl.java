@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.domain.impl.User;
+import com.epam.makedon.agency.repository.UserRepository;
 import com.epam.makedon.agency.service.ServiceException;
 import com.epam.makedon.agency.service.UserService;
 import lombok.Setter;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     @Setter
-    private UserService userService;
+    private UserRepository userRepository;
 
     public UserServiceImpl() {}
 
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            return userService.add(user);
+            return userRepository.add(user);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            return userService.get(id);
+            return userRepository.get(id);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            return userService.remove(user);
+            return userRepository.remove(user);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -117,7 +118,7 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            return userService.update(user);
+            return userRepository.update(user);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);

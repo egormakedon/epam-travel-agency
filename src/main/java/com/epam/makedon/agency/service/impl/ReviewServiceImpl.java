@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.service.impl;
 
 import com.epam.makedon.agency.domain.impl.Review;
+import com.epam.makedon.agency.repository.ReviewRepository;
 import com.epam.makedon.agency.service.ReviewService;
 import com.epam.makedon.agency.service.ServiceException;
 import lombok.Setter;
@@ -28,7 +29,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     @Setter
-    private ReviewService reviewService;
+    private ReviewRepository reviewRepository;
 
     public ReviewServiceImpl() {}
 
@@ -48,7 +49,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         try {
-            return reviewService.add(review);
+            return reviewRepository.add(review);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -71,7 +72,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         try {
-            return reviewService.get(id);
+            return reviewRepository.get(id);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -94,7 +95,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         try {
-            return reviewService.remove(review);
+            return reviewRepository.remove(review);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
@@ -117,7 +118,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         try {
-            return reviewService.update(review);
+            return reviewRepository.update(review);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
