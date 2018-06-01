@@ -6,110 +6,120 @@ import com.epam.makedon.agency.domain.impl.Hotel;
 import com.epam.makedon.agency.domain.impl.Tour;
 import com.epam.makedon.agency.domain.impl.TourType;
 import com.epam.makedon.agency.repository.TourRepository;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("databaseRepository")
+@ContextConfiguration(classes = TestConfiguration.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TourDatabaseRepositoryTest {
-    private static ApplicationContext context;
-    private static TourRepository repository;
 
-    private static final long ID = 3;
-    private static final LocalDate DATE = LocalDate.now();
-    private static final Image IMAGE = null;
-    private static final Duration DURATION = Duration.ofDays(10);
-    private static final String DESCRIPTION = "desc";
-    private static final BigDecimal COST = BigDecimal.valueOf(120);
-    private static final Country COUNTRY = Country.SPAIN;
-    private static final TourType TYPE = TourType.WEEKEND;
-    private static final Hotel HOTEL = new Hotel();
-
-    private static Tour tour;
-
-    @Before
-    public void init() {
-        context = new AnnotationConfigApplicationContext(TestConfiguration.class);
-        repository = context.getBean("tourDatabaseRepository", TourRepository.class);
-
-        tour = new Tour();
-        tour.setType(TourType.WEEKEND);
-        tour.setCountry(Country.SPAIN);
-        tour.setId(3);
-        HOTEL.setId(1);
-        tour.setHotel(new Hotel());
-        tour.setDuration(Duration.ofDays(10));
-        tour.setDescription("description");
-        tour.setDate(LocalDate.now());
-        tour.setCost(BigDecimal.valueOf(120));
-    }
-
-    @After
-    public void destroy() {
-        ((EmbeddedDatabase)context.getBean("dataSource")).shutdown();
-        context = null;
-        repository = null;
-        tour = null;
-    }
+    @Autowired
+    private TourRepository repository;
 
     @Test
     public void addTrueTest() {
+        Tour tour = new Tour();
+        tour.setType(TourType.WEEKEND);
+        tour.setCountry(Country.SPAIN);
+        tour.setId(3);
+        Hotel hotel = new Hotel();
+        hotel.setId(1);
+        tour.setHotel(hotel);
+        tour.setDuration(Duration.ofDays(2));
+        tour.setDescription("description");
+        tour.setDate(LocalDate.now());
+        tour.setCost(BigDecimal.valueOf(1));
         assertTrue(repository.add(tour));
     }
 
 
     @Test
     public void getTrueTest() {
-        repository.add(tour);
-        Optional<Tour> opt = Optional.of(tour);
-        assertEquals(repository.get(3).get().getId(), opt.get().getId());
+        assertNotNull(repository.get(1).orElse(null));
     }
 
     @Test
     public void getFalseTest() {
-        Optional<Tour> opt = Optional.of(tour);
-        assertNotEquals(repository.get(1), opt.get());
+        Tour tour = new Tour();
+        tour.setType(TourType.WEEKEND);
+        tour.setCountry(Country.SPAIN);
+        tour.setId(3);
+        Hotel hotel = new Hotel();
+        hotel.setId(1);
+        tour.setHotel(hotel);
+        tour.setDuration(Duration.ofDays(10));
+        tour.setDescription("description");
+        tour.setDate(LocalDate.now());
+        tour.setCost(BigDecimal.valueOf(120));
+        assertNotEquals(repository.get(1).orElse(null), tour);
     }
 
     @Test(expected = EmptyResultDataAccessException.class)
     public void getExcTest() {
-        Optional<Tour> opt = repository.get(100);
-        fail();
+        repository.get(100);
     }
 
     @Test
     public void removeTrueTest() {
-        repository.add(tour);
+        Tour tour = new Tour();
+        tour.setId(1);
         assertTrue(repository.remove(tour));
     }
 
     @Test
     public void removeFalseTest() {
+        Tour tour = new Tour();
+        tour.setId(10);
         assertFalse(repository.remove(tour));
     }
 
     @Test
     public void updateTrueTest() {
+        Tour tour = new Tour();
+        tour.setType(TourType.WEEKEND);
+        tour.setCountry(Country.SPAIN);
+        tour.setId(3);
+        Hotel hotel = new Hotel();
+        hotel.setId(1);
+        tour.setHotel(hotel);
+        tour.setDuration(Duration.ofDays(10));
+        tour.setDescription("description");
+        tour.setDate(LocalDate.now());
+        tour.setCost(BigDecimal.valueOf(120));
+
         repository.add(tour);
         tour.setDescription("hello");
         repository.update(tour);
-        Optional<Tour> opt = Optional.of(tour);
-        assertEquals(opt.get().getDescription(), repository.get(3).get().getDescription());
+
+        assertEquals(tour.getDescription(), repository.get(3).orElseThrow(() -> new RuntimeException("")).getDescription());
     }
 
     @Test
     public void updateFalseTest() {
+        Tour tour = new Tour();
+        tour.setType(TourType.WEEKEND);
+        tour.setCountry(Country.SPAIN);
+        Hotel hotel = new Hotel();
+        hotel.setId(1);
+        tour.setHotel(hotel);
+        tour.setDuration(Duration.ofDays(10));
+        tour.setDescription("description");
+        tour.setDate(LocalDate.now());
+        tour.setCost(BigDecimal.valueOf(120));
         tour.setId(100);
         assertFalse(repository.update(tour).isPresent());
     }

@@ -3,33 +3,26 @@ package com.epam.makedon.agency.repository.databaseimpl;
 import com.epam.makedon.agency.config.TestConfiguration;
 import com.epam.makedon.agency.domain.impl.User;
 import com.epam.makedon.agency.repository.UserRepository;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("databaseRepository")
+@ContextConfiguration(classes = TestConfiguration.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserDatabaseRepositoryTest {
-    private static ApplicationContext context;
-    private static UserRepository repository;
 
-    @Before
-    public void init() {
-        context = new AnnotationConfigApplicationContext(TestConfiguration.class);
-        repository = context.getBean("userDatabaseRepository", UserRepository.class);
-    }
-
-    @After
-    public void destroy() {
-        ((EmbeddedDatabase)context.getBean("dataSource")).shutdown();
-        context = null;
-        repository = null;
-    }
+    @Autowired
+    private UserRepository repository;
 
     @Test
     public void addTrueTest() {
@@ -42,14 +35,14 @@ public class UserDatabaseRepositoryTest {
     @Test
     public void getTest() {
         Optional<User> opt = repository.get(1);
-        User user = opt.get();
+        User user = opt.orElseThrow(() -> new RuntimeException(""));
         assertEquals(user.getLogin(), "user1");
         assertEquals(user.getPassword(), "user1");
         assertEquals(user.getTourList().get(0).getId(), 1);
         assertEquals(user.getReviewList().get(0).getId(), 1);
 
         opt = repository.get(2);
-        user = opt.get();
+        user = opt.orElseThrow(() -> new RuntimeException(""));
         assertEquals(user.getLogin(), "user2");
         assertEquals(user.getPassword(), "user2");
         assertEquals(user.getTourList().get(0).getId(), 1);
