@@ -26,12 +26,17 @@ import java.util.Optional;
 @Repository
 @Profile("databaseRepository")
 public class CountryDatabaseRepository implements CountryRepository {
+    private static final String COUNTRY_ID_LITERAL = "countryId";
+
     private Mapper mapper = new Mapper();
 
     @Autowired
     @Setter
     private DataSource dataSource;
 
+    /**
+     * default constructor
+     */
     public CountryDatabaseRepository() {}
 
     /**
@@ -44,7 +49,7 @@ public class CountryDatabaseRepository implements CountryRepository {
         final String SQL_INSERT_COUNTRY = "INSERT INTO country (country_id,country_name) VALUES(:countryId,:countryName)";
 
         Map<String,Object> parameters = new HashMap<>();
-        parameters.put("countryId", country.getId());
+        parameters.put(COUNTRY_ID_LITERAL, country.getId());
         parameters.put("countryName", country.toString());
         int r = namedParameterJdbcTemplate.update(SQL_INSERT_COUNTRY, parameters);
         return r == 1;
@@ -60,7 +65,7 @@ public class CountryDatabaseRepository implements CountryRepository {
         final String SQL_SELECT_COUNTRY_NAME_BY_ID = "SELECT country_name name FROM country WHERE country_id=:countryId";
 
         Map<String,Object> parameters = new HashMap<>();
-        parameters.put("countryId", id);
+        parameters.put(COUNTRY_ID_LITERAL, id);
         return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_COUNTRY_NAME_BY_ID, parameters, mapper));
     }
 
@@ -74,7 +79,7 @@ public class CountryDatabaseRepository implements CountryRepository {
         final String SQL_DELETE_COUNTRY_BY_ID = "DELETE FROM country WHERE country_id=:countryId";
 
         Map<String,Object> parameters = new HashMap<>();
-        parameters.put("countryId", country.getId());
+        parameters.put(COUNTRY_ID_LITERAL, country.getId());
         int r = namedParameterJdbcTemplate.update(SQL_DELETE_COUNTRY_BY_ID, parameters);
         return r == 1;
     }
@@ -89,7 +94,7 @@ public class CountryDatabaseRepository implements CountryRepository {
         final String SQL_UPDATE_COUNTRY = "UPDATE country SET country_name=:countryName WHERE country_id=:countryId";
 
         Map<String,Object> parameters = new HashMap<>();
-        parameters.put("countryId", country.getId());
+        parameters.put(COUNTRY_ID_LITERAL, country.getId());
         parameters.put("countryName", country.toString());
 
         int r = namedParameterJdbcTemplate.update(SQL_UPDATE_COUNTRY, parameters);

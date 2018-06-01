@@ -31,6 +31,9 @@ public class UserServiceImpl implements UserService {
     @Setter
     private UserRepository userRepository;
 
+    /**
+     * default constructor
+     */
     public UserServiceImpl() {}
 
     /**

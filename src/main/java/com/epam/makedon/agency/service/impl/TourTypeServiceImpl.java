@@ -31,6 +31,9 @@ public class TourTypeServiceImpl implements TourTypeService {
     @Setter
     private TourTypeRepository tourTypeRepository;
 
+    /**
+     * default constructor
+     */
     public TourTypeServiceImpl() {}
 
     /**

@@ -31,6 +31,9 @@ public class CountryServiceImpl implements CountryService {
     @Setter
     private CountryRepository countryRepository;
 
+    /**
+     * default constructor
+     */
     public CountryServiceImpl() {}
 
     /**

@@ -37,6 +37,9 @@ public class TourDatabaseRepository implements TourRepository {
     @Setter
     private DataSource dataSource;
 
+    /**
+     * default constructor
+     */
     public TourDatabaseRepository() {}
 
     /**
@@ -123,7 +126,7 @@ public class TourDatabaseRepository implements TourRepository {
 
     private class Mapper implements RowMapper<Tour> {
         private static final String TOUR_ID = "tour_id";
-        private static final String TOUR_PHOTO = "tour_photo";
+//        private static final String TOUR_PHOTO = "tour_photo";
         private static final String TOUR_DATE = "tour_date";
         private static final String TOUR_DURATION = "tour_duration";
         private static final String COUNTRY_ID = "fk_country_id";

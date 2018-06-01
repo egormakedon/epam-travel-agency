@@ -26,12 +26,17 @@ import java.util.Optional;
 @Repository
 @Profile("databaseRepository")
 public class TourTypeDatabaseRepository implements TourTypeRepository {
+    private static final String TOUR_TYPE_ID_LITERAL = "tourTypeId";
+
     private Mapper mapper = new Mapper();
 
     @Autowired
     @Setter
     private DataSource dataSource;
 
+    /**
+     * default constructor
+     */
     public TourTypeDatabaseRepository() {}
 
     /**
@@ -44,7 +49,7 @@ public class TourTypeDatabaseRepository implements TourTypeRepository {
         final String SQL_INSERT_TOUR_TYPE = "INSERT INTO tour_type (tour_type_id,tour_type_name) VALUES(:tourTypeId,:tourTypeName)";
 
         Map<String,Object> parameters = new HashMap<>();
-        parameters.put("tourTypeId", tourType.getId());
+        parameters.put(TOUR_TYPE_ID_LITERAL, tourType.getId());
         parameters.put("tourTypeName", tourType.toString());
         int r = namedParameterJdbcTemplate.update(SQL_INSERT_TOUR_TYPE, parameters);
         return r == 1;
@@ -60,7 +65,7 @@ public class TourTypeDatabaseRepository implements TourTypeRepository {
         final String SQL_SELECT_TOUR_TYPE_NAME_BY_ID = "SELECT tour_type_name name FROM tour_type WHERE tour_type_id=:tourTypeId";
 
         Map<String,Object> parameters = new HashMap<>();
-        parameters.put("tourTypeId", id);
+        parameters.put(TOUR_TYPE_ID_LITERAL, id);
         return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_TOUR_TYPE_NAME_BY_ID, parameters, mapper));
     }
 
@@ -74,7 +79,7 @@ public class TourTypeDatabaseRepository implements TourTypeRepository {
         final String SQL_DELETE_TOUR_TYPE_BY_ID = "DELETE FROM tour_type WHERE tour_type_id=:tourTypeId";
 
         Map<String,Object> parameters = new HashMap<>();
-        parameters.put("tourTypeId", tourType.getId());
+        parameters.put(TOUR_TYPE_ID_LITERAL, tourType.getId());
         int r = namedParameterJdbcTemplate.update(SQL_DELETE_TOUR_TYPE_BY_ID, parameters);
         return r == 1;
     }
@@ -89,7 +94,7 @@ public class TourTypeDatabaseRepository implements TourTypeRepository {
         final String SQL_UPDATE_TOUR_TYPE = "UPDATE tour_type SET tour_type_name=:tourTypeName WHERE tour_type_id=:tourTypeId";
 
         Map<String,Object> parameters = new HashMap<>();
-        parameters.put("tourTypeId", tourType.getId());
+        parameters.put(TOUR_TYPE_ID_LITERAL, tourType.getId());
         parameters.put("tourTypeName", tourType.toString());
 
         int r = namedParameterJdbcTemplate.update(SQL_UPDATE_TOUR_TYPE, parameters);

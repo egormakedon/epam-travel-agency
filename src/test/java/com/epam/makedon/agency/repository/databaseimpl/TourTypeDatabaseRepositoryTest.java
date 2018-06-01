@@ -30,15 +30,36 @@ public class TourTypeDatabaseRepositoryTest {
         assertTrue(repository.add(c));
     }
 
-    @Test(expected = DuplicateKeyException.class)
-    public void addExcTest() {
+    @Test
+    public void addExcTest1() {
         TourType c = TourType.SHOPING;
-        repository.add(c);
+        try {
+            repository.add(c);
+            fail();
+        } catch (DuplicateKeyException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
-    public void getTrueTest() {
+    public void addExcTest2() {
+        TourType c = TourType.CHILDREN;
+        try {
+            repository.add(c);
+            fail();
+        } catch (DuplicateKeyException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void getTrueTest1() {
         assertNotNull(repository.get(1).orElse(null));
+    }
+
+    @Test
+    public void getTrueTest2() {
+        assertNotNull(repository.get(3).orElse(null));
     }
 
     @Test
@@ -47,9 +68,14 @@ public class TourTypeDatabaseRepositoryTest {
         assertNotEquals(c, repository.get(4).orElse(null));
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test
     public void getExcTest() {
-        repository.get(100);
+        try {
+            repository.get(100);
+            fail();
+        } catch (EmptyResultDataAccessException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
@@ -62,5 +88,17 @@ public class TourTypeDatabaseRepositoryTest {
     public void removeExcTest() {
         TourType c = TourType.EXCURSION;
         assertFalse(repository.remove(c));
+    }
+
+    @Test
+    public void updateTest1() {
+        TourType c = TourType.EXCURSION;
+        assertNull(repository.update(c).orElse(null));
+    }
+
+    @Test
+    public void updateTest2() {
+        TourType c = TourType.WEEKEND;
+        assertEquals(repository.update(c).orElse(null), c);
     }
 }

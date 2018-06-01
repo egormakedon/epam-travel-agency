@@ -32,16 +32,33 @@ public class CountryDatabaseRepositoryTest {
         assertTrue(repository.add(c));
     }
 
-    @Test(expected = DuplicateKeyException.class)
+    @Test
     public void addExcTest() {
         Country s = Country.BELARUS;
-        repository.add(s);
+        try {
+            repository.add(s);
+            fail();
+        } catch (DuplicateKeyException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
-    public void getTrueTest() {
+    public void getTrueTest1() {
         Country s = Country.SPAIN;
         Optional<Country> opt = repository.get(4);
+        assertEquals(s, opt.orElse(null));
+    }
+
+    @Test
+    public void getTrueTest2() {
+        assertNotNull(repository.get(1).orElse(null));
+    }
+
+    @Test
+    public void getTrueTest3() {
+        Country s = Country.ENGLAND;
+        Optional<Country> opt = repository.get(5);
         assertEquals(s, opt.orElse(null));
     }
 
@@ -52,20 +69,50 @@ public class CountryDatabaseRepositoryTest {
         assertNotEquals(s, opt.orElse(null));
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test
     public void getExcTest() {
-        repository.get(100);
+        try {
+            repository.get(100);
+            fail();
+        } catch (EmptyResultDataAccessException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
-    public void removeTrueTest() {
+    public void removeTrueTest1() {
         Country s = Country.SPAIN;
         assertTrue(repository.remove(s));
     }
 
     @Test
-    public void removeExcTest() {
+    public void removeTrueTest2() {
+        Country s = Country.BELARUS;
+        assertTrue(repository.remove(s));
+    }
+
+    @Test
+    public void removeTrueTest3() {
+        Country s = Country.ENGLAND;
+        assertTrue(repository.remove(s));
+    }
+
+
+    @Test
+    public void removeFalseTest() {
         Country c = Country.CHINA;
         assertFalse(repository.remove(c));
+    }
+
+    @Test
+    public void updateTest1() {
+        Country c = Country.CHINA;
+        assertNull(repository.update(c).orElse(null));
+    }
+
+    @Test
+    public void updateTest2() {
+        Country c = Country.ENGLAND;
+        assertEquals(repository.update(c).orElse(null), c);
     }
 }

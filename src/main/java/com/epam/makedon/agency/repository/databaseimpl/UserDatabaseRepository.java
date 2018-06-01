@@ -29,6 +29,9 @@ import java.util.Optional;
 @Repository
 @Profile("databaseRepository")
 public class UserDatabaseRepository implements UserRepository {
+    private static final String USER_LOGIN_LITERAL = "userLogin";
+    private static final String USER_ID_LITERAL = "userId";
+
     private UserMapper userMapper = new UserMapper();
     private TourMapper tourMapper = new TourMapper();
     private ReviewMapper reviewMapper = new ReviewMapper();
@@ -37,6 +40,9 @@ public class UserDatabaseRepository implements UserRepository {
     @Setter
     private DataSource dataSource;
 
+    /**
+     * default constructor
+     */
     public UserDatabaseRepository() {}
 
     /**
@@ -50,7 +56,7 @@ public class UserDatabaseRepository implements UserRepository {
         final String SQL_SELECT_USER_ID_BY_LOGIN = "SELECT user_id userId FROM user WHERE user_login=:userLogin";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("userLogin", user.getLogin());
+        parameters.put(USER_LOGIN_LITERAL, user.getLogin());
         parameters.put("userPassword", user.getPassword());
 
         int r = namedParameterJdbcTemplate.update(SQL_INSERT_USER, parameters);
@@ -65,7 +71,7 @@ public class UserDatabaseRepository implements UserRepository {
 
 
         parameters.clear();
-        parameters.put("userLogin", user.getLogin());
+        parameters.put(USER_LOGIN_LITERAL, user.getLogin());
         long userId = namedParameterJdbcTemplate.queryForObject(SQL_SELECT_USER_ID_BY_LOGIN, parameters, Long.class);
         insertUserTour(userId, user.getTourList());
         return true;
@@ -83,7 +89,7 @@ public class UserDatabaseRepository implements UserRepository {
         final String SQL_SELECT_REVIEW_BY_USER_ID = "SELECT review_id id FROM review WHERE fk_user_id=:userId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("userId", id);
+        parameters.put(USER_ID_LITERAL, id);
 
         User user = namedParameterJdbcTemplate.queryForObject(SQL_SELECT_USER_BY_ID, parameters, userMapper);
         if (user == null) {
@@ -109,7 +115,7 @@ public class UserDatabaseRepository implements UserRepository {
         final String SQL_DELETE_USER_BY_ID = "DELETE FROM user WHERE user_id=:userId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("userId", user.getId());
+        parameters.put(USER_ID_LITERAL, user.getId());
         int r = namedParameterJdbcTemplate.update(SQL_DELETE_USER_BY_ID, parameters);
         return r == 1;
     }
@@ -126,9 +132,9 @@ public class UserDatabaseRepository implements UserRepository {
         final String SQL_DELETE_USER_TOUR_BY_USER_ID = "DELETE FROM user_tour WHERE fk_user_id=:userId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("userLogin", user.getLogin());
+        parameters.put(USER_LOGIN_LITERAL, user.getLogin());
         parameters.put("userPassword", user.getPassword());
-        parameters.put("userId", user.getId());
+        parameters.put(USER_ID_LITERAL, user.getId());
 
         int r = namedParameterJdbcTemplate.update(SQL_UPDATE_USER, parameters);
 
@@ -137,7 +143,7 @@ public class UserDatabaseRepository implements UserRepository {
         }
 
         parameters.clear();
-        parameters.put("userId", user.getId());
+        parameters.put(USER_ID_LITERAL, user.getId());
         namedParameterJdbcTemplate.update(SQL_DELETE_USER_TOUR_BY_USER_ID, parameters);
 
         if (user.getTourList().isEmpty()) {
@@ -154,7 +160,8 @@ public class UserDatabaseRepository implements UserRepository {
 
         Map<String, Object>[] batch = new HashMap[tourList.size()];
         for (int index = 0; index < tourList.size(); index++) {
-            batch[index].put("userId", userId);
+            batch[index] = new HashMap<>();
+            batch[index].put(USER_ID_LITERAL, userId);
             batch[index].put("tourId", tourList.get(index).getId());
         }
 

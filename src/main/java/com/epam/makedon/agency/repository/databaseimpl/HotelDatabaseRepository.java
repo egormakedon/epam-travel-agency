@@ -26,12 +26,17 @@ import java.util.Optional;
 @Repository
 @Profile("databaseRepository")
 public class HotelDatabaseRepository implements HotelRepository {
+    private static final String HOTEL_ID_LITERAL = "hotelId";
+
     private Mapper mapper = new Mapper();
 
     @Autowired
     @Setter
     private DataSource dataSource;
 
+    /**
+     * default constructor
+     */
     public HotelDatabaseRepository() {}
 
     /**
@@ -61,7 +66,7 @@ public class HotelDatabaseRepository implements HotelRepository {
         final String SQL_SELECT_HOTEL_BY_ID = "SELECT hotel_id id, hotel_name name, hotel_phone phone, hotel_stars stars FROM hotel WHERE hotel_id=:hotelId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("hotelId", id);
+        parameters.put(HOTEL_ID_LITERAL, id);
         return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_HOTEL_BY_ID, parameters, mapper));
     }
 
@@ -75,7 +80,7 @@ public class HotelDatabaseRepository implements HotelRepository {
         final String SQL_DELETE_HOTEL_BY_ID = "DELETE FROM hotel WHERE hotel_id=:hotelId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("hotelId", hotel.getId());
+        parameters.put(HOTEL_ID_LITERAL, hotel.getId());
         int r = namedParameterJdbcTemplate.update(SQL_DELETE_HOTEL_BY_ID, parameters);
         return r == 1;
     }
@@ -93,7 +98,7 @@ public class HotelDatabaseRepository implements HotelRepository {
         parameters.put("hotelName", hotel.getName());
         parameters.put("hotelPhone", hotel.getPhone());
         parameters.put("hotelStars", hotel.getStars());
-        parameters.put("hotelId", hotel.getId());
+        parameters.put(HOTEL_ID_LITERAL, hotel.getId());
 
         int r = namedParameterJdbcTemplate.update(SQL_UPDATE_HOTEL_BY_ID, parameters);
 

@@ -28,12 +28,20 @@ import java.util.Optional;
 @Repository
 @Profile("databaseRepository")
 public class ReviewDatabaseRepository implements ReviewRepository {
+    private static final String USER_ID_LITERAL = "userId";
+    private static final String REVIEW_ID_LITERAL = "reviewId";
+    private static final String TOUR_ID_LITERAL = "tourId";
+    private static final String REVIEW_CONTENT = "reviewContent";
+
     private Mapper mapper = new Mapper();
 
     @Autowired
     @Setter
     private DataSource dataSource;
 
+    /**
+     * default constructor
+     */
     public ReviewDatabaseRepository() {}
 
     /**
@@ -46,9 +54,9 @@ public class ReviewDatabaseRepository implements ReviewRepository {
         final String SQL_INSERT_REVIEW = "INSERT INTO review (fk_tour_id,fk_user_id,review_content) VALUES(:tourId,:userId,:reviewContent)";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("tourId", review.getTour().getId());
-        parameters.put("userId", review.getUser().getId());
-        parameters.put("reviewContent", review.getContent());
+        parameters.put(TOUR_ID_LITERAL, review.getTour().getId());
+        parameters.put(USER_ID_LITERAL, review.getUser().getId());
+        parameters.put(REVIEW_CONTENT, review.getContent());
         int r = namedParameterJdbcTemplate.update(SQL_INSERT_REVIEW, parameters);
         return r == 1;
     }
@@ -60,10 +68,10 @@ public class ReviewDatabaseRepository implements ReviewRepository {
     @Override
     public Optional<Review> get(long id) {
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        String SQL_SELECT_REVIEW_BY_ID = "SELECT review_id id, review_content content, fk_tour_id tourId, fk_user_id userId FROM review WHERE review_id=:reviewId";
+        final String SQL_SELECT_REVIEW_BY_ID = "SELECT review_id id, review_content content, fk_tour_id tourId, fk_user_id userId FROM review WHERE review_id=:reviewId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("reviewId", id);
+        parameters.put(REVIEW_ID_LITERAL, id);
         return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SQL_SELECT_REVIEW_BY_ID, parameters, mapper));
     }
 
@@ -77,7 +85,7 @@ public class ReviewDatabaseRepository implements ReviewRepository {
         final String SQL_DELETE_REVIEW = "DELETE FROM review WHERE review_id=:reviewId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("reviewId", review.getId());
+        parameters.put(REVIEW_ID_LITERAL, review.getId());
         int r = namedParameterJdbcTemplate.update(SQL_DELETE_REVIEW, parameters);
         return r == 1;
     }
@@ -92,10 +100,10 @@ public class ReviewDatabaseRepository implements ReviewRepository {
         final String SQL_UPDATE_REVIEW_BY_ID = "UPDATE review SET fk_tour_id=:tourId,fk_user_id=:userId,review_content=:reviewContent WHERE review_id=:reviewId";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("tourId", review.getTour().getId());
-        parameters.put("userId", review.getUser().getId());
-        parameters.put("reviewContent", review.getContent());
-        parameters.put("reviewId", review.getId());
+        parameters.put(TOUR_ID_LITERAL, review.getTour().getId());
+        parameters.put(USER_ID_LITERAL, review.getUser().getId());
+        parameters.put(REVIEW_CONTENT, review.getContent());
+        parameters.put(REVIEW_ID_LITERAL, review.getId());
 
         int r = namedParameterJdbcTemplate.update(SQL_UPDATE_REVIEW_BY_ID, parameters);
 
@@ -109,16 +117,14 @@ public class ReviewDatabaseRepository implements ReviewRepository {
     private class Mapper implements RowMapper<Review> {
         private static final String ID = "id";
         private static final String CONTENT = "content";
-        private static final String TOUR_ID = "tourId";
-        private static final String USER_ID = "userId";
 
         @Override
         public Review mapRow(ResultSet rs, int i) throws SQLException {
             Tour tour = new Tour();
-            tour.setId(rs.getLong(TOUR_ID));
+            tour.setId(rs.getLong(TOUR_ID_LITERAL));
 
             User user = new User();
-            user.setId(rs.getLong(USER_ID));
+            user.setId(rs.getLong(USER_ID_LITERAL));
 
             Review review = new Review();
             review.setId(rs.getLong(ID));

@@ -31,6 +31,9 @@ public class HotelServiceImpl implements HotelService {
     @Setter
     private HotelRepository hotelRepository;
 
+    /**
+     * default constructor
+     */
     public HotelServiceImpl() {}
 
     /**

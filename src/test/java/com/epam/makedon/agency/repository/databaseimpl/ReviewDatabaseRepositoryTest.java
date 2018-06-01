@@ -40,8 +40,28 @@ public class ReviewDatabaseRepositoryTest {
     }
 
     @Test
-    public void getTrueTest() {
+    public void getTrueTest1() {
         assertNotNull(repository.get(1).orElse(null));
+    }
+
+    @Test
+    public void getTrueTest2() {
+        assertNotNull(repository.get(2).orElse(null));
+    }
+
+    @Test
+    public void getTrueTest3() {
+        Review review = new Review();
+        review.setId(5);
+        User user = new User();
+        user.setId(1);
+        Tour tour = new Tour();
+        tour.setId(1);
+        review.setUser(user);
+        review.setTour(tour);
+        review.setContent("llss");
+        repository.add(review);
+        assertEquals(repository.get(5).orElse(null), review);
     }
 
     @Test
@@ -58,9 +78,24 @@ public class ReviewDatabaseRepositoryTest {
         assertNotEquals(repository.get(1).orElse(null), review);
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
-    public void getExcTest() {
-        repository.get(100);
+    @Test
+    public void getExcTest1() {
+        try {
+            repository.get(100);
+            fail();
+        } catch (EmptyResultDataAccessException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void getExcTest2() {
+        try {
+            repository.get(-1);
+            fail();
+        } catch (EmptyResultDataAccessException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
@@ -87,7 +122,7 @@ public class ReviewDatabaseRepositoryTest {
         tour.setId(1);
         review.setUser(user);
         review.setTour(tour);
-        review.setContent("ll");
+        review.setContent("123");
 
         repository.add(review);
         review.setContent("hello");
@@ -105,7 +140,7 @@ public class ReviewDatabaseRepositoryTest {
         tour.setId(1);
         review.setUser(user);
         review.setTour(tour);
-        review.setContent("ll");
+        review.setContent("ll33");
         review.setId(100);
         assertFalse(repository.update(review).isPresent());
     }

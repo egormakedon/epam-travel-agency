@@ -11,13 +11,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles({"databaseRepository", "service"})
@@ -28,38 +25,57 @@ public class CountryServiceTest {
     @Autowired
     private CountryService service;
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionAddTest() {
-        service.add(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionRemoveTest() {
-        service.remove(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionUpdateTest() {
-        service.update(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionGetTest1() {
-        service.get(0);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionGetTest2() {
-        service.get(-3);
-        fail();
+        try {
+            service.add(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
-    @Transactional
+    public void exceptionRemoveTest() {
+        try {
+            service.remove(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionUpdateTest() {
+        try {
+            service.update(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest1() {
+        try {
+            service.get(0);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest2() {
+        try {
+            service.get(-3);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
     public void addTrueTest() {
         assertTrue(service.add(Country.CHINA));
     }
@@ -72,8 +88,22 @@ public class CountryServiceTest {
     }
 
     @Test
-    @Transactional
     public void removeTrueTest() {
         assertTrue(service.remove(Country.SPAIN));
+    }
+
+    @Test
+    public void updateTrueTest1() {
+        assertNotNull(service.update(Country.SPAIN).orElse(null));
+    }
+
+    @Test
+    public void updateTrueTest2() {
+        assertNotNull(service.update(Country.ENGLAND).orElse(null));
+    }
+
+    @Test
+    public void updateTrueTest3() {
+        assertNotNull(service.update(Country.BELARUS).orElse(null));
     }
 }

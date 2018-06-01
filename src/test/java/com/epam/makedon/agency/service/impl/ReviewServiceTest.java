@@ -13,7 +13,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -28,37 +27,57 @@ public class ReviewServiceTest {
     @Autowired
     private ReviewService service;
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionAddTest() {
-        service.add(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionRemoveTest() {
-        service.remove(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionUpdateTest() {
-        service.update(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionGetTest1() {
-        service.get(0);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionGetTest2() {
-        service.get(-3);
+        try {
+            service.add(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
-    @Transactional
+    public void exceptionRemoveTest() {
+        try {
+            service.remove(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionUpdateTest() {
+        try {
+            service.update(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest1() {
+        try {
+            service.get(0);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest2() {
+        try {
+            service.get(-3);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
     public void addTrueTest() {
         Review review = new Review();
         User user = new User();
@@ -67,7 +86,7 @@ public class ReviewServiceTest {
         tour.setId(1);
         review.setUser(user);
         review.setTour(tour);
-        review.setContent("content");
+        review.setContent("content123");
         assertTrue(service.add(review));
     }
 
@@ -78,7 +97,6 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @Transactional
     public void removeTrueTest() {
         Review r = new Review();
         r.setId(3);
@@ -86,7 +104,6 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @Transactional
     public void updateTrueTest() {
         Review r = new Review();
         r.setId(5);
@@ -96,7 +113,7 @@ public class ReviewServiceTest {
         tour.setId(1);
         r.setUser(user);
         r.setTour(tour);
-        r.setContent("content");
+        r.setContent("zzzz");
 
         service.add(r);
         r.setContent("newContent");

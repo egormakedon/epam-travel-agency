@@ -11,7 +11,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,38 +25,57 @@ public class HotelServiceTest {
     @Autowired
     private HotelService service;
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionAddTest() {
-        service.add(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionRemoveTest() {
-        service.remove(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionUpdateTest() {
-        service.update(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionGetTest1() {
-        service.get(0);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionGetTest2() {
-        service.get(-3);
-        fail();
+        try {
+            service.add(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
-    @Transactional
+    public void exceptionRemoveTest() {
+        try {
+            service.remove(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionUpdateTest() {
+        try {
+            service.update(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest1() {
+        try {
+            service.get(0);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest2() {
+        try {
+            service.get(-3);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
     public void addTrueTest() {
         Hotel h = new Hotel();
         h.setName("hotel");
@@ -72,7 +90,6 @@ public class HotelServiceTest {
     }
 
     @Test
-    @Transactional
     public void removeTrueTest() {
         Hotel h = new Hotel();
         h.setId(3);
@@ -80,12 +97,11 @@ public class HotelServiceTest {
     }
 
     @Test
-    @Transactional
     public void updateTrueTest() {
         Hotel h = new Hotel();
         h.setId(4);
         h.setName("name");
-        h.setPhone("phone");
+        h.setPhone("1234");
 
         service.add(h);
         h.setName("newName");

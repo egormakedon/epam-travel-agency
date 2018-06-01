@@ -14,7 +14,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -32,38 +31,57 @@ public class TourServiceTest {
     @Autowired
     private TourService service;
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionAddTest() {
-        service.add(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionRemoveTest() {
-        service.remove(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionUpdateTest() {
-        service.update(null);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionGetTest1() {
-        service.get(0);
-        fail();
-    }
-
-    @Test(expected = ServiceException.class)
-    public void exceptionGetTest2() {
-        service.get(-3);
-        fail();
+        try {
+            service.add(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
-    @Transactional
+    public void exceptionRemoveTest() {
+        try {
+            service.remove(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionUpdateTest() {
+        try {
+            service.update(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest1() {
+        try {
+            service.get(0);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest2() {
+        try {
+            service.get(-3);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
     public void addTrueTest() {
         Tour tour = new Tour();
         tour.setType(TourType.WEEKEND);
@@ -73,7 +91,7 @@ public class TourServiceTest {
         hotel.setId(1);
         tour.setHotel(hotel);
         tour.setDuration(Duration.ofDays(10));
-        tour.setDescription("description");
+        tour.setDescription("des");
         tour.setDate(LocalDate.now());
         tour.setCost(BigDecimal.valueOf(120));
         assertTrue(service.add(tour));
@@ -86,7 +104,6 @@ public class TourServiceTest {
     }
 
     @Test
-    @Transactional
     public void removeTrueTest() {
         Tour t = new Tour();
         t.setId(2);
@@ -94,7 +111,6 @@ public class TourServiceTest {
     }
 
     @Test
-    @Transactional
     public void updateTrueTest() {
         Tour tour = new Tour();
         tour.setType(TourType.WEEKEND);

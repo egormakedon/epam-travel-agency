@@ -40,16 +40,20 @@ public class TourDatabaseRepositoryTest {
         hotel.setId(1);
         tour.setHotel(hotel);
         tour.setDuration(Duration.ofDays(2));
-        tour.setDescription("description");
+        tour.setDescription("123");
         tour.setDate(LocalDate.now());
         tour.setCost(BigDecimal.valueOf(1));
         assertTrue(repository.add(tour));
     }
 
+    @Test
+    public void getTrueTest1() {
+        assertNotNull(repository.get(1).orElse(null));
+    }
 
     @Test
-    public void getTrueTest() {
-        assertNotNull(repository.get(1).orElse(null));
+    public void getTrueTest2() {
+        assertNotNull(repository.get(2).orElse(null));
     }
 
     @Test
@@ -62,29 +66,57 @@ public class TourDatabaseRepositoryTest {
         hotel.setId(1);
         tour.setHotel(hotel);
         tour.setDuration(Duration.ofDays(10));
-        tour.setDescription("description");
+        tour.setDescription("desc");
         tour.setDate(LocalDate.now());
         tour.setCost(BigDecimal.valueOf(120));
         assertNotEquals(repository.get(1).orElse(null), tour);
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
-    public void getExcTest() {
-        repository.get(100);
-        fail();
+    @Test
+    public void getExcTest1() {
+        try {
+            repository.get(100);
+            fail();
+        } catch (EmptyResultDataAccessException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
-    public void removeTrueTest() {
+    public void getExcTest2() {
+        try {
+            repository.get(-1);
+            fail();
+        } catch (EmptyResultDataAccessException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void removeTrueTest1() {
         Tour tour = new Tour();
         tour.setId(1);
         assertTrue(repository.remove(tour));
     }
 
     @Test
-    public void removeFalseTest() {
+    public void removeTrueTest2() {
+        Tour tour = new Tour();
+        tour.setId(2);
+        assertTrue(repository.remove(tour));
+    }
+
+    @Test
+    public void removeFalseTest1() {
         Tour tour = new Tour();
         tour.setId(10);
+        assertFalse(repository.remove(tour));
+    }
+
+    @Test
+    public void removeFalseTest2() {
+        Tour tour = new Tour();
+        tour.setId(-1);
         assertFalse(repository.remove(tour));
     }
 
@@ -98,7 +130,7 @@ public class TourDatabaseRepositoryTest {
         hotel.setId(1);
         tour.setHotel(hotel);
         tour.setDuration(Duration.ofDays(10));
-        tour.setDescription("description");
+        tour.setDescription("sss");
         tour.setDate(LocalDate.now());
         tour.setCost(BigDecimal.valueOf(120));
 

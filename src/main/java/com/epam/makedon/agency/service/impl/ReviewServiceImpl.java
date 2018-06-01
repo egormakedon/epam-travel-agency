@@ -31,6 +31,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Setter
     private ReviewRepository reviewRepository;
 
+    /**
+     * default constructor
+     */
     public ReviewServiceImpl() {}
 
     /**
