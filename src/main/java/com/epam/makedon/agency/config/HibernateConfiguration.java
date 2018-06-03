@@ -1,6 +1,14 @@
 package com.epam.makedon.agency.config;
 
-import org.springframework.context.annotation.*;
+import com.epam.makedon.agency.domain.impl.Hotel;
+import com.epam.makedon.agency.domain.impl.Review;
+import com.epam.makedon.agency.domain.impl.Tour;
+import com.epam.makedon.agency.domain.impl.User;
+import org.hibernate.SessionFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -10,9 +18,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan("com.epam.makedon.agency.service")
 public class HibernateConfiguration {
 
-//    @Bean
-//    public org.hibernate.cfg.Configuration configuration() {
-//        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-//
-//    }
+    @Bean
+    public SessionFactory sessionFactory() {
+        return new org.hibernate.cfg.Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(Hotel.class)
+                .addAnnotatedClass(Review.class)
+                .addAnnotatedClass(Tour.class)
+                .addAnnotatedClass(User.class)
+                .buildSessionFactory();
+    }
 }
