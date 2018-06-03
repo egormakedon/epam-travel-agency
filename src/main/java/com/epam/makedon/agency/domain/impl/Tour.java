@@ -5,8 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
-import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -25,14 +24,39 @@ import java.time.LocalDate;
 @Table(name = "tour")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Tour implements Entity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tour_id")
     private long id;
-    private Image photo;
+
+    @Column(name = "tour_photo")
+    private String photo;
+
+    @Column(name = "tour_date")
     private LocalDate date;
+
+    @Column(name = "tour_duration")
     private Duration duration;
+
+    @Enumerated
+    @Column(columnDefinition = "integer")
+    @JoinColumn(name = "fk_country_id")
     private Country country;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_hotel_id")
     private Hotel hotel;
+
+    @Enumerated
+    @Column(columnDefinition = "integer")
+    @JoinColumn(name = "fk_tour_type_id")
     private TourType type;
+
+    @Column(name = "tour_description")
     private String description;
+
+    @Column(name = "tour_cost")
     private BigDecimal cost;
 
     @Version

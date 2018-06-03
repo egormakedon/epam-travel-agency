@@ -5,8 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
-import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +22,22 @@ import java.util.List;
 @Table(name = "user")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 public class User implements Entity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long id;
+
+    //
     private String login;
+
+    //
     private String password;
+
+    //
     private List<Tour> tourList = new ArrayList<>();
+
+    //
     private List<Review> reviewList = new ArrayList<>();
 
     @Version
