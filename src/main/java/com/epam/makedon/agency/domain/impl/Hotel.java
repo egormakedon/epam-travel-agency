@@ -35,6 +35,6 @@ public class Hotel implements Entity {
     @Column(name = "hotel_stars")
     private byte stars;
 
-    @Version
-    private Integer version;
+//    @Version
+//    private Integer version;
 }

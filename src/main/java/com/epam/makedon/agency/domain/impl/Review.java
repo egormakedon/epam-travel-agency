@@ -16,7 +16,7 @@ import javax.persistence.*;
  * @since version 1.0
  */
 @Data
-@javax.persistence.Entity(name = "Review")
+//@javax.persistence.Entity(name = "Review")
 @Table(name = "review")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Review implements Entity {
@@ -37,6 +37,6 @@ public class Review implements Entity {
     @Column(name = "review_content")
     private String content;
 
-    @Version
-    private Integer version;
+//    @Version
+//    private Integer version;
 }

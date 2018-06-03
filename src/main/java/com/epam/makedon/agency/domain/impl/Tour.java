@@ -6,7 +6,6 @@ import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -39,8 +38,9 @@ public class Tour implements Entity {
     @Column(name = "tour_duration")
     private Duration duration;
 
-    @Enumerated
-    @Column(columnDefinition = "integer")
+//    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "fk_country_id")
+//    @ManyToOne
     @JoinColumn(name = "fk_country_id")
     private Country country;
 
@@ -48,8 +48,10 @@ public class Tour implements Entity {
     @JoinColumn(name = "fk_hotel_id")
     private Hotel hotel;
 
-    @Enumerated
-    @Column(columnDefinition = "integer")
+
+//    @Enumerated()
+    @Column(name = "fk_tour_type_id")
+//    @ManyToOne
     @JoinColumn(name = "fk_tour_type_id")
     private TourType type;
 
@@ -59,6 +61,6 @@ public class Tour implements Entity {
     @Column(name = "tour_cost")
     private BigDecimal cost;
 
-    @Version
-    private Integer version;
+//    @Version
+//    private Integer version;
 }
