@@ -1,9 +1,6 @@
 package com.epam.makedon.agency.config;
 
 import com.epam.makedon.agency.domain.impl.Hotel;
-import com.epam.makedon.agency.domain.impl.Review;
-import com.epam.makedon.agency.domain.impl.Tour;
-import com.epam.makedon.agency.domain.impl.User;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,9 +20,9 @@ public class HibernateConfiguration {
         return new org.hibernate.cfg.Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Hotel.class)
-                .addAnnotatedClass(Review.class)
-                .addAnnotatedClass(Tour.class)
-                .addAnnotatedClass(User.class)
+//                .addAnnotatedClass(Review.class)
+//                .addAnnotatedClass(Tour.class)
+//                .addAnnotatedClass(User.class)
                 .buildSessionFactory();
     }
 }
