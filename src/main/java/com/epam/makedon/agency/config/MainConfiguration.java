@@ -14,7 +14,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
-@ComponentScan("com.epam.makedon.agency.repository")
+@ComponentScan("com.epam.makedon.agency.repository.databaseimpl")
 @ComponentScan("com.epam.makedon.agency.service")
 @Lazy
 @PropertySource(value = "classpath:/property/database.properties")

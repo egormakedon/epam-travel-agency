@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
-@ComponentScan("com.epam.makedon.agency.repository")
+@ComponentScan("com.epam.makedon.agency.repository.databaseimpl")
 @ComponentScan("com.epam.makedon.agency.service")
 public class TestConfiguration {
 
