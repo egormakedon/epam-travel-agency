@@ -2,6 +2,8 @@ package com.epam.makedon.agency.domain.impl;
 
 import com.epam.makedon.agency.domain.Entity;
 import lombok.Data;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
 
@@ -16,6 +18,7 @@ import javax.persistence.*;
 @Data
 @javax.persistence.Entity(name = "Hotel")
 @Table(name = "hotel")
+@OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Hotel implements Entity {
 
     @Id
@@ -31,4 +34,7 @@ public class Hotel implements Entity {
 
     @Column(name = "hotel_stars")
     private byte stars;
+
+    @Version
+    private Integer version;
 }
