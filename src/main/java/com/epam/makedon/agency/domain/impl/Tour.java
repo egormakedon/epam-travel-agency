@@ -2,7 +2,11 @@ package com.epam.makedon.agency.domain.impl;
 
 import com.epam.makedon.agency.domain.Entity;
 import lombok.Data;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
 
+import javax.persistence.Table;
+import javax.persistence.Version;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -17,6 +21,9 @@ import java.time.LocalDate;
  * @since version 1.0
  */
 @Data
+@javax.persistence.Entity(name = "Tour")
+@Table(name = "tour")
+@OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Tour implements Entity {
     private long id;
     private Image photo;
@@ -27,4 +34,7 @@ public class Tour implements Entity {
     private TourType type;
     private String description;
     private BigDecimal cost;
+
+    @Version
+    private Integer version;
 }
