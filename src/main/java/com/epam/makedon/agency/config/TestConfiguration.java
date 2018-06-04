@@ -39,12 +39,12 @@ public class TestConfiguration {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean("repositoryLogger")
+    @Bean(name = "repositoryLogger")
     public RepositoryLogger repositoryLogger() {
         return new RepositoryLogger();
     }
 
-    @Bean("logger")
+    @Bean(name = "logger")
     public Logger logger() {
         return LoggerFactory.getLogger(Repository.class);
     }
