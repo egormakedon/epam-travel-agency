@@ -2,6 +2,7 @@ package com.epam.makedon.agency.domain.impl;
 
 import com.epam.makedon.agency.domain.CountryConverter;
 import com.epam.makedon.agency.domain.Entity;
+import com.epam.makedon.agency.domain.TourTypeConverter;
 import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
@@ -52,13 +53,13 @@ public class Tour implements Entity {
     @NotNull
     private Country country;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_hotel_id")
     @NotNull
     private Hotel hotel;
 
     @Basic
-    @Convert(converter = TourType.class)
+    @Convert(converter = TourTypeConverter.class)
     @Column(name = "fk_tour_type_id")
     @NotNull
     private TourType type;

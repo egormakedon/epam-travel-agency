@@ -29,11 +29,13 @@ public class Review implements Entity {
     @NotNull
     private long id;
 
-    //
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_tour_id")
     @NotNull
     private Tour tour;
 
-    //
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_user_id")
     @NotNull
     private User user;
 

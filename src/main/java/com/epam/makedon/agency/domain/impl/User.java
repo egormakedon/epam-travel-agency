@@ -41,10 +41,14 @@ public class User implements Entity {
     @Size(min = 2, max = 20)
     private String password;
 
-    //
+//    @ManyToMany
+//    @JoinColumn(name = "user_id")
+    @NotNull
     private List<Tour> tourList = new ArrayList<>();
 
-    //
+//    @OneToMany
+//    @JoinTable(name = "review", joinColumns = @JoinColumn(name = "fk_user_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @NotNull
     private List<Review> reviewList = new ArrayList<>();
 
     @Version
