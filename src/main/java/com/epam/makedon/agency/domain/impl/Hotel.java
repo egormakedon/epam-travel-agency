@@ -6,6 +6,10 @@ import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Class Hotel is Entity class.
@@ -24,17 +28,26 @@ public class Hotel implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hotel_id")
+    @NotNull
     private long id;
 
     @Column(name = "hotel_name")
+    @NotNull
+    @Size(min = 2, max = 100)
     private String name;
 
     @Column(name = "hotel_phone")
+    @NotNull
+    @Size(min = 2, max = 25)
     private String phone;
 
     @Column(name = "hotel_stars")
+    @NotNull
+    @Min(1)
+    @Max(5)
     private byte stars;
 
     @Version
+    @Column(name = "hotel_version")
     private Integer version;
 }
