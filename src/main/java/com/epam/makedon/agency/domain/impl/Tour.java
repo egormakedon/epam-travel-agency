@@ -57,9 +57,9 @@ public class Tour implements Entity {
     @NotNull
     private Hotel hotel;
 
-    //
-    @Enumerated//
-    @Column(name = "fk_tour_type_id")//
+    @Basic
+    @Convert(converter = TourType.class)
+    @Column(name = "fk_tour_type_id")
     @NotNull
     private TourType type;
 

@@ -1,4 +1,5 @@
 import com.epam.makedon.agency.config.HibernateConfiguration;
+import com.epam.makedon.agency.domain.impl.Hotel;
 import com.epam.makedon.agency.domain.impl.Tour;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,8 +21,8 @@ public class Test {
     public void test1() {
         Session s = sessionFactory.getCurrentSession();
         s.beginTransaction();
-        Tour h = new Tour();
-        h.setId(2L);
+        Hotel aa = s.get(Hotel.class, 1L);
+        Tour h = s.get(Tour.class, 1L);
         h = s.get(Tour.class, h.getId());
         s.getTransaction().commit();
         System.out.println(h);

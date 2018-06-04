@@ -15,4 +15,20 @@ public enum TourType implements Entity {
     private long id;
     TourType(long id) { this.id = id; }
     public long getId() { return id; }
+    public static TourType fromCode(long id) {
+        switch ((int)id) {
+            case 1:
+                return CHILDREN;
+            case 2:
+                return WEEKEND;
+            case 3:
+                return WEDDING;
+            case 4:
+                return SHOPING;
+            case 5:
+                return EXCURSION;
+            default:
+                throw new RuntimeException("Illegal id argument - " + id);
+        }
+    }
 }
