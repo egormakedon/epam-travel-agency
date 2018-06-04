@@ -6,6 +6,8 @@ import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -27,40 +29,47 @@ public class Tour implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tour_id")
+    @NotNull
     private long id;
 
     @Column(name = "tour_photo")
+    @NotNull
+    @Size(min = 2, max = 100)
     private String photo;
 
     @Column(name = "tour_date")
+    @NotNull
     private LocalDate date;
 
     @Column(name = "tour_duration")
+    @NotNull
     private Duration duration;
 
-//    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "fk_country_id")
-//    @ManyToOne
-    @JoinColumn(name = "fk_country_id")
+    //
+    @NotNull
     private Country country;
 
     @ManyToOne
     @JoinColumn(name = "fk_hotel_id")
+    @NotNull
     private Hotel hotel;
 
-
-//    @Enumerated()
-    @Column(name = "fk_tour_type_id")
-//    @ManyToOne
-    @JoinColumn(name = "fk_tour_type_id")
+    //
+    @Enumerated//
+    @Column(name = "fk_tour_type_id")//
+    @NotNull
     private TourType type;
 
     @Column(name = "tour_description")
+    @NotNull
+    @Size(min = 2)
     private String description;
 
     @Column(name = "tour_cost")
+    @NotNull
     private BigDecimal cost;
 
-//    @Version
-//    private Integer version;
+    @Version
+    @Column(name = "tour_version")
+    private Integer version;
 }
