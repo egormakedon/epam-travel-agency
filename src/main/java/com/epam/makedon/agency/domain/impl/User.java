@@ -6,6 +6,8 @@ import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
  * @since version 1.0
  */
 @Data
-//@javax.persistence.Entity(name = "User")
+@javax.persistence.Entity(name = "User")
 @Table(name = "user")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 public class User implements Entity {
@@ -26,23 +28,26 @@ public class User implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
+    @NotNull
     private long id;
 
     @Column(name = "user_login")
+    @NotNull
+    @Size(min = 2, max = 20)
     private String login;
 
     @Column(name = "user_password")
+    @NotNull
+    @Size(min = 2, max = 20)
     private String password;
 
-    @OneToMany
-    @JoinColumn(table = "user_tour", name = "user_id", referencedColumnName = "fk_user_id")
-    @JoinColumn(table = "tour", name = "fk_tour_id", referencedColumnName = "tour_id")
+    //
     private List<Tour> tourList = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "user_id", referencedColumnName = "fk_user_id", table = "review")
+    //
     private List<Review> reviewList = new ArrayList<>();
 
-//    @Version
-//    private Integer version;
+    @Version
+    @Column(name = "user_version")
+    private Integer version;
 }
