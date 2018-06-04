@@ -1,5 +1,6 @@
 package com.epam.makedon.agency.domain.impl;
 
+import com.epam.makedon.agency.domain.CountryConverter;
 import com.epam.makedon.agency.domain.Entity;
 import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
@@ -45,7 +46,9 @@ public class Tour implements Entity {
     @NotNull
     private Duration duration;
 
-    //
+    @Basic
+    @Convert(converter = CountryConverter.class)
+    @Column(name = "fk_country_id")
     @NotNull
     private Country country;
 

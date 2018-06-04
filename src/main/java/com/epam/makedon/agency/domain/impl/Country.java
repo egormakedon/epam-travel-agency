@@ -15,4 +15,26 @@ public enum Country implements Entity {
     private long id;
     Country(long id) { this.id = id; }
     public long getId() { return id; }
+    public static Country fromCode(long id) {
+        switch ((int)id) {
+            case 1:
+                return BELARUS;
+            case 2:
+                return RUSSIA;
+            case 3:
+                return POLAND;
+            case 4:
+                return SPAIN;
+            case 5:
+                return ENGLAND;
+            case 6:
+                return UKRAINE;
+            case 7:
+                return USA;
+            case 8:
+                return CHINA;
+            default:
+                throw new RuntimeException("Illegal id argument - " + id);
+        }
+    }
 }
