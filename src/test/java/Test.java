@@ -20,7 +20,9 @@ public class Test {
     public void test1() {
         Session s = sessionFactory.getCurrentSession();
         s.beginTransaction();
-        User u = s.get(User.class, 1L);
+        User u = new User();
+        u.setId(1L);
+        u = s.get(User.class, u.getId());
         s.getTransaction().commit();
         System.out.println(u);
     }
