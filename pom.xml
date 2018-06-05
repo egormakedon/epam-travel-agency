@@ -114,7 +114,7 @@
             <version>${logger.version}</version>
         </dependency>
 
-        <!--Test-->
+        <!--CriteriaQueryTest-->
 
         <dependency>
             <groupId>junit</groupId>
