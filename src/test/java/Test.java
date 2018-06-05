@@ -1,5 +1,5 @@
 import com.epam.makedon.agency.config.HibernateConfiguration;
-import com.epam.makedon.agency.domain.impl.Hotel;
+import com.epam.makedon.agency.domain.impl.User;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,10 +18,10 @@ public class Test {
 
     @org.junit.Test
     public void test1() {
-        Hotel h = new Hotel();
+        User h = new User();
         h.setId(1);
-        h = entityManager.find(Hotel.class, h.getId());
-        System.out.println(h);
+        h = entityManager.find(User.class, h.getId());
+        System.out.println(h.getReviewList());
 //        Session s = sessionFactory.getCurrentSession();
 //        s.beginTransaction();
 //        User u = new User();

@@ -1,7 +1,8 @@
 package com.epam.makedon.agency.domain.impl;
 
 import com.epam.makedon.agency.domain.Entity;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
@@ -19,43 +20,59 @@ import java.util.List;
  * @see com.epam.makedon.agency.domain
  * @since version 1.0
  */
-@Data
 @javax.persistence.Entity(name = "User")
 @Table(name = "\"user\"")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 public class User implements Entity {
 
+    @Setter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     @NotNull
     private long id;
 
+    @Setter
+    @Getter
     @Column(name = "user_login")
     @NotNull
     @Size(min = 2, max = 20)
     private String login;
 
+    @Setter
+    @Getter
     @Column(name = "user_password")
     @NotNull
     @Size(min = 2, max = 20)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @Setter
+    @Getter
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "user_tour",
         joinColumns = {@JoinColumn(name = "fk_user_id")},
         inverseJoinColumns = {@JoinColumn(name = "fk_tour_id")})
     @NotNull
     private List<Tour> tourList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @Setter
+    @Getter
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "review",
             joinColumns = {@JoinColumn(name = "fk_user_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
     @NotNull
     private List<Review> reviewList = new ArrayList<>();
 
+    @Setter
+    @Getter
     @Version
     @Column(name = "user_version")
     private Integer version;
+
+    /**
+     * default constructor
+     */
+    public User() {}
 }
