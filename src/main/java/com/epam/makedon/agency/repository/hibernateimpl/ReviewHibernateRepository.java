@@ -5,6 +5,9 @@ import com.epam.makedon.agency.repository.ReviewRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.Optional;
 
 /**
@@ -17,6 +20,9 @@ import java.util.Optional;
 @Repository
 @Profile("hibernateRepository")
 public class ReviewHibernateRepository implements ReviewRepository {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * default constructor
@@ -38,7 +44,10 @@ public class ReviewHibernateRepository implements ReviewRepository {
      */
     @Override
     public Optional<Review> get(long id) {
-        return Optional.empty();
+        final String NATIVE_QUERY_SELECT_REVIEW_BY_ID = "SELECT * FROM review WHERE review_id=?";
+        Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_REVIEW_BY_ID, Review.class);
+        query.setParameter(1, id);
+        return Optional.ofNullable((Review)query.getSingleResult());
     }
 
     /**

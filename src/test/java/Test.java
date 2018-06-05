@@ -7,6 +7,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HibernateConfiguration.class)
@@ -18,16 +19,9 @@ public class Test {
 
     @org.junit.Test
     public void test1() {
-        User h = new User();
-        h.setId(1);
-        h = entityManager.find(User.class, h.getId());
+        Query query = entityManager.createNativeQuery("SELECT * FROM \"user\" WHERE user_id=?", User.class);
+        query.setParameter(1, 1);
+        User  h = (User)query.getSingleResult();
         System.out.println(h.getReviewList());
-//        Session s = sessionFactory.getCurrentSession();
-//        s.beginTransaction();
-//        User u = new User();
-//        u.setId(1L);
-//        u = s.get(User.class, u.getId());
-//        s.getTransaction().commit();
-//        System.out.println(u);
     }
 }

@@ -5,6 +5,9 @@ import com.epam.makedon.agency.repository.HotelRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.Optional;
 
 /**
@@ -17,6 +20,9 @@ import java.util.Optional;
 @Repository
 @Profile("hibernateRepository")
 public class HotelHibernateRepository implements HotelRepository {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * default constructor
@@ -38,7 +44,10 @@ public class HotelHibernateRepository implements HotelRepository {
      */
     @Override
     public Optional<Hotel> get(long id) {
-        return Optional.empty();
+        final String NATIVE_QUERY_SELECT_HOTEL_BY_ID = "SELECT * FROM \"user\" WHERE user_id=?";
+        Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_HOTEL_BY_ID, Hotel.class);
+        query.setParameter(1, id);
+        return Optional.ofNullable((Hotel)query.getSingleResult());
     }
 
     /**

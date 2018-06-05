@@ -5,6 +5,9 @@ import com.epam.makedon.agency.repository.TourRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.Optional;
 
 /**
@@ -17,6 +20,9 @@ import java.util.Optional;
 @Repository
 @Profile("hibernateRepository")
 public class TourHibernateRepository implements TourRepository {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * default constructor
@@ -38,7 +44,10 @@ public class TourHibernateRepository implements TourRepository {
      */
     @Override
     public Optional<Tour> get(long id) {
-        return Optional.empty();
+        final String NATIVE_QUERY_SELECT_TOUR_BY_ID = "SELECT * FROM tour WHERE tour_id=?";
+        Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_TOUR_BY_ID, Tour.class);
+        query.setParameter(1, id);
+        return Optional.ofNullable((Tour)query.getSingleResult());
     }
 
     /**

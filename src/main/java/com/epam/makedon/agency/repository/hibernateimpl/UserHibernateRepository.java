@@ -5,6 +5,9 @@ import com.epam.makedon.agency.repository.UserRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.Optional;
 
 /**
@@ -17,6 +20,9 @@ import java.util.Optional;
 @Repository
 @Profile("hibernateRepository")
 public class UserHibernateRepository implements UserRepository {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * default constructor
@@ -38,7 +44,10 @@ public class UserHibernateRepository implements UserRepository {
      */
     @Override
     public Optional<User> get(long id) {
-        return Optional.empty();
+        final String NATIVE_QUERY_SELECT_USER_BY_ID = "SELECT * FROM user WHERE user_id=?";
+        Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_USER_BY_ID, User.class);
+        query.setParameter(1, id);
+        return Optional.ofNullable((User)query.getSingleResult());
     }
 
     /**
