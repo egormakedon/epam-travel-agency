@@ -32,9 +32,9 @@
         <hikaricp.version>2.7.8</hikaricp.version>
         <aspectj.version>1.9.1</aspectj.version>
         <lombok.version>1.16.20</lombok.version>
-        <jpa.version>2.2</jpa.version>
         <hibernate.version>5.2.17.Final</hibernate.version>
         <hibernate.validator.version>6.0.10.Final</hibernate.validator.version>
+        <glassfish.javax.el.version>3.0.1-b09</glassfish.javax.el.version>
     </properties>
 
     <reporting>
@@ -105,11 +105,16 @@
     </build>
 
     <dependencies>
+
+        <!--Logger-->
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${logger.version}</version>
         </dependency>
+
+        <!--Test-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -131,6 +136,8 @@
             <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--Spring-->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -163,6 +170,14 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!--Postgresql and HikariCP-->
+
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
@@ -174,6 +189,8 @@
             <artifactId>HikariCP</artifactId>
             <version>${hikaricp.version}</version>
         </dependency>
+
+        <!--AspectJ-->
 
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -187,6 +204,8 @@
             <version>${aspectj.version}</version>
         </dependency>
 
+        <!--Lombok-->
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -194,11 +213,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-            <version>${jpa.version}</version>
-        </dependency>
+        <!--Hibernate-->
 
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -206,11 +221,7 @@
             <version>${hibernate.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
+        <!--Hibernate validator-->
 
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -220,8 +231,14 @@
 
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
-            <version>${hibernate.version}</version>
+            <artifactId>hibernate-validator-cdi</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>${glassfish.javax.el.version}</version>
         </dependency>
     </dependencies>
 </project>
