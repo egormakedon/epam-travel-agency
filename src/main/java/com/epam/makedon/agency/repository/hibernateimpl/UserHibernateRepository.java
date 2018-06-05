@@ -35,7 +35,8 @@ public class UserHibernateRepository implements UserRepository {
      */
     @Override
     public boolean add(User user) {
-        return false;
+        entityManager.persist(user);
+        return true;
     }
 
     /**
@@ -57,7 +58,7 @@ public class UserHibernateRepository implements UserRepository {
     @Override
     public boolean remove(User user) {
         final String NAMED_QUERY_DELETE_USER_BY_ID = "DELETE FROM user WHERE user_id=:userId";
-        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_USER_BY_ID);
+        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_USER_BY_ID, User.class);
         query.setParameter("userId", user.getId());
         return query.executeUpdate() == 1;
     }
@@ -68,6 +69,6 @@ public class UserHibernateRepository implements UserRepository {
      */
     @Override
     public Optional<User> update(User user) {
-        return Optional.empty();
+        return Optional.ofNullable(entityManager.merge(user));
     }
 }

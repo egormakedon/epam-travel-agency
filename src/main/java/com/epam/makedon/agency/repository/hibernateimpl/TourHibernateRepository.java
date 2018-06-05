@@ -35,7 +35,8 @@ public class TourHibernateRepository implements TourRepository {
      */
     @Override
     public boolean add(Tour tour) {
-        return false;
+        entityManager.persist(tour);
+        return true;
     }
 
     /**
@@ -57,7 +58,7 @@ public class TourHibernateRepository implements TourRepository {
     @Override
     public boolean remove(Tour tour) {
         final String NAMED_QUERY_DELETE_TOUR_BY_ID = "DELETE FROM tour WHERE tour_id=:tourId";
-        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_TOUR_BY_ID);
+        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_TOUR_BY_ID, Tour.class);
         query.setParameter("tourId", tour.getId());
         return query.executeUpdate() == 1;
     }
@@ -68,6 +69,6 @@ public class TourHibernateRepository implements TourRepository {
      */
     @Override
     public Optional<Tour> update(Tour tour) {
-        return Optional.empty();
+        return Optional.ofNullable(entityManager.merge(tour));
     }
 }

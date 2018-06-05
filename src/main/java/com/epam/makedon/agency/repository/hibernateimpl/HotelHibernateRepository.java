@@ -35,7 +35,8 @@ public class HotelHibernateRepository implements HotelRepository {
      */
     @Override
     public boolean add(Hotel hotel) {
-        return false;
+        entityManager.persist(hotel);
+        return true;
     }
 
     /**
@@ -57,7 +58,7 @@ public class HotelHibernateRepository implements HotelRepository {
     @Override
     public boolean remove(Hotel hotel) {
         final String NAMED_QUERY_DELETE_HOTEL_BY_ID = "DELETE FROM hotel WHERE hotel_id=:hotelId";
-        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_HOTEL_BY_ID);
+        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_HOTEL_BY_ID, Hotel.class);
         query.setParameter("hotelId", hotel.getId());
         return query.executeUpdate() == 1;
     }
@@ -68,6 +69,6 @@ public class HotelHibernateRepository implements HotelRepository {
      */
     @Override
     public Optional<Hotel> update(Hotel hotel) {
-        return Optional.empty();
+        return Optional.ofNullable(entityManager.merge(hotel));
     }
 }

@@ -35,7 +35,8 @@ public class ReviewHibernateRepository implements ReviewRepository {
      */
     @Override
     public boolean add(Review review) {
-        return false;
+        entityManager.persist(review);
+        return true;
     }
 
     /**
@@ -57,7 +58,7 @@ public class ReviewHibernateRepository implements ReviewRepository {
     @Override
     public boolean remove(Review review) {
         final String NAMED_QUERY_DELETE_REVIEW_BY_ID = "DELETE FROM review WHERE review_id=:reviewId";
-        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_REVIEW_BY_ID);
+        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_REVIEW_BY_ID, Review.class);
         query.setParameter("reviewId", review.getId());
         return query.executeUpdate() == 1;
     }
@@ -68,6 +69,6 @@ public class ReviewHibernateRepository implements ReviewRepository {
      */
     @Override
     public Optional<Review> update(Review review) {
-        return Optional.empty();
+        return Optional.ofNullable(entityManager.merge(review));
     }
 }
