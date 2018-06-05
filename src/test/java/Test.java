@@ -1,25 +1,25 @@
-//import com.epam.makedon.agency.config.HibernateConfiguration;
+//import com.epam.makedon.agency.config.TestConfiguration;
 //import com.epam.makedon.agency.domain.impl.Hotel;
+//import com.epam.makedon.agency.repository.HotelRepository;
 //import org.junit.runner.RunWith;
+//import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.test.annotation.DirtiesContext;
+//import org.springframework.test.context.ActiveProfiles;
 //import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //
-//import javax.persistence.EntityManager;
-//import javax.persistence.PersistenceContext;
-//import javax.persistence.criteria.CriteriaQuery;
-//
 //@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(classes = HibernateConfiguration.class)
+//@ActiveProfiles("hibernateRepository")
+//@ContextConfiguration(classes = TestConfiguration.class)
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 //public class Test {
 //
-//    @PersistenceContext
-//    private EntityManager entityManager;
+//    @Autowired
+//    private HotelRepository repository;
 //
 //    @org.junit.Test
 //    public void test1() {
-//        CriteriaQuery<Hotel> criteriaQuery = entityManager.getCriteriaBuilder().createQuery(Hotel.class);
-//        criteriaQuery.
+//        Hotel h = repository.get(1).get();
+//        System.out.println(h);
 //    }
 //}
