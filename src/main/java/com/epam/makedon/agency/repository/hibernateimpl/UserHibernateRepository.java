@@ -44,7 +44,7 @@ public class UserHibernateRepository implements UserRepository {
      */
     @Override
     public Optional<User> get(long id) {
-        final String NATIVE_QUERY_SELECT_USER_BY_ID = "SELECT * FROM user WHERE user_id=?";
+        final String NATIVE_QUERY_SELECT_USER_BY_ID = "SELECT * FROM \"user\" WHERE user_id=?";
         Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_USER_BY_ID, User.class);
         query.setParameter(1, id);
         return Optional.ofNullable((User)query.getSingleResult());
@@ -56,7 +56,10 @@ public class UserHibernateRepository implements UserRepository {
      */
     @Override
     public boolean remove(User user) {
-        return false;
+        final String NAMED_QUERY_DELETE_USER_BY_ID = "DELETE FROM user WHERE user_id=:userId";
+        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_USER_BY_ID);
+        query.setParameter("userId", user.getId());
+        return query.executeUpdate() == 1;
     }
 
     /**

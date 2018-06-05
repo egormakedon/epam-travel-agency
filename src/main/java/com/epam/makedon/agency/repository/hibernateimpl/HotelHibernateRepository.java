@@ -44,7 +44,7 @@ public class HotelHibernateRepository implements HotelRepository {
      */
     @Override
     public Optional<Hotel> get(long id) {
-        final String NATIVE_QUERY_SELECT_HOTEL_BY_ID = "SELECT * FROM \"user\" WHERE user_id=?";
+        final String NATIVE_QUERY_SELECT_HOTEL_BY_ID = "SELECT * FROM hotel WHERE hotel_id=?";
         Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_HOTEL_BY_ID, Hotel.class);
         query.setParameter(1, id);
         return Optional.ofNullable((Hotel)query.getSingleResult());
@@ -56,7 +56,10 @@ public class HotelHibernateRepository implements HotelRepository {
      */
     @Override
     public boolean remove(Hotel hotel) {
-        return false;
+        final String NAMED_QUERY_DELETE_HOTEL_BY_ID = "DELETE FROM hotel WHERE hotel_id=:hotelId";
+        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_HOTEL_BY_ID);
+        query.setParameter("hotelId", hotel.getId());
+        return query.executeUpdate() == 1;
     }
 
     /**
