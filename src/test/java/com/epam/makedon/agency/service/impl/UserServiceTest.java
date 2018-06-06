@@ -1,37 +1,98 @@
 package com.epam.makedon.agency.service.impl;
 
-import com.epam.makedon.agency.repository.collection.UserCollectionRepository;
-import com.epam.makedon.agency.service.Service;
+import com.epam.makedon.agency.config.TestConfiguration;
+import com.epam.makedon.agency.domain.impl.User;
 import com.epam.makedon.agency.service.ServiceException;
-import org.junit.After;
-import org.junit.Before;
+import com.epam.makedon.agency.service.UserService;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Optional;
+
+import static org.junit.Assert.*;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles({"databaseRepository", "service"})
+@ContextConfiguration(classes = TestConfiguration.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserServiceTest {
-    private static Service service;
 
-    @Before
-    public void init() {
-        service = new UserServiceImpl(UserCollectionRepository.getInstance());
-    }
+    @Autowired
+    private UserService service;
 
-    @After
-    public void destroy() {
-        service = null;
-    }
-
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionAddTest() {
-        service.add(null);
+        try {
+            service.add(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
     }
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionRemoveTest() {
-        service.remove(null);
+        try {
+            service.remove(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
     }
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionUpdateTest() {
-        service.update(null);
+        try {
+            service.update(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest1() {
+        try {
+            service.get(0);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest2() {
+        try {
+            service.get(-3);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void addTrueTest() {
+        User user = new User();
+        user.setLogin("aa");
+        user.setPassword("hello1");
+        assertTrue(service.add(user));
+    }
+
+    @Test
+    public void getTrueTest() {
+        Optional<User> opt = service.get(1);
+        assertNotNull(opt.orElse(null));
+    }
+
+    @Test
+    public void removeTrueTest() {
+        User user = new User();
+        user.setId(2);
+        assertTrue(service.remove(user));
     }
 }

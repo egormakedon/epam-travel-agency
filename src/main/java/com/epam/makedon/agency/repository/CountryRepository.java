@@ -1,14 +1,12 @@
 package com.epam.makedon.agency.repository;
 
-import com.epam.makedon.agency.entity.impl.Country;
+import com.epam.makedon.agency.domain.impl.Country;
 
 /**
- * Interface {@code CountryCollectionRepository} mark repository with definite entity.
+ * Interface CountryRepository mark repository with Country domain.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
- * @version 3.0
  * @since version 1.0
  */
-public interface CountryRepository extends Repository<Country> {
-}
+public interface CountryRepository extends Repository<Country> {}

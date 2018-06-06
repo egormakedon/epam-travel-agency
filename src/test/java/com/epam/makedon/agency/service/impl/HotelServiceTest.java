@@ -1,37 +1,113 @@
 package com.epam.makedon.agency.service.impl;
 
-import com.epam.makedon.agency.repository.collection.HotelCollectionRepository;
-import com.epam.makedon.agency.service.Service;
+import com.epam.makedon.agency.config.TestConfiguration;
+import com.epam.makedon.agency.domain.impl.Hotel;
+import com.epam.makedon.agency.service.HotelService;
 import com.epam.makedon.agency.service.ServiceException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Optional;
+
+import static org.junit.Assert.*;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles({"databaseRepository", "service"})
+@ContextConfiguration(classes = TestConfiguration.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class HotelServiceTest {
-    private static Service service;
 
-    @Before
-    public void init() {
-        service = new HotelServiceImpl(HotelCollectionRepository.getInstance());
-    }
+    @Autowired
+    private HotelService service;
 
-    @After
-    public void destroy() {
-        service = null;
-    }
-
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionAddTest() {
-        service.add(null);
+        try {
+            service.add(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
     }
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionRemoveTest() {
-        service.remove(null);
+        try {
+            service.remove(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
     }
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void exceptionUpdateTest() {
-        service.update(null);
+        try {
+            service.update(null);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest1() {
+        try {
+            service.get(0);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void exceptionGetTest2() {
+        try {
+            service.get(-3);
+            fail();
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void addTrueTest() {
+        Hotel h = new Hotel();
+        h.setName("hotel");
+        h.setPhone("phone");
+        assertTrue(service.add(h));
+    }
+
+    @Test
+    public void getTrueTest() {
+       Optional<Hotel> opt = service.get(1);
+       assertNotNull(opt.orElse(null));
+    }
+
+    @Test
+    public void removeTrueTest() {
+        Hotel h = new Hotel();
+        h.setId(3);
+        assertTrue(service.remove(h));
+    }
+
+    @Test
+    public void updateTrueTest() {
+        Hotel h = new Hotel();
+        h.setId(4);
+        h.setName("name");
+        h.setPhone("1234");
+
+        service.add(h);
+        h.setName("newName");
+        service.update(h);
+
+        Optional<Hotel> opt = service.get(4);
+        assertEquals(h, opt.orElse(null));
     }
 }

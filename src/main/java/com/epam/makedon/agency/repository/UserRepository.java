@@ -1,14 +1,12 @@
 package com.epam.makedon.agency.repository;
 
-import com.epam.makedon.agency.entity.impl.User;
+import com.epam.makedon.agency.domain.impl.User;
 
 /**
- * Interface {@code UserCollectionRepository} mark repository with definite entity.
+ * Interface UserRepository mark repository with User domain.
  *
  * @author Yahor Makedon
  * @see com.epam.makedon.agency.repository
- * @version 3.0
  * @since version 1.0
  */
-public interface UserRepository extends Repository<User> {
-}
+public interface UserRepository extends Repository<User> {}
