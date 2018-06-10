@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.service.impl;
 
-import com.epam.makedon.agency.config.TestConfiguration;
+import com.epam.makedon.agency.config.TestDatabaseConfiguration;
 import com.epam.makedon.agency.domain.impl.Country;
 import com.epam.makedon.agency.domain.impl.Hotel;
 import com.epam.makedon.agency.domain.impl.Tour;
@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles({"databaseRepository", "service"})
-@ContextConfiguration(classes = TestConfiguration.class)
+@ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TourServiceTest {
 

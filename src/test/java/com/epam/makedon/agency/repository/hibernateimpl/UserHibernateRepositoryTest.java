@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.repository.hibernateimpl;
 
-import com.epam.makedon.agency.config.TestConfiguration;
+import com.epam.makedon.agency.config.TestDatabaseConfiguration;
 import com.epam.makedon.agency.domain.impl.Tour;
 import com.epam.makedon.agency.domain.impl.User;
 import com.epam.makedon.agency.repository.UserRepository;
@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("hibernateRepository")
-@ContextConfiguration(classes = TestConfiguration.class)
+@ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserHibernateRepositoryTest {
 

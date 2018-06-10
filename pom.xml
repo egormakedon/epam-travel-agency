@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.epam.makedon.agency</groupId>
     <artifactId>travel-agency</artifactId>
     <version>1.0</version>
@@ -23,16 +23,31 @@
         <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
+        <!--Logger-->
         <logger.version>2.9.1</logger.version>
+
+        <!--Test-->
         <junit.version>4.12</junit.version>
         <mockito.version>2.16.0</mockito.version>
+
+        <!--Spring-->
         <spring.version>4.3.14.RELEASE</spring.version>
+
+        <!--Database-->
         <postgresql.version>42.2.2</postgresql.version>
         <h2.version>1.4.196</h2.version>
         <hikaricp.version>2.7.8</hikaricp.version>
+
+        <!--Aspect-->
         <aspectj.version>1.9.1</aspectj.version>
+
+        <!--Lombok-->
         <lombok.version>1.16.20</lombok.version>
+
+        <!--Hibernate-->
         <hibernate.version>5.2.17.Final</hibernate.version>
+
+        <!--Hibernate validator-->
         <hibernate.validator.version>6.0.10.Final</hibernate.validator.version>
         <glassfish.javax.el.version>3.0.1-b09</glassfish.javax.el.version>
     </properties>
@@ -114,7 +129,7 @@
             <version>${logger.version}</version>
         </dependency>
 
-        <!--CriteriaQueryTest-->
+        <!--Test-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -181,7 +196,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -218,6 +232,24 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-hikaricp</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
 

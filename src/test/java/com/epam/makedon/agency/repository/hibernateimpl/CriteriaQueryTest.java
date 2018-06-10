@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.repository.hibernateimpl;
 
-import com.epam.makedon.agency.config.TestConfiguration;
+import com.epam.makedon.agency.config.TestDatabaseConfiguration;
 import com.epam.makedon.agency.domain.impl.Hotel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfiguration.class)
+@ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CriteriaQueryTest {
 
