@@ -57,8 +57,8 @@ public class TourHibernateRepository implements TourRepository {
      */
     @Override
     public boolean remove(Tour tour) {
-        final String NAMED_QUERY_DELETE_TOUR_BY_ID = "DELETE FROM tour WHERE tour_id=:tourId";
-        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_TOUR_BY_ID, Tour.class);
+        final String NAMED_QUERY_DELETE_TOUR_BY_ID = "DELETE FROM Tour WHERE id=:tourId";
+        Query query = entityManager.createQuery(NAMED_QUERY_DELETE_TOUR_BY_ID);
         query.setParameter("tourId", tour.getId());
         return query.executeUpdate() == 1;
     }

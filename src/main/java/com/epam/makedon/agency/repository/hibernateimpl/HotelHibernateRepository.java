@@ -57,8 +57,8 @@ public class HotelHibernateRepository implements HotelRepository {
      */
     @Override
     public boolean remove(Hotel hotel) {
-        final String NAMED_QUERY_DELETE_HOTEL_BY_ID = "DELETE FROM hotel WHERE hotel_id=:hotelId";
-        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_HOTEL_BY_ID, Hotel.class);
+        final String NAMED_QUERY_DELETE_HOTEL_BY_ID = "DELETE FROM Hotel WHERE id=:hotelId";
+        Query query = entityManager.createQuery(NAMED_QUERY_DELETE_HOTEL_BY_ID);
         query.setParameter("hotelId", hotel.getId());
         return query.executeUpdate() == 1;
     }

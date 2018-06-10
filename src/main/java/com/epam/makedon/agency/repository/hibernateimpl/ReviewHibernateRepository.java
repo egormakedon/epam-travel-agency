@@ -57,8 +57,8 @@ public class ReviewHibernateRepository implements ReviewRepository {
      */
     @Override
     public boolean remove(Review review) {
-        final String NAMED_QUERY_DELETE_REVIEW_BY_ID = "DELETE FROM review WHERE review_id=:reviewId";
-        Query query = entityManager.createNamedQuery(NAMED_QUERY_DELETE_REVIEW_BY_ID, Review.class);
+        final String NAMED_QUERY_DELETE_REVIEW_BY_ID = "DELETE FROM Review WHERE id=:reviewId";
+        Query query = entityManager.createQuery(NAMED_QUERY_DELETE_REVIEW_BY_ID);
         query.setParameter("reviewId", review.getId());
         return query.executeUpdate() == 1;
     }

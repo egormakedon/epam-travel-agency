@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.domain.impl;
 
 import com.epam.makedon.agency.domain.Entity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
@@ -21,8 +22,9 @@ import java.util.List;
  * @since version 1.0
  */
 @javax.persistence.Entity(name = "User")
-@Table(name = "\"user\"")
+@Table(name = "user")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
+@EqualsAndHashCode
 public class User implements Entity {
 
     @Setter

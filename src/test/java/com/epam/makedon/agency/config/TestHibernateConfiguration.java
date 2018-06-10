@@ -42,7 +42,6 @@ public class TestHibernateConfiguration {
         emfb.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         Properties jpaProperties = new Properties();
         jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         jpaProperties.setProperty("hibernate.show_sql", "true");
         jpaProperties.setProperty("hibernate.format_sql", "true");
         jpaProperties.setProperty("hibernate.use_sql_comments", "true");

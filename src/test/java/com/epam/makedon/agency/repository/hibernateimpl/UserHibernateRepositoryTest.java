@@ -1,7 +1,6 @@
 package com.epam.makedon.agency.repository.hibernateimpl;
 
-import com.epam.makedon.agency.config.TestDatabaseConfiguration;
-import com.epam.makedon.agency.domain.impl.Tour;
+import com.epam.makedon.agency.config.TestHibernateConfiguration;
 import com.epam.makedon.agency.domain.impl.User;
 import com.epam.makedon.agency.repository.UserRepository;
 import org.junit.Test;
@@ -10,17 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @ActiveProfiles("hibernateRepository")
-@ContextConfiguration(classes = TestDatabaseConfiguration.class)
+@ContextConfiguration(classes = TestHibernateConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 public class UserHibernateRepositoryTest {
 
     @Autowired
@@ -71,42 +71,5 @@ public class UserHibernateRepositoryTest {
         User user = new User();
         user.setId(100);
         assertFalse(repository.remove(user));
-    }
-
-    @Test
-    public void updateTest1() {
-        User user = new User();
-        user.setId(6);
-        user.setLogin("ss");
-        user.setPassword("ss");
-        repository.add(user);
-
-        user.setLogin("aa");
-        user.setPassword("aa");
-        Tour tour = new Tour();
-        tour.setId(1);
-        user.getTourList().add(tour);
-        repository.update(user);
-
-        assertEquals(repository.get(6).orElse(null), user);
-    }
-
-    @Test
-    public void updateTest2() {
-        User user = repository.get(5).orElseThrow(() -> new RuntimeException(""));
-
-        user.setLogin("ss");
-        user.setPassword("ss");
-        Tour tour = new Tour();
-        tour.setId(1);
-        user.getTourList().add(tour);
-        repository.update(user);
-
-        user.setTourList(user.getTourList()
-                        .stream()
-                        .sorted((u1,u2) -> (int)(u1.getId() - u2.getId()))
-                        .collect(Collectors.toList()));
-
-        assertEquals(repository.get(5).orElse(null), user);
     }
 }

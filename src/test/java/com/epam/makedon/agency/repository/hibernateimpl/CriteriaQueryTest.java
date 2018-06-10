@@ -1,12 +1,13 @@
 package com.epam.makedon.agency.repository.hibernateimpl;
 
-import com.epam.makedon.agency.config.TestDatabaseConfiguration;
+import com.epam.makedon.agency.config.TestHibernateConfiguration;
 import com.epam.makedon.agency.domain.impl.Hotel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,9 +17,10 @@ import javax.persistence.criteria.Root;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestDatabaseConfiguration.class)
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = TestHibernateConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 public class CriteriaQueryTest {
 
     @PersistenceContext
