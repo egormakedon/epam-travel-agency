@@ -6,7 +6,12 @@
 
     <groupId>com.epam.makedon.agency</groupId>
     <artifactId>travel-agency</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
+    <modules>
+        <module>agency-domain</module>
+        <module>agency-web</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
