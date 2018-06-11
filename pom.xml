@@ -8,10 +8,13 @@
     <artifactId>travel-agency</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
+
     <modules>
         <module>agency-domain</module>
         <module>agency-web</module>
     </modules>
+
+    <name>travel-agency</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +27,6 @@
         <info.reports.version>2.9</info.reports.version>
         <jacoco.version>0.8.0</jacoco.version>
         <javadoc.version>3.0.0</javadoc.version>
-
         <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
@@ -36,25 +38,13 @@
         <mockito.version>2.16.0</mockito.version>
 
         <!--Spring-->
-        <spring.version>4.3.14.RELEASE</spring.version>
-
-        <!--Database-->
-        <postgresql.version>42.2.2</postgresql.version>
-        <h2.version>1.4.196</h2.version>
-        <hikaricp.version>2.7.8</hikaricp.version>
+        <spring.version>4.3.16.RELEASE</spring.version>
 
         <!--Aspect-->
         <aspectj.version>1.9.1</aspectj.version>
 
         <!--Lombok-->
         <lombok.version>1.16.20</lombok.version>
-
-        <!--Hibernate-->
-        <hibernate.version>5.2.17.Final</hibernate.version>
-
-        <!--Hibernate validator-->
-        <hibernate.validator.version>6.0.10.Final</hibernate.validator.version>
-        <glassfish.javax.el.version>3.0.1-b09</glassfish.javax.el.version>
     </properties>
 
     <reporting>
@@ -86,6 +76,8 @@
     </reporting>
 
     <build>
+        <finalName>travel-agency</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -150,13 +142,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--Spring-->
 
         <dependency>
@@ -175,38 +160,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!--Postgresql and HikariCP-->
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>${hikaricp.version}</version>
         </dependency>
 
         <!--AspectJ-->
@@ -230,52 +183,6 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!--Hibernate-->
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jcache</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
-        <!--Hibernate validator-->
-
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator-cdi</artifactId>
-            <version>${hibernate.validator.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>${glassfish.javax.el.version}</version>
         </dependency>
     </dependencies>
 </project>
