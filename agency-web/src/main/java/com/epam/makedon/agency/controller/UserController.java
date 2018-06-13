@@ -1,9 +1,9 @@
-package com.epam.makedon.agency.agencyweb.controller;
+package com.epam.makedon.agency.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class HotelController {
+public class UserController {
 }
