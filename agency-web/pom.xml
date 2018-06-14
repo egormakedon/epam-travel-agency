@@ -23,6 +23,9 @@
 
         <!--Freemarker-->
         <freemarker.version>2.3.28</freemarker.version>
+
+        <!--Servlet-api-->
+        <servlet-api.version>4.0.1</servlet-api.version>
     </properties>
 
     <dependencies>
@@ -67,6 +70,14 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
+        </dependency>
+
+        <!--Servlet-api-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--Jackson-->

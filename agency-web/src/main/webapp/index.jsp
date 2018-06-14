@@ -1,16 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: egor
-  Date: 11.6.18
-  Time: 15.50
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  NEW KEK
-  </body>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title></title>
+    </head>
+
+    <body>
+
+    </body>
 </html>
