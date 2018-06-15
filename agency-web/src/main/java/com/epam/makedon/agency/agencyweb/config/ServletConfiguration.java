@@ -13,6 +13,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 @ComponentScan("com.epam.makedon.agency.agencyweb")
 public class ServletConfiguration extends WebMvcConfigurerAdapter {
 
+    // Freemarker configure
+
     @Bean
     public FreeMarkerConfigurer freeMarkerConfigurer() {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();

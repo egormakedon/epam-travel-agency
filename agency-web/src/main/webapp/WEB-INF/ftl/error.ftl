@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,7 +7,7 @@
     </head>
 
     <body>
-        Exception message: ${exceptionMessage}
-        <a href="hello.ftl">as</a>
+        Exception message: ${exceptionMessage} <br>
+        <a href="<@spring.url '/'/>">Return to welcome page</a>
     </body>
 </html>

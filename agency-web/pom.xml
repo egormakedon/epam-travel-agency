@@ -13,6 +13,7 @@
     <packaging>war</packaging>
 
     <properties>
+        <maven.war.plugin.version>2.4</maven.war.plugin.version>
 
         <!--Jstl-->
         <jstl.version>1.2</jstl.version>
@@ -27,6 +28,18 @@
         <!--Servlet-api-->
         <servlet-api.version>4.0.1</servlet-api.version>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven.war.plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
 

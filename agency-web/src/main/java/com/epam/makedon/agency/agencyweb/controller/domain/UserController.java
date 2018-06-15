@@ -1,4 +1,4 @@
-package com.epam.makedon.agency.agencyweb.controller;
+package com.epam.makedon.agency.agencyweb.controller.domain;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

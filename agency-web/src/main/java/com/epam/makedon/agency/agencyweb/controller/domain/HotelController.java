@@ -1,12 +1,12 @@
-package com.epam.makedon.agency.agencyweb.controller;
+package com.epam.makedon.agency.agencyweb.controller.domain;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/tour")
-public class TourController {
+@RequestMapping("/hotel")
+public class HotelController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void add() {
@@ -15,7 +15,7 @@ public class TourController {
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public void get() {
-
+        int i = 10 / 0;
     }
 
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
