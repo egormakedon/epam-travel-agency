@@ -1,7 +1,6 @@
 package com.epam.makedon.agency.agencyweb.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -9,13 +8,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/hotel")
 public class HotelController {
 
-//    @Autowired
-//    @Setter
-//    private HotelService service;
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public void add() {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/hello")
-    public String kek(Model model) {
-        model.addAttribute("user", "kekeke");
-        return "hello";
+    }
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public void get() {
+        int i = 10 / 0;
+    }
+
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public void remove() {
+
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public void update() {
+
     }
 }
