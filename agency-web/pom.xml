@@ -13,7 +13,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <maven.war.plugin.version>2.4</maven.war.plugin.version>
+        <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
 
         <!--Jstl-->
         <jstl.version>1.2</jstl.version>
@@ -32,6 +32,7 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${maven.war.plugin.version}</version>
                 <configuration>

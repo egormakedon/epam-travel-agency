@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/hotel")
 public class HotelController {
 
+//    @Autowired
+//    private HotelService service;
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void add() {
 
