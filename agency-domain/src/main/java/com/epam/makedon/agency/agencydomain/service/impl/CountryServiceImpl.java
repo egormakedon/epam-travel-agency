@@ -27,7 +27,7 @@ import java.util.Optional;
 public class CountryServiceImpl implements CountryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CountryServiceImpl.class);
 
-    @Autowired
+    @Autowired(required = false)
     @Setter
     private CountryRepository countryRepository;
 

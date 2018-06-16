@@ -14,6 +14,7 @@
 
     <properties>
         <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
+        <tomcat.maven.plugin.version>2.2</tomcat.maven.plugin.version>
 
         <!--Jstl-->
         <jstl.version>1.2</jstl.version>
@@ -37,6 +38,17 @@
                 <version>${maven.war.plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat.maven.plugin.version}</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <server>TomcatServer</server>
+                    <path>/${project.build.finalName}</path>
                 </configuration>
             </plugin>
         </plugins>

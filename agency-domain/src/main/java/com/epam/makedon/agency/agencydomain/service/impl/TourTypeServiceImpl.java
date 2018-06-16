@@ -27,7 +27,7 @@ import java.util.Optional;
 public class TourTypeServiceImpl implements TourTypeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TourTypeServiceImpl.class);
 
-    @Autowired
+    @Autowired(required = false)
     @Setter
     private TourTypeRepository tourTypeRepository;
 
