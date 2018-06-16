@@ -1,5 +1,7 @@
 package com.epam.makedon.agency.agencyweb.controller.domain;
 
+import com.epam.makedon.agency.agencydomain.service.HotelService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/hotel")
 public class HotelController {
 
-//    @Autowired
-//    private HotelService service;
+    @Autowired
+    private HotelService service;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void add() {

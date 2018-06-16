@@ -27,6 +27,7 @@
         <javadoc.version>3.0.0</javadoc.version>
         <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <tomcat.maven.plugin.version>2.2</tomcat.maven.plugin.version>
 
         <!--Logger-->
         <logger.version>2.9.1</logger.version>
@@ -110,6 +111,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat.maven.plugin.version}</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <server>TomcatServer</server>
+                    <path>/${project.build.finalName}</path>
+                </configuration>
             </plugin>
         </plugins>
     </build>

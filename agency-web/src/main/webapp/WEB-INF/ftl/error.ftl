@@ -3,11 +3,12 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Error</title>
+        <title><@spring.message "error.title"/></title>
     </head>
 
     <body>
-        Exception message: ${exceptionMessage} <br>
-        <a href="<@spring.url '/'/>">Return to welcome page</a>
+        <@spring.message "general.language"/> : <a href="?locale=en"><@spring.message "general.english"/></a> | <a href="?locale=ru"><@spring.message "general.russian"/></a> <br>
+        <@spring.message "error.exception.message"/> : ${exceptionMessage} <br>
+        <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
     </body>
 </html>
