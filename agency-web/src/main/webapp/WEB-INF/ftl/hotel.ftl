@@ -17,5 +17,17 @@
             <input type="submit" value="<@spring.message "general.add"/>">
             <#if RequestParameters.result??>${RequestParameters.result}</#if>
         </form>
+
+        <br>
+
+        <form action="<@spring.url "/hotel/get"/>" method="get">
+            <input type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
+            <input type="submit" value="<@spring.message "general.find"/>">
+            <#if result?? && result?is_string && result == "notFound">
+                <@spring.message "hotel.not.found"/>
+            <#elseif result??>
+                ${result}
+            </#if>
+        </form>
     </body>
 </html>
