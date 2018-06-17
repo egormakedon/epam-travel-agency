@@ -2,7 +2,7 @@ package com.epam.makedon.agency.agencyweb.domain;
 
 public enum Page {
     INDEX("/", "index"),
-    ERROR("", "error"),
+    ERROR("/error", "error"),
     USER("/user", "user"),
     TOUR("/tour", "tour"),
     REVIEW("/review", "review"),

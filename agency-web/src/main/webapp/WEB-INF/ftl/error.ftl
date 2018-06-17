@@ -9,7 +9,7 @@
 
     <body>
         <@spring.message "general.language"/> : <a href="?locale=en"><@spring.message "general.english"/></a> | <a href="?locale=ru"><@spring.message "general.russian"/></a> <br>
-        <@spring.message "error.exception.message"/> : ${exceptionMessage} <br>
+        <@spring.message "error.exception.message"/> : <#if RequestParameters.exceptionMessage??>${RequestParameters.exceptionMessage}</#if> <br>
         <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
     </body>
 </html>

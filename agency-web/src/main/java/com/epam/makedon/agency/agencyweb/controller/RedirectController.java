@@ -32,4 +32,9 @@ public class RedirectController {
     public String review() {
         return Page.REVIEW.getPage();
     }
+
+    @RequestMapping(value = "/error", method = RequestMethod.GET)
+    public String error() {
+        return Page.ERROR.getPage();
+    }
 }

@@ -9,5 +9,13 @@
 
     <body>
         <@spring.message "general.language"/> : <a href="?locale=en"><@spring.message "general.english"/></a> | <a href="?locale=ru"><@spring.message "general.russian"/></a> <br>
+
+        <form action="<@spring.url "/hotel/add"/>" method="post">
+            <input type="text" placeholder="<@spring.message "hotel.name"/>" name="name" required>
+            <input type="text" placeholder="<@spring.message "hotel.phone"/>" name="phone" required>
+            <input type="text" placeholder="<@spring.message "hotel.stars"/>" name="stars" required>
+            <input type="submit" value="<@spring.message "general.add"/>">
+            <#if RequestParameters.result??>${RequestParameters.result}</#if>
+        </form>
     </body>
 </html>
