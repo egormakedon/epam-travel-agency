@@ -9,6 +9,6 @@ public class RedirectController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
-        return "index";
+        return "/WEB-INF/index.ftl";
     }
 }
