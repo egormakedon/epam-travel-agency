@@ -1,5 +1,6 @@
 package com.epam.makedon.agency.agencyweb.controller;
 
+import com.epam.makedon.agency.agencyweb.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,26 @@ public class RedirectController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
-        return "/WEB-INF/index.ftl";
+        return Page.INDEX;
+    }
+
+    @RequestMapping(value = "/hotel", method = RequestMethod.GET)
+    public String hotel() {
+        return Page.HOTEL;
+    }
+
+    @RequestMapping(value = "/tour", method = RequestMethod.GET)
+    public String tour() {
+        return Page.TOUR;
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public String user() {
+        return Page.USER;
+    }
+
+    @RequestMapping(value = "/review", method = RequestMethod.GET)
+    public String review() {
+        return Page.REVIEW;
     }
 }
