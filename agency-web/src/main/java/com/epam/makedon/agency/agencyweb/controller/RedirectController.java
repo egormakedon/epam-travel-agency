@@ -10,26 +10,26 @@ public class RedirectController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
-        return Page.INDEX;
+        return Page.INDEX.getPage();
     }
 
     @RequestMapping(value = "/hotel", method = RequestMethod.GET)
     public String hotel() {
-        return Page.HOTEL;
+        return Page.HOTEL.getPage();
     }
 
     @RequestMapping(value = "/tour", method = RequestMethod.GET)
     public String tour() {
-        return Page.TOUR;
+        return Page.TOUR.getPage();
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String user() {
-        return Page.USER;
+        return Page.USER.getPage();
     }
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String review() {
-        return Page.REVIEW;
+        return Page.REVIEW.getPage();
     }
 }

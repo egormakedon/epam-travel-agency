@@ -11,6 +11,6 @@ public class ExceptionHandlingController {
     @ExceptionHandler(Exception.class)
     public String controllerException(Model model, Exception e) {
         model.addAttribute("exceptionMessage", e.getMessage());
-        return Page.ERROR;
+        return Page.ERROR.getPage();
     }
 }

@@ -1,10 +1,26 @@
 package com.epam.makedon.agency.agencyweb.domain;
 
-public final class Page {
-    public static final String INDEX = "index";
-    public static final String ERROR = "error";
-    public static final String USER = "user";
-    public static final String TOUR = "tour";
-    public static final String REVIEW = "review";
-    public static final String HOTEL = "hotel";
+public enum Page {
+    INDEX("/", "index"),
+    ERROR("", "error"),
+    USER("/user", "user"),
+    TOUR("/tour", "tour"),
+    REVIEW("/review", "review"),
+    HOTEL("/hotel", "hotel");
+
+    private String url;
+    private String page;
+
+    Page(String url, String page) {
+        this.url = url;
+        this.page = page;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getPage() {
+        return page;
+    }
 }
