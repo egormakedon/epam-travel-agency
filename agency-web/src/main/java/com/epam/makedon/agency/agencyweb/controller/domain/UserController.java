@@ -1,10 +1,17 @@
 package com.epam.makedon.agency.agencyweb.controller.domain;
 
+import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import com.epam.makedon.agency.agencydomain.service.UserService;
+import com.epam.makedon.agency.agencyweb.domain.Constant;
+import com.epam.makedon.agency.agencyweb.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -14,18 +21,62 @@ public class UserController {
     private UserService service;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public void add() {
-
+    public String add(Model model, @RequestParam String login, @RequestParam String password) {
+        User user = new User();
+        user.setLogin(login);
+        user.setPassword(password);
+        try {
+            if (service.add(user)) {
+                model.addAttribute(Constant.RESULT, Constant.ADDED);
+            } else {
+                model.addAttribute(Constant.RESULT, Constant.NOT_ADDED);
+            }
+        } catch (Exception e) {
+            model.addAttribute(Constant.RESULT, Constant.NOT_ADDED);
+        }
+        return Constant.REDIRECT + Page.USER.getUrl();
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public void get() {
-
+    public String get(Model model, @RequestParam long id) {
+        try {
+            Optional<User> opt = service.get(id);
+            if (opt.isPresent()) {
+                model.addAttribute(Constant.RESULT, opt.get());
+            } else {
+                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
+                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            } else {
+                throw e;
+            }
+        }
+        return Page.USER.getPage();
     }
 
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public void remove() {
-
+    public String remove(Model model, @RequestParam long id) {
+        try {
+            Optional<User> opt = service.get(id);
+            if (opt.isPresent()) {
+                if (service.remove(opt.get())) {
+                    model.addAttribute(Constant.RESULT, Constant.REMOVED);
+                } else {
+                    model.addAttribute(Constant.RESULT, Constant.NOT_REMOVED);
+                }
+            } else {
+                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
+                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            } else {
+                throw e;
+            }
+        }
+        return Constant.REDIRECT + Page.USER.getUrl();
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
