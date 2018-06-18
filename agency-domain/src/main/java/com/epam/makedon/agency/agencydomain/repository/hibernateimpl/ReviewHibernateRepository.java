@@ -35,7 +35,7 @@ public class ReviewHibernateRepository implements ReviewRepository {
      */
     @Override
     public boolean add(Review review) {
-        entityManager.persist(review);
+        entityManager.merge(review);
         return true;
     }
 

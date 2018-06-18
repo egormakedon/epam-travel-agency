@@ -45,12 +45,16 @@
             <@spring.message "hotel.added.successfully"/>
         <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="notAdded">
             <@spring.message "hotel.not.added"/>
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notFound">
+            <@spring.message "hotel.not.found"/>
         <#elseif result?? && result?is_string && result == "notFound">
             <@spring.message "hotel.not.found"/>
-        <#elseif result?? && result?is_string && result == "removed">
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "removed">
             <@spring.message "hotel.removed.successfully"/>
-        <#elseif result?? && result?is_string && result == "notRemoved">
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notRemoved">
             <@spring.message "hotel.not.removed"/>
+        <#elseif RequestParameters.result??>
+            ${RequestParameters.result}
         <#elseif result??>
             ${result}
         </#if>

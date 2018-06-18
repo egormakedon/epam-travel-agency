@@ -22,7 +22,7 @@ import java.util.List;
  * @since version 1.0
  */
 @javax.persistence.Entity(name = "User")
-@Table(name = "user")
+@Table(name = "\"user\"")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 @EqualsAndHashCode
 public class User implements Entity {

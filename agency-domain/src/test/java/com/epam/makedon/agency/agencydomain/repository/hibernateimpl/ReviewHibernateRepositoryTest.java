@@ -2,8 +2,6 @@ package com.epam.makedon.agency.agencydomain.repository.hibernateimpl;
 
 import com.epam.makedon.agency.agencydomain.config.TestHibernateConfiguration;
 import com.epam.makedon.agency.agencydomain.domain.impl.Review;
-import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
-import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import com.epam.makedon.agency.agencydomain.repository.ReviewRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("hibernateRepository")
@@ -26,29 +25,29 @@ public class ReviewHibernateRepositoryTest {
     @Autowired
     private ReviewRepository repository;
 
-    @Test
-    public void getTrueTest1() {
-        assertNotNull(repository.get(1).orElse(null));
-    }
-
-    @Test
-    public void getTrueTest2() {
-        assertNotNull(repository.get(2).orElse(null));
-    }
-
-    @Test
-    public void getFalseTest() {
-        Review review = new Review();
-        review.setId(5);
-        User user = new User();
-        user.setId(1);
-        Tour tour = new Tour();
-        tour.setId(1);
-        review.setUser(user);
-        review.setTour(tour);
-        review.setContent("ll");
-        assertNotEquals(repository.get(1).orElse(null), review);
-    }
+//    @Test
+//    public void getTrueTest1() {
+//        assertNotNull(repository.get(1).orElse(null));
+//    }
+//
+//    @Test
+//    public void getTrueTest2() {
+//        assertNotNull(repository.get(2).orElse(null));
+//    }
+//
+//    @Test
+//    public void getFalseTest() {
+//        Review review = new Review();
+//        review.setId(5);
+//        User user = new User();
+//        user.setId(1);
+//        Tour tour = new Tour();
+//        tour.setId(1);
+//        review.setUser(user);
+//        review.setTour(tour);
+//        review.setContent("ll");
+//        assertNotEquals(repository.get(1).orElse(null), review);
+//    }
 
     @Test
     public void removeTrueTest() {

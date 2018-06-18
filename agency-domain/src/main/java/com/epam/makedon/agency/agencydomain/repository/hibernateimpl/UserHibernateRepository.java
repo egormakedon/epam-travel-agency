@@ -45,7 +45,7 @@ public class UserHibernateRepository implements UserRepository {
      */
     @Override
     public Optional<User> get(long id) {
-        final String NATIVE_QUERY_SELECT_USER_BY_ID = "SELECT * FROM user WHERE user_id=?";
+        final String NATIVE_QUERY_SELECT_USER_BY_ID = "SELECT * FROM \"user\" WHERE user_id=?";
         Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_USER_BY_ID, User.class);
         query.setParameter(1, id);
         return Optional.ofNullable((User)query.getSingleResult());
