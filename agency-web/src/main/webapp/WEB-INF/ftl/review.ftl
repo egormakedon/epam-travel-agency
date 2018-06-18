@@ -33,6 +33,16 @@
 
         <br>
 
+        <form action="<@spring.url "/review/update"/>" method="post">
+            <input type="text" placeholder="<@spring.message "review.id"/>" name="id" required>
+            <input type="text" placeholder="<@spring.message "tour.id"/>" name="tourId">
+            <input type="text" placeholder="<@spring.message "user.id"/>" name="userId">
+            <input type="text" placeholder="<@spring.message "review.content"/>" name="content">
+            <input type="submit" value="<@spring.message "general.update"/>">
+        </form>
+
+        <br>
+
         <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
 
         <br><br>

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -31,41 +32,18 @@ public class ReviewController {
     private UserService userService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(Model model, long tourId, long userId, String content) {
-        Tour tour;
-        try {
-            Optional<Tour> opt = tourService.get(tourId);
-            if (opt.isPresent()) {
-                tour = opt.get();
-            } else {
-                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "Tour");
-                return Page.REVIEW.getPage();
-            }
-        } catch (Exception e) {
-            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
-                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "Tour");
-                return Page.REVIEW.getPage();
-            } else {
-                throw e;
-            }
+    public String add(Model model, @RequestParam long tourId, @RequestParam long userId, @RequestParam String content) {
+        Tour tour = takeTour(tourId);
+
+        if (tour == null) {
+            model.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "Tour");
+            return Page.REVIEW.getPage();
         }
 
-        User user;
-        try {
-            Optional<User> opt = userService.get(userId);
-            if (opt.isPresent()) {
-                user = opt.get();
-            } else {
-                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "User");
-                return Page.REVIEW.getPage();
-            }
-        } catch (Exception e) {
-            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
-                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "User");
-                return Page.REVIEW.getPage();
-            } else {
-                throw e;
-            }
+        User user = takeUser(userId);
+        if (user == null) {
+            model.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "User");
+            return Page.REVIEW.getPage();
         }
 
         Review review = new Review();
@@ -124,7 +102,70 @@ public class ReviewController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void update() {
+    public String update(RedirectAttributes redirectAttributes, @RequestParam long id, @RequestParam String tourId,
+                         @RequestParam String userId, @RequestParam String content) {
+        try {
+            Optional<Review> opt = service.get(id);
+            if (opt.isPresent()) {
+                Review review = opt.get();
 
+                if (!tourId.isEmpty()) {
+                    Tour tour = takeTour(Long.valueOf(tourId));
+                    if (tour == null) {
+                        redirectAttributes.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "Tour");
+                        return Page.REVIEW.getPage();
+                    } else {
+                        review.setTour(tour);
+                    }
+                }
+
+                if (!userId.isEmpty()) {
+                    User user = takeUser(Long.valueOf(userId));
+                    if (user == null) {
+                        redirectAttributes.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "User");
+                        return Page.REVIEW.getPage();
+                    } else {
+                        review.setUser(user);
+                    }
+                }
+
+                if (!content.isEmpty()) review.setContent(content);
+                redirectAttributes.addFlashAttribute(Constant.RESULT, service.update(review).orElse(null));
+            } else {
+                redirectAttributes.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
+                redirectAttributes.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            } else {
+                throw e;
+            }
+        }
+        return Constant.REDIRECT + Page.REVIEW.getUrl();
+    }
+
+    private Tour takeTour(long tourId) {
+        try {
+            Optional<Tour> opt = tourService.get(tourId);
+            return opt.orElse(null);
+        } catch (Exception e) {
+            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
+                return null;
+            } else {
+                throw e;
+            }
+        }
+    }
+    private User takeUser(long userId) {
+        try {
+            Optional<User> opt = userService.get(userId);
+            return opt.orElse(null);
+        } catch (Exception e) {
+            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
+                return null;
+            } else {
+                throw e;
+            }
+        }
     }
 }
