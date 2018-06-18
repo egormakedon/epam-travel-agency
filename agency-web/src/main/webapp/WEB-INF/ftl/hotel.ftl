@@ -15,7 +15,6 @@
             <input type="text" placeholder="<@spring.message "hotel.phone"/>" name="phone" required>
             <input type="text" placeholder="<@spring.message "hotel.stars"/>" name="stars" required>
             <input type="submit" value="<@spring.message "general.add"/>">
-            <#if RequestParameters.result??>${RequestParameters.result}</#if>
         </form>
 
         <br>
@@ -23,11 +22,37 @@
         <form action="<@spring.url "/hotel/get"/>" method="get">
             <input type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
             <input type="submit" value="<@spring.message "general.find"/>">
-            <#if result?? && result?is_string && result == "notFound">
-                <@spring.message "hotel.not.found"/>
-            <#elseif result??>
-                ${result}
-            </#if>
         </form>
+
+        <br>
+
+        <form action="<@spring.url "/hotel/remove"/>" method="post">
+            <input type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
+            <input type="submit" value="<@spring.message "general.remove"/>">
+        </form>
+
+        <br>
+
+        <form action="<@spring.url "/hotel/update"/>" method="post">
+            <input type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
+            <input type="text" placeholder="<@spring.message "hotel.name"/>" name="name">
+            <input type="text" placeholder="<@spring.message "hotel.phone"/>" name="phone">
+            <input type="text" placeholder="<@spring.message "hotel.stars"/>" name="stars">
+            <input type="submit" value="<@spring.message "general.update"/>">
+        </form>
+
+        <#if RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="added">
+            <@spring.message "hotel.added.successfully"/>
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="notAdded">
+            <@spring.message "hotel.not.added"/>
+        <#elseif result?? && result?is_string && result == "notFound">
+            <@spring.message "hotel.not.found"/>
+        <#elseif result?? && result?is_string && result == "removed">
+            <@spring.message "hotel.removed.successfully"/>
+        <#elseif result?? && result?is_string && result == "notRemoved">
+            <@spring.message "hotel.not.removed"/>
+        <#elseif result??>
+            ${result}
+        </#if>
     </body>
 </html>
