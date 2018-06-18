@@ -41,6 +41,12 @@
             <input type="submit" value="<@spring.message "general.update"/>">
         </form>
 
+        <br>
+
+        <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
+
+        <br><br>
+
         <#if RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="added">
             <@spring.message "hotel.added.successfully"/>
         <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="notAdded">

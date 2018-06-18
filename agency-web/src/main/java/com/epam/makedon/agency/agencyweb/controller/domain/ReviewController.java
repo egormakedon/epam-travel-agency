@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -81,13 +82,45 @@ public class ReviewController {
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public void get() {
-
+    public String get(Model model, @RequestParam long id) {
+        try {
+            Optional<Review> opt = service.get(id);
+            if (opt.isPresent()) {
+                model.addAttribute(Constant.RESULT, opt.get());
+            } else {
+                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
+                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            } else {
+                throw e;
+            }
+        }
+        return Page.REVIEW.getPage();
     }
 
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public void remove() {
-
+    public String remove(Model model, @RequestParam long id) {
+        try {
+            Optional<Review> opt = service.get(id);
+            if (opt.isPresent()) {
+                if (service.remove(opt.get())) {
+                    model.addAttribute(Constant.RESULT, Constant.REMOVED);
+                } else {
+                    model.addAttribute(Constant.RESULT, Constant.NOT_REMOVED);
+                }
+            } else {
+                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
+                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+            } else {
+                throw e;
+            }
+        }
+        return Constant.REDIRECT + Page.REVIEW.getUrl();
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

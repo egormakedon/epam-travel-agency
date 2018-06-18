@@ -19,16 +19,42 @@
 
         <br>
 
+        <form action="<@spring.url "/review/get"/>" method="get">
+            <input type="text" placeholder="<@spring.message "review.id"/>" name="id" required>
+            <input type="submit" value="<@spring.message "general.find"/>">
+        </form>
+
+        <br>
+
+        <form action="<@spring.url "/review/remove"/>" method="post">
+            <input type="text" placeholder="<@spring.message "review.id"/>" name="id" required>
+            <input type="submit" value="<@spring.message "general.remove"/>">
+        </form>
+
+        <br>
+
+        <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
+
+        <br><br>
+
         <#if RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="added">
             <@spring.message "review.added.successfully"/>
         <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="notAdded">
             <@spring.message "review.not.added"/>
+        <#elseif result?? && result?is_string && result=="notFoundTour">
+            <@spring.message "tour.not.found"/>
+        <#elseif result?? && result?is_string && result=="notFoundUser">
+            <@spring.message "user.not.found"/>
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notFound">
+            <@spring.message "review.not.found"/>
         <#elseif result?? && result?is_string && result == "notFound">
-            <@spring.message "hotel.not.found"/>
-        <#elseif result?? && result?is_string && result == "removed">
-            <@spring.message "hotel.removed.successfully"/>
-        <#elseif result?? && result?is_string && result == "notRemoved">
-            <@spring.message "hotel.not.removed"/>
+            <@spring.message "review.not.found"/>
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "removed">
+            <@spring.message "review.removed.successfully"/>
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notRemoved">
+            <@spring.message "review.not.removed"/>
+        <#elseif RequestParameters.result??>
+            ${RequestParameters.result}
         <#elseif result??>
             ${result}
         </#if>
