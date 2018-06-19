@@ -3,6 +3,12 @@ package com.epam.makedon.agency.agencydomain.domain.impl;
 import com.epam.makedon.agency.agencydomain.domain.CountryConverter;
 import com.epam.makedon.agency.agencydomain.domain.Entity;
 import com.epam.makedon.agency.agencydomain.domain.TourTypeConverter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.DurationDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.DurationSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
@@ -39,10 +45,14 @@ public class Tour implements Entity {
     @Size(min = 2, max = 100)
     private String photo;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @Column(name = "tour_date")
     @NotNull
     private LocalDate date;
 
+    @JsonSerialize(using = DurationSerializer.class)
+    @JsonDeserialize(using = DurationDeserializer.class)
     @Column(name = "tour_duration")
     @NotNull
     private Duration duration;

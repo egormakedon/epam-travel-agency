@@ -35,7 +35,7 @@ public class TourHibernateRepository implements TourRepository {
      */
     @Override
     public boolean add(Tour tour) {
-        entityManager.persist(tour);
+        entityManager.merge(tour);
         return true;
     }
 
