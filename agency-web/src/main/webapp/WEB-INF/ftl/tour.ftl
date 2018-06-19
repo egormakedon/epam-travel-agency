@@ -9,5 +9,16 @@
 
     <body>
         <@spring.message "general.language"/> : <a href="?locale=en"><@spring.message "general.english"/></a> | <a href="?locale=ru"><@spring.message "general.russian"/></a> <br>
+
+        <form action="<@spring.url "/tour/load"/>" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="application/json" required>
+            <input type="submit" value="<@spring.message "tour.upload"/>">
+        </form>
+
+        <br>
+
+        <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
+
+        <br><br>
     </body>
 </html>
