@@ -84,9 +84,4 @@ public class UserController {
         }
         return Constant.REDIRECT + Page.USER.getUrl();
     }
-
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void update() {
-
-    }
 }
