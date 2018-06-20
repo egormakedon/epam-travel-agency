@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <@spring.message "general.language"/> : <a href="?locale=en"><@spring.message "general.english"/></a> | <a href="?locale=ru"><@spring.message "general.russian"/></a> <br>
+        <@spring.message "general.language"/> : <a href="<@spring.url "/review?locale=en"/>"><@spring.message "general.english"/></a> | <a href="<@spring.url "/review?locale=ru"/>"><@spring.message "general.russian"/></a> <br>
 
         <form action="<@spring.url "/review/add"/>" method="post">
             <input type="text" placeholder="<@spring.message "tour.id"/>" name="tourId" required>

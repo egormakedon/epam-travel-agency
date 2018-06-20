@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <@spring.message "general.language"/> : <a href="?locale=en"><@spring.message "general.english"/></a> | <a href="?locale=ru"><@spring.message "general.russian"/></a> <br>
+        <@spring.message "general.language"/> : <a href="<@spring.url "/hotel?locale=en"/>"><@spring.message "general.english"/></a> | <a href="<@spring.url "/hotel?locale=ru"/>"><@spring.message "general.russian"/></a> <br>
 
         <form action="<@spring.url "/hotel/add"/>" method="post">
             <input type="text" placeholder="<@spring.message "hotel.name"/>" name="name" required>

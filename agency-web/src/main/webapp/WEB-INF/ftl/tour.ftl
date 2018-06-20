@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <@spring.message "general.language"/> : <a href="?locale=en"><@spring.message "general.english"/></a> | <a href="?locale=ru"><@spring.message "general.russian"/></a> <br>
+        <@spring.message "general.language"/> : <a href="<@spring.url "/tour?locale=en"/>"><@spring.message "general.english"/></a> | <a href="<@spring.url "/tour?locale=ru"/>"><@spring.message "general.russian"/></a> <br>
 
         <form action="<@spring.url "/tour/load"/>" method="post" enctype="multipart/form-data">
             <input type="file" name="file" accept="application/json" required>
@@ -18,7 +18,45 @@
         <br>
 
         <form action="<@spring.url "/tour/get"/>" method="get">
-            <input type="text" placeholder="<@spring.message "review.id"/>" name="id">
+            <input type="number" placeholder="<@spring.message "tour.cost"/>" name="cost">
+            <label> <@spring.message "tour.country"/> :
+                <select name = "country">
+                    <option disabled><@spring.message "tour.country"/></option>
+                    <option></option>
+                    <option>BELARUS</option>
+                    <option>RUSSIA</option>
+                    <option>POLAND</option>
+                    <option>ENGLAND</option>
+                    <option>USA</option>
+                    <option>UKRAINE</option>
+                    <option>SPAIN</option>
+                    <option>CHINA</option>
+                </select>
+            </label>
+            <label> <@spring.message "tour.type"/> :
+                <select name = "type">
+                    <option disabled><@spring.message "tour.type"/></option>
+                    <option></option>
+                    <option>CHILDREN</option>
+                    <option>WEEKEND</option>
+                    <option>WEDDING</option>
+                    <option>SHOPING</option>
+                    <option>EXCURSION</option>
+                </select>
+            </label>
+            <label> <@spring.message "tour.stars"/> :
+                <select name = "stars">
+                    <option disabled><@spring.message "tour.stars"/></option>
+                    <option></option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+            <input type="date" placeholder="<@spring.message "tour.date"/>" name="date">
+            <input type="number" placeholder="<@spring.message "tour.duration"/>" name="durationString">
             <input type="submit" value="<@spring.message "general.find"/>">
         </form>
 
@@ -28,7 +66,9 @@
 
         <br><br>
 
-        <#if RequestParameters.result??>
+        <#if result?? && result?is_string && result=="notFoundTour">
+            <@spring.message "tour.not.found"/>
+        <#elseif RequestParameters.result??>
             <#list RequestParameters.result as tour>
                 <p>${tour}
             </#list>

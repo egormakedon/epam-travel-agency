@@ -94,7 +94,7 @@ public class TourHibernateRepository implements TourRepository {
         }
         if (duration != null) {
             sqlFindTourByCriteria = updateSqlQuery(sqlFindTourByCriteria, Criteria.DURATION);
-            criteriaValuesList.add(duration);
+            criteriaValuesList.add(duration.toDays());
         }
         if (country != null) {
             sqlFindTourByCriteria = updateSqlQuery(sqlFindTourByCriteria, Criteria.COUNTRY);

@@ -1,6 +1,8 @@
 package com.epam.makedon.agency.agencyweb.controller.domain;
 
+import com.epam.makedon.agency.agencydomain.domain.impl.Country;
 import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
+import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import com.epam.makedon.agency.agencydomain.service.TourService;
 import com.epam.makedon.agency.agencyweb.domain.Constant;
 import com.epam.makedon.agency.agencyweb.domain.Page;
@@ -17,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 
 @Controller
@@ -34,9 +36,26 @@ public class TourController {
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public String get(Model model) {
-        List<Tour> tourList = service.findByCriteria(LocalDate.of(2018, Month.JUNE, 19), null, null, null, null, new BigDecimal(10000));
-        model.addAttribute(Constant.RESULT, tourList);
+    public String get(Model model, @RequestParam BigDecimal cost,
+                      @RequestParam Country country, @RequestParam TourType type,
+                      @RequestParam Byte stars, @RequestParam String date, @RequestParam String durationString) {
+
+        LocalDate localDate = null;
+        if (!date.isEmpty()) {
+            localDate = LocalDate.parse(date);
+        }
+
+        Duration duration = null;
+        if (!durationString.isEmpty()) {
+            duration = Duration.ofDays(Long.valueOf(durationString));
+        }
+
+        List<Tour> tourList = service.findByCriteria(localDate, duration, country, stars, type, cost);
+        if (tourList.isEmpty()) {
+            model.addAttribute(Constant.RESULT, Constant.NOT_FOUND + "Tour");
+        } else {
+            model.addAttribute(Constant.RESULT, tourList);
+        }
         return Page.TOUR.getPage();
     }
 

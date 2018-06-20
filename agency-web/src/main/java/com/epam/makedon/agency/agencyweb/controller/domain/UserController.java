@@ -39,10 +39,16 @@ public class UserController {
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public String get(Model model, @RequestParam long id) {
+        final String LOGIN = "login";
+        final String REVIEW_LIST = "reviewList";
+        final String TOUR_LIST = "tourList";
+
         try {
             Optional<User> opt = service.get(id);
             if (opt.isPresent()) {
-                model.addAttribute(Constant.RESULT, opt.get());
+                model.addAttribute(LOGIN, opt.get().getLogin());
+                model.addAttribute(REVIEW_LIST, opt.get().getReviewList());
+                model.addAttribute(TOUR_LIST, opt.get().getTourList());
             } else {
                 model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
             }
