@@ -1,6 +1,8 @@
 package com.epam.makedon.agency.agencydomain.service.impl;
 
+import com.epam.makedon.agency.agencydomain.domain.impl.Country;
 import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
+import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import com.epam.makedon.agency.agencydomain.repository.TourRepository;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
 import com.epam.makedon.agency.agencydomain.service.TourService;
@@ -13,6 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -122,6 +128,17 @@ public class TourServiceImpl implements TourService {
 
         try {
             return tourRepository.update(tour);
+        } catch (Exception e) {
+            LOGGER.error("", e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public List<Tour> findByCriteria(LocalDate date, Duration duration, Country country,
+                                     Byte stars, TourType type, BigDecimal cost) {
+        try {
+            return tourRepository.findByCriteria(date, duration, country, stars, type, cost);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);
