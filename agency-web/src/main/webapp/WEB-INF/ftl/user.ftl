@@ -53,5 +53,21 @@
         <#elseif result??>
             ${result}
         </#if>
+
+        <#if login??>
+            <p><@spring.message "user.login"/> : ${login}
+        </#if>
+        <#if reviewList??>
+            <p><@spring.message "user.review.list"/> :
+            <#list reviewList as review>
+                <p>${review}
+            </#list>
+        </#if>
+        <#if tourList??>
+            <p><@spring.message "user.tour.list"/> :
+            <#list tourList as tour>
+                <p>${tour}
+            </#list>
+        </#if>
     </body>
 </html>

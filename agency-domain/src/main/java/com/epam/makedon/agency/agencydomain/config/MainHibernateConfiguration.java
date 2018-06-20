@@ -74,6 +74,7 @@ public class MainHibernateConfiguration {
         hibernateProperties.setProperty("hibernate.show_sql", showSQL);
         hibernateProperties.setProperty("hibernate.format_sql", formatSQL);
         hibernateProperties.setProperty("hibernate.use_sql_comments", useSQLComments);
+        hibernateProperties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
         return hibernateProperties;
     }
 }
