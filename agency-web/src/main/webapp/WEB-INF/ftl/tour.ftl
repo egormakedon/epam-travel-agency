@@ -62,18 +62,73 @@
 
         <br>
 
+        <form action="<@spring.url "/tour/remove"/>" method="post">
+            <input type="text" placeholder="<@spring.message "tour.id"/>" name="id" required>
+            <input type="submit" value="<@spring.message "general.remove"/>">
+        </form>
+
+        <br>
+
+        <form action="<@spring.url "/tour/update"/>" method="post">
+            <input type="text" placeholder="<@spring.message "tour.id"/>" name="id" required>
+            <input type="date" placeholder="<@spring.message "tour.date"/>" name="date">
+            <input type="number" placeholder="<@spring.message "tour.duration"/>" name="duration">
+            <label> <@spring.message "tour.country"/> :
+                <select name = "country">
+                    <option disabled><@spring.message "tour.country"/></option>
+                    <option></option>
+                    <option>BELARUS</option>
+                    <option>RUSSIA</option>
+                    <option>POLAND</option>
+                    <option>ENGLAND</option>
+                    <option>USA</option>
+                    <option>UKRAINE</option>
+                    <option>SPAIN</option>
+                    <option>CHINA</option>
+                </select>
+            </label>
+            <label> <@spring.message "tour.type"/> :
+                <select name = "type">
+                    <option disabled><@spring.message "tour.type"/></option>
+                    <option></option>
+                    <option>CHILDREN</option>
+                    <option>WEEKEND</option>
+                    <option>WEDDING</option>
+                    <option>SHOPING</option>
+                    <option>EXCURSION</option>
+                </select>
+            </label>
+            <input type="text" placeholder="<@spring.message "tour.description"/>" name="description">
+            <input type="number" placeholder="<@spring.message "tour.cost"/>" name="cost">
+            <input type="submit" value="<@spring.message "general.update"/>">
+        </form>
+
+        <br>
+
         <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
 
         <br><br>
 
-        <#if result?? && result?is_string && result=="notFoundTour">
+        <#if result?? && result?is_string && result=="notFound">
             <@spring.message "tour.not.found"/>
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notFound">
+            <@spring.message "tour.not.found"/>
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "removed">
+            <@spring.message "tour.removed.successfully"/>
+        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notRemoved">
+            <@spring.message "tour.not.removed"/>
         <#elseif RequestParameters.result??>
-            <#list RequestParameters.result as tour>
+            ${RequestParameters.result}
+        <#elseif result??>
+            ${result}
+        </#if>
+
+        <#if RequestParameters.resultTourList??>
+            <#list RequestParameters.resultTourList as tour>
                 <p>${tour}
             </#list>
-        <#elseif result??>
-            <#list result as tour>
+        <#elseif resultTourList??>
+            <#list resultTourList as tour>
                 <p>${tour}
             </#list>
         </#if>

@@ -41,6 +41,12 @@ public class MainHibernateConfiguration {
     @Value("${hibernate.use_sql_comments}")
     private String useSQLComments;
 
+    @Value("${hibernate.enable_lazy_load_no_trans}")
+    private String enableLazyLoadNoTrans;
+
+    @Value("${hibernate.current_session_context_class}")
+    private String currentSessionContextClass;
+
     @Autowired
     private HikariDataSource hikariDataSource;
 
@@ -74,7 +80,8 @@ public class MainHibernateConfiguration {
         hibernateProperties.setProperty("hibernate.show_sql", showSQL);
         hibernateProperties.setProperty("hibernate.format_sql", formatSQL);
         hibernateProperties.setProperty("hibernate.use_sql_comments", useSQLComments);
-        hibernateProperties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
+        hibernateProperties.setProperty("hibernate.enable_lazy_load_no_trans", enableLazyLoadNoTrans);
+        hibernateProperties.setProperty("hibernate.current_session_context_class", currentSessionContextClass);
         return hibernateProperties;
     }
 }
