@@ -19,8 +19,8 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class HotelDatabaseRepositoryTest {
-    private static final String NAME_LITERAL = "name";
-    private static final String PHONE_LITERAL = "12345";
+    private static final String NAME_LITERAL = "hotel4";
+    private static final String PHONE_LITERAL = "2934";
 
     @Autowired
     private HotelRepository repository;
@@ -54,6 +54,7 @@ public class HotelDatabaseRepositoryTest {
         hotel.setId(4);
         hotel.setName(NAME_LITERAL);
         hotel.setPhone(PHONE_LITERAL);
+        hotel.setStars((byte)4);
         repository.add(hotel);
         assertEquals(repository.get(4).orElse(null), hotel);
     }

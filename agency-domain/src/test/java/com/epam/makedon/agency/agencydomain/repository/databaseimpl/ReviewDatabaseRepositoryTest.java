@@ -56,12 +56,19 @@ public class ReviewDatabaseRepositoryTest {
         User user = new User();
         user.setId(1);
         Tour tour = new Tour();
-        tour.setId(1);
+        tour.setId(4);
         review.setUser(user);
         review.setTour(tour);
-        review.setContent("llss");
+        review.setContent("the worst tour ever");
         repository.add(review);
-        assertEquals(repository.get(5).orElse(null), review);
+        assertEquals(repository.get(5).get().getId(), review.getId());
+        assertEquals(repository.get(5).get().getContent(), review.getContent());
+        assertEquals(repository.get(5).get().getTour(), review.getTour());
+        assertEquals(repository.get(5).get().getVersion(), review.getVersion());
+        assertEquals(repository.get(5).get().getUser().getTourList(), review.getUser().getTourList());
+        assertEquals(repository.get(5).get().getUser().getLogin(), review.getUser().getLogin());
+        assertEquals(repository.get(5).get().getUser().getPassword(), review.getUser().getPassword());
+        assertEquals(repository.get(5).get().getUser().getReviewList(), review.getUser().getReviewList());
     }
 
     @Test

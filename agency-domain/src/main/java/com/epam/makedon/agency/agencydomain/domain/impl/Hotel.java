@@ -33,12 +33,12 @@ public class Hotel implements Entity {
 
     @Column(name = "hotel_name")
     @NotNull
-    @Size(min = 2, max = 100)
+    @Size(max = 100)
     private String name;
 
     @Column(name = "hotel_phone")
     @NotNull
-    @Size(min = 2, max = 25)
+    @Size(max = 100)
     private String phone;
 
     @Column(name = "hotel_stars")

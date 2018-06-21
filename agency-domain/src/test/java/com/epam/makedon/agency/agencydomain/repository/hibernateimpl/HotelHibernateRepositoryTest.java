@@ -20,8 +20,8 @@ import static org.junit.Assert.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @Transactional
 public class HotelHibernateRepositoryTest {
-    private static final String NAME_LITERAL = "name";
-    private static final String PHONE_LITERAL = "12345";
+    private static final String NAME_LITERAL = "hotel4";
+    private static final String PHONE_LITERAL = "2934";
 
     @Autowired
     private HotelRepository repository;
@@ -54,12 +54,12 @@ public class HotelHibernateRepositoryTest {
     @Test
     public void getTrueTest2() {
         Hotel hotel = new Hotel();
-        hotel.setId(4);
-        hotel.setName(NAME_LITERAL);
+        hotel.setId(6);
+        hotel.setName("hotel4");
         hotel.setPhone(PHONE_LITERAL);
-        hotel.setStars((byte)3);
+        hotel.setStars((byte)4);
         repository.add(hotel);
-        assertEquals(repository.get(4).orElse(null), hotel);
+        assertEquals(repository.get(6).orElse(null), hotel);
     }
 
     @Test
@@ -112,12 +112,12 @@ public class HotelHibernateRepositoryTest {
         hotel.setId(4);
         hotel.setName(NAME_LITERAL);
         hotel.setPhone(PHONE_LITERAL);
-        hotel.setStars((byte)1);
+        hotel.setStars((byte)4);
 
         repository.add(hotel);
         hotel.setName("hello");
         repository.update(hotel);
 
-        assertEquals(hotel, repository.get(4).orElse(null));
+        assertEquals(hotel, repository.get(6).orElse(null));
     }
 }

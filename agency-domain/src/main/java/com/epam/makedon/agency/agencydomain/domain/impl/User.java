@@ -39,14 +39,14 @@ public class User implements Entity {
     @Getter
     @Column(name = "user_login")
     @NotNull
-    @Size(min = 2, max = 20)
+    @Size(max = 255)
     private String login;
 
     @Setter
     @Getter
     @Column(name = "user_password")
     @NotNull
-    @Size(min = 2, max = 20)
+    @Size(max = 255)
     private String password;
 
     @Setter

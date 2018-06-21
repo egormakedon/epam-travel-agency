@@ -55,8 +55,8 @@ public class UserDatabaseRepositoryTest {
         user = opt.orElseThrow(() -> new RuntimeException(""));
         assertEquals(user.getLogin(), "user2");
         assertEquals(user.getPassword(), "user2");
-        assertEquals(user.getTourList().get(0).getId(), 1);
-        assertEquals(user.getReviewList().get(0).getId(), 2);
+        assertEquals(user.getTourList().get(0).getId(), 2);
+        assertEquals(user.getReviewList().get(0).getId(), 3);
     }
 
     @Test
