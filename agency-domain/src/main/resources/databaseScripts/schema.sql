@@ -76,3 +76,13 @@ CREATE TABLE user_tour
   CONSTRAINT user_tour_tour_tour_id_fk FOREIGN KEY (fk_tour_id) REFERENCES tour (tour_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 COMMENT ON TABLE user_tour IS 'Connecting users with tours, that they attended';
+
+CREATE TABLE user_role
+(
+  fk_user_id INTEGER NOT NULL,
+  role_id INTEGER NOT NULL,
+  user_role_version INTEGER,
+  PRIMARY KEY (fk_user_id,role_id),
+  CONSTRAINT user_role_user_user_id_fk FOREIGN KEY (fk_user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+COMMENT ON TABLE user_role IS 'Connecting each user a role';
