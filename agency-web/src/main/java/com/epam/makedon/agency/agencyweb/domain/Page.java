@@ -6,7 +6,9 @@ public enum Page {
     USER("/user", "user"),
     TOUR("/tour", "tour"),
     REVIEW("/review", "review"),
-    HOTEL("/hotel", "hotel");
+    HOTEL("/hotel", "hotel"),
+    LOGIN("/login", "login"),
+    REGISTRATION("/registration", "registration");
 
     private String url;
     private String page;
@@ -19,7 +21,6 @@ public enum Page {
     public String getUrl() {
         return url;
     }
-
     public String getPage() {
         return page;
     }

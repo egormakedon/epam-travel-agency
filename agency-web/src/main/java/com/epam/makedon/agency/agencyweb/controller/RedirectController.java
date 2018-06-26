@@ -37,4 +37,14 @@ public class RedirectController {
     public String error() {
         return Page.ERROR.getPage();
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+        return Page.LOGIN.getPage();
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String registration() {
+        return Page.REGISTRATION.getPage();
+    }
 }
