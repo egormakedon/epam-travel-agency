@@ -40,6 +40,7 @@ public class UserController {
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public String get(Model model, @RequestParam long id) {
         final String LOGIN = "login";
+        final String ROLE = "role";
         final String REVIEW_LIST = "reviewList";
         final String TOUR_LIST = "tourList";
 
@@ -47,6 +48,7 @@ public class UserController {
             Optional<User> opt = service.get(id);
             if (opt.isPresent()) {
                 model.addAttribute(LOGIN, opt.get().getLogin());
+                model.addAttribute(ROLE, opt.get().getRole());
                 model.addAttribute(REVIEW_LIST, opt.get().getReviewList());
                 model.addAttribute(TOUR_LIST, opt.get().getTourList());
             } else {

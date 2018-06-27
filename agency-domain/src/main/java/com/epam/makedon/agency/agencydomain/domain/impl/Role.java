@@ -11,16 +11,16 @@ import com.epam.makedon.agency.agencydomain.domain.Entity;
  * @since version 6.0
  */
 public enum Role implements Entity {
-    ADMIN(1), MEMBER(2);
+    MEMBER(1), ADMIN(2);
     private long id;
     Role(long id) { this.id = id; }
     public long getId() { return id; }
     public static Role fromCode(long id) {
         switch ((int)id) {
             case 1:
-                return ADMIN;
-            case 2:
                 return MEMBER;
+            case 2:
+                return ADMIN;
             default:
                 throw new RuntimeException("Illegal id argument - " + id);
         }

@@ -57,6 +57,9 @@
         <#if login??>
             <p><@spring.message "user.login"/> : ${login}
         </#if>
+        <#if role??>
+            <p><@spring.message "user.role"/> : ${role}
+        </#if>
         <#if reviewList??>
             <p><@spring.message "user.review.list"/> :
             <#list reviewList as review>

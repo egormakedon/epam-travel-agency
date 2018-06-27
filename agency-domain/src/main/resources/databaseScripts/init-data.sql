@@ -13,12 +13,12 @@ INSERT INTO tour_type (tour_type_name, tour_type_version) VALUES
     ('WEDDING', 0),
     ('SHOPING', 0);
 
-INSERT INTO user (user_login, user_password, user_version) VALUES
-    ('user1', 'user1', 0),
-    ('user2', 'user2', 0),
-    ('user3', 'user3', 0),
-    ('user4', 'user4', 0),
-    ('user5', 'user5', 0);
+INSERT INTO user (user_login, user_password, role_id, user_version) VALUES
+    ('user1', 'user1', 2, 0),
+    ('user2', 'user2', 1, 0),
+    ('user3', 'user3', 1, 0),
+    ('user4', 'user4', 1, 0),
+    ('user5', 'user5', 1, 0);
 
 INSERT INTO hotel (hotel_name, hotel_phone, hotel_stars, hotel_version) VALUES
     ('hotel1', '1234567', 5, 0),

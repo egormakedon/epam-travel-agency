@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.agencydomain.domain.impl;
 
 import com.epam.makedon.agency.agencydomain.domain.Entity;
+import com.epam.makedon.agency.agencydomain.domain.RoleConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,6 +49,17 @@ public class User implements Entity {
     @NotNull
     @Size(max = 255)
     private String password;
+
+    @Setter
+    @Getter
+    private transient String confirmPassword;
+
+    @Setter
+    @Getter
+    @Basic
+    @Convert(converter = RoleConverter.class)
+    @Column(name = "role_id")
+    private Role role = Role.MEMBER;
 
     @Setter
     @Getter
