@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
-@ComponentScan("com.epam.makedon.agency.agencydomain.service")
-@EnableMongoRepositories("com.epam.makedon.agency.agencydomain.repository.mongodbimpl")
+@EnableMongoRepositories("com.epam.makedon.agency.agencydomain.repository.mongodb")
 @PropertySource("classpath:/property/mongodb.properties")
 public class MongodbConfiguration {
 

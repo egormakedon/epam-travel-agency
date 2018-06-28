@@ -12,6 +12,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -33,6 +34,7 @@ import java.time.LocalDate;
 @javax.persistence.Entity(name = "Tour")
 @Table(name = "tour")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
+@Document(collection = "tour")
 public class Tour implements Entity {
 
     @Id

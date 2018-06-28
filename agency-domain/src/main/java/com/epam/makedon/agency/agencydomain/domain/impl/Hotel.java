@@ -4,6 +4,7 @@ import com.epam.makedon.agency.agencydomain.domain.Entity;
 import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -23,6 +24,7 @@ import javax.validation.constraints.Size;
 @javax.persistence.Entity(name = "Hotel")
 @Table(name = "hotel")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
+@Document(collection = "hotel")
 public class Hotel implements Entity {
 
     @Id

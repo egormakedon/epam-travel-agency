@@ -25,17 +25,17 @@ public class ReviewHibernateRepositoryTest {
     @Autowired
     private ReviewRepository repository;
 
-//    @Test
+//    @HotelMongodbRepositoryTest
 //    public void getTrueTest1() {
 //        assertNotNull(repository.get(1).orElse(null));
 //    }
 //
-//    @Test
+//    @HotelMongodbRepositoryTest
 //    public void getTrueTest2() {
 //        assertNotNull(repository.get(2).orElse(null));
 //    }
 //
-//    @Test
+//    @HotelMongodbRepositoryTest
 //    public void getFalseTest() {
 //        Review review = new Review();
 //        review.setId(5);

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,7 @@ import java.util.List;
 @Table(name = "\"user\"")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 @EqualsAndHashCode
+@Document(collection = "user")
 public class User implements Entity {
 
     @Setter

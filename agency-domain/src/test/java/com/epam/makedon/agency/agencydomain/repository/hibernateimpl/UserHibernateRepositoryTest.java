@@ -20,7 +20,7 @@
 //    @Autowired
 //    private UserRepository repository;
 //
-//    @Test
+//    @HotelMongodbRepositoryTest
 //    public void addTrueTest1() {
 //        User user = new User();
 //        user.setLogin("hello1");
@@ -28,7 +28,7 @@
 //        assertTrue(repository.add(user));
 //    }
 //
-//    @Test
+//    @HotelMongodbRepositoryTest
 //    public void addTrueTest2() {
 //        User user = new User();
 //        user.setLogin("h1");
@@ -36,7 +36,7 @@
 //        assertTrue(repository.add(user));
 //    }
 //
-//    @Test
+//    @HotelMongodbRepositoryTest
 //    public void getTest() {
 //        Optional<User> opt = repository.get(1);
 //        User user = opt.orElseThrow(() -> new RuntimeException(""));
@@ -53,14 +53,14 @@
 //        assertEquals(user.getReviewList().get(0).getId(), 2);
 //    }
 //
-//    @Test
+//    @HotelMongodbRepositoryTest
 //    public void removeTest() {
 //        User user = new User();
 //        user.setId(1);
 //        assertTrue(repository.remove(user));
 //    }
 //
-//    @Test
+//    @HotelMongodbRepositoryTest
 //    public void removeFalseTest() {
 //        User user = new User();
 //        user.setId(100);
