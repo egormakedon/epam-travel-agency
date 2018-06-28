@@ -28,6 +28,12 @@
 
         <!--Jackson-->
         <jackson.version>2.9.6</jackson.version>
+
+        <!--Mongodb-->
+        <mongodb.version>3.8.0</mongodb.version>
+
+        <!--Spring data-->
+        <spring.data.version>2.0.8.RELEASE</spring.data.version>
     </properties>
 
     <dependencies>
@@ -119,6 +125,14 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!--Spring data-->
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>${spring.data.version}</version>
+        </dependency>
+
         <!--Jackson-->
 
         <dependency>
@@ -131,6 +145,13 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <!--Mongodb-->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongodb.version}</version>
         </dependency>
     </dependencies>
 </project>
