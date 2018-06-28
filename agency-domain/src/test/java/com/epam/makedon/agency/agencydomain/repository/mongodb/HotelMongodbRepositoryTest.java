@@ -2,6 +2,7 @@ package com.epam.makedon.agency.agencydomain.repository.mongodb;
 
 import com.epam.makedon.agency.agencydomain.config.MongodbConfiguration;
 import com.epam.makedon.agency.agencydomain.domain.impl.Hotel;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,11 @@ public class HotelMongodbRepositoryTest {
     public void before() {
         repository.deleteAll();
         inserting();
+    }
+
+    @After
+    public void after() {
+        repository.deleteAll();
     }
 
     @Test
