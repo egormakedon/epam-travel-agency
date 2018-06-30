@@ -54,6 +54,7 @@ public class User implements Entity {
 
     @Setter
     @Getter
+    @Transient
     private transient String confirmPassword;
 
     @Setter

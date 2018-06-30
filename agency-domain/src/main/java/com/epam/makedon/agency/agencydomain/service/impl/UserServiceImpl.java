@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
      * @return user object, wrapped in Optional, cause null
      * @throws ServiceException cause exception of getting
      */
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
     @Override
     public Optional<User> get(long id) {
         if (id < 1) {
@@ -76,6 +76,17 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userRepository.get(id);
+        } catch (Exception e) {
+            LOGGER.error("", e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+    @Override
+    public Optional<User> findByUsername(String username) {
+        try {
+            return userRepository.findByUsername(username);
         } catch (Exception e) {
             LOGGER.error("", e);
             throw new ServiceException(e);

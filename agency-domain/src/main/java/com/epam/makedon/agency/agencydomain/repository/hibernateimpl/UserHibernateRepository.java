@@ -51,6 +51,14 @@ public class UserHibernateRepository implements UserRepository {
         return Optional.ofNullable((User)query.getSingleResult());
     }
 
+    @Override
+    public Optional<User> findByUsername(String username) {
+        final String NAMED_QUERY_SELECT_USER_BY_USERNAME = "FROM User WHERE login=:username";
+        Query query = entityManager.createQuery(NAMED_QUERY_SELECT_USER_BY_USERNAME);
+        query.setParameter("username", username);
+        return Optional.ofNullable((User)query.getSingleResult());
+    }
+
     /**
      * @param user object to remove from repository
      * @return boolean result of user removing from repository

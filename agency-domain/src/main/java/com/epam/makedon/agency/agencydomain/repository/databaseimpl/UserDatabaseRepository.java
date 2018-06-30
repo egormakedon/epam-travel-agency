@@ -105,6 +105,16 @@ public class UserDatabaseRepository implements UserRepository {
         return Optional.ofNullable(user);
     }
 
+    @Override
+    public Optional<User> findByUsername(String username) {
+        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+        final String SQL_SELECT_FIND_USER_BY_USERNAME = "SELECT user_id id FROM user WHERE user_login=:userLogin";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(USER_LOGIN_LITERAL, username);
+        long id = template.queryForObject(SQL_SELECT_FIND_USER_BY_USERNAME, parameters, Long.class);
+        return get(id);
+    }
+
     /**
      * @param user object, which be removing from repository
      * @return boolean result of removing
