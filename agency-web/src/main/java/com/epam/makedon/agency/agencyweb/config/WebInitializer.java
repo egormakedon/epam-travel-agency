@@ -1,5 +1,6 @@
 package com.epam.makedon.agency.agencyweb.config;
 
+import com.epam.makedon.agency.agencydomain.config.MainHibernateConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -11,7 +12,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{RootConfiguration.class};
+        return new Class[]{MainHibernateConfiguration.class};
     }
 
     @Override

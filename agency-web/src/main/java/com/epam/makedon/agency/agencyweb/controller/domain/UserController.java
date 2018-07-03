@@ -5,6 +5,7 @@ import com.epam.makedon.agency.agencydomain.service.UserService;
 import com.epam.makedon.agency.agencyweb.util.Constant;
 import com.epam.makedon.agency.agencyweb.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +21,14 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Model model, @RequestParam String login, @RequestParam String password) {
         User user = new User();
         user.setLogin(login);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         try {
             if (service.add(user)) {
                 model.addAttribute(Constant.RESULT, Constant.ADDED);
