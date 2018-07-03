@@ -2,8 +2,8 @@ package com.epam.makedon.agency.agencyweb.controller.domain;
 
 import com.epam.makedon.agency.agencydomain.domain.impl.Hotel;
 import com.epam.makedon.agency.agencydomain.service.HotelService;
-import com.epam.makedon.agency.agencyweb.domain.Constant;
-import com.epam.makedon.agency.agencyweb.domain.Page;
+import com.epam.makedon.agency.agencyweb.util.Constant;
+import com.epam.makedon.agency.agencyweb.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

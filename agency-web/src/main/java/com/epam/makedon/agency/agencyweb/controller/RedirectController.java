@@ -1,6 +1,6 @@
 package com.epam.makedon.agency.agencyweb.controller;
 
-import com.epam.makedon.agency.agencyweb.domain.Page;
+import com.epam.makedon.agency.agencyweb.util.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

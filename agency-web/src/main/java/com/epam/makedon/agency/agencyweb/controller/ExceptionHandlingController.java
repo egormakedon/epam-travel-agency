@@ -1,7 +1,7 @@
 package com.epam.makedon.agency.agencyweb.controller;
 
-import com.epam.makedon.agency.agencyweb.domain.Constant;
-import com.epam.makedon.agency.agencyweb.domain.Page;
+import com.epam.makedon.agency.agencyweb.util.Constant;
+import com.epam.makedon.agency.agencyweb.util.Page;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

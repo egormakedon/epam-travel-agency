@@ -1,4 +1,4 @@
-package com.epam.makedon.agency.agencyweb.domain;
+package com.epam.makedon.agency.agencyweb.util;
 
 public enum Page {
     INDEX("/", "index"),
