@@ -18,6 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
+/**
+ * Controller for {@link Review} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Controller
 @RequestMapping("/review")
 public class ReviewController {

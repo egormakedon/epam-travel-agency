@@ -25,6 +25,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller for {@link Tour} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Controller
 @RequestMapping("/tour")
 public class TourController {

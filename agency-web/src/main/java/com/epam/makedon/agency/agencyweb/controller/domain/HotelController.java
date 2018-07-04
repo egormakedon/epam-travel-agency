@@ -14,6 +14,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
+/**
+ * Controller for {@link Hotel} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Controller
 @RequestMapping("/hotel")
 public class HotelController {

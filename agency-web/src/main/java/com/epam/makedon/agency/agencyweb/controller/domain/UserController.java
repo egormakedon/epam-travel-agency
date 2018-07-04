@@ -14,6 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
+/**
+ * Controller for {@link User} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
