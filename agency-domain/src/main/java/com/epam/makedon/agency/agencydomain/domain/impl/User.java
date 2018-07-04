@@ -42,20 +42,20 @@ public class User implements Entity {
     @Getter
     @Column(name = "user_login")
     @NotNull
-    @Size(max = 255)
+    @Size(max = 255, min = 1)
     private String login;
 
     @Setter
     @Getter
     @Column(name = "user_password")
     @NotNull
-    @Size(max = 255)
+    @Size(max = 255, min = 1)
     private String password;
 
     @Setter
     @Getter
     @Transient
-    private transient String confirmPassword;
+    private String confirmPassword;
 
     @Setter
     @Getter
