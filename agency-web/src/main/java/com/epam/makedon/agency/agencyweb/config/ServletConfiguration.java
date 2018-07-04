@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -48,6 +47,7 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource rrbms = new ReloadableResourceBundleMessageSource();
         rrbms.setBasename("classpath:/property/text");
+        rrbms.setBasename("classpath:/property/validation");
         rrbms.setDefaultEncoding("UTF-8");
         return rrbms;
     }
@@ -74,12 +74,5 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
         multipartResolver.setMaxUploadSize(10485760); // 10MB
         multipartResolver.setMaxUploadSizePerFile(1048576); // 1MB
         return multipartResolver;
-    }
-
-    // Spring security
-
-    @Bean("encoder")
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder(11);
     }
 }

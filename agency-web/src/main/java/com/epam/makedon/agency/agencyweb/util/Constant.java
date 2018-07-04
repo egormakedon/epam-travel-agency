@@ -11,4 +11,8 @@ public final class Constant {
     public static final String NOT_ADDED = "notAdded";
     public static final String REMOVED = "removed";
     public static final String NOT_REMOVED = "notRemoved";
+    public static final String ERROR = "error";
+
+    public static final String USER_OR_PASSWORD_IS_INCORRECT = "Username or password is incorrect";
+    public static final String LOGGED_OUT_SUCCESSFULLY = "Logged out successfully";
 }

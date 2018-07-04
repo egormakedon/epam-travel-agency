@@ -19,7 +19,7 @@
 
             <br><br>
 
-            <form action="" method="post">
+            <form action="<@spring.url "/registration"/>" method="post">
                 <input type="text" placeholder="<@spring.message "user.login"/>" name="login" required> <br><br>
                 <input type="password" placeholder="<@spring.message "user.password"/>" name="password" required> <br><br>
                 <input type="password" placeholder="<@spring.message "registration.confirm.password"/>" name="confirmPassword" required> <br><br>

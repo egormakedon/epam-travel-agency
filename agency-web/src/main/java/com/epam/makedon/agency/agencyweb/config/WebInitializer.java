@@ -12,7 +12,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{MainHibernateConfiguration.class};
+        return new Class[]{MainHibernateConfiguration.class, SpringSecurityConfiguration.class};
     }
 
     @Override

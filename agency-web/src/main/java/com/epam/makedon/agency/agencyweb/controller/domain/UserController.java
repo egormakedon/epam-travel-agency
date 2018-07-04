@@ -26,7 +26,7 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -37,7 +37,7 @@ public class UserController {
         user.setLogin(login);
         user.setPassword(passwordEncoder.encode(password));
         try {
-            if (service.add(user)) {
+            if (userService.add(user)) {
                 model.addAttribute(Constant.RESULT, Constant.ADDED);
             } else {
                 model.addAttribute(Constant.RESULT, Constant.NOT_ADDED);
@@ -56,7 +56,7 @@ public class UserController {
         final String TOUR_LIST = "tourList";
 
         try {
-            Optional<User> opt = service.get(id);
+            Optional<User> opt = userService.get(id);
             if (opt.isPresent()) {
                 model.addAttribute(LOGIN, opt.get().getLogin());
                 model.addAttribute(ROLE, opt.get().getRole());
@@ -78,9 +78,9 @@ public class UserController {
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
     public String remove(Model model, @RequestParam long id) {
         try {
-            Optional<User> opt = service.get(id);
+            Optional<User> opt = userService.get(id);
             if (opt.isPresent()) {
-                if (service.remove(opt.get())) {
+                if (userService.remove(opt.get())) {
                     model.addAttribute(Constant.RESULT, Constant.REMOVED);
                 } else {
                     model.addAttribute(Constant.RESULT, Constant.NOT_REMOVED);
