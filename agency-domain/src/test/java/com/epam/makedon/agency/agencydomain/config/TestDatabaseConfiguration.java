@@ -15,10 +15,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
+/**
+ * Spring java configuration for testing database profile
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
-@ComponentScan({"com.epam.makedon.agency.agencydomain.repository.databaseimpl", "com.epam.makedon.agency.agencydomain.service"})
+@ComponentScan({"com.epam.makedon.agency.agencydomain.repository.databaseimpl",
+        "com.epam.makedon.agency.agencydomain.service"})
+
 public class TestDatabaseConfiguration {
 
     @Bean

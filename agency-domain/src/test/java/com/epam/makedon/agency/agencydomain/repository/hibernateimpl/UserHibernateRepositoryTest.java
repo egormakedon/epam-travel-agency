@@ -1,7 +1,9 @@
 //package com.epam.makedon.agency.agencydomain.repository.hibernateimpl;
 //
 //import com.epam.makedon.agency.agencydomain.config.TestHibernateConfiguration;
+//import com.epam.makedon.agency.agencydomain.domain.impl.User;
 //import com.epam.makedon.agency.agencydomain.repository.UserRepository;
+//import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.test.annotation.DirtiesContext;
@@ -9,6 +11,10 @@
 //import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit4.SpringRunner;
 //import org.springframework.transaction.annotation.Transactional;
+//
+//import java.util.Optional;
+//
+//import static org.junit.Assert.*;
 //
 //@RunWith(SpringRunner.class)
 //@ActiveProfiles("hibernateRepository")
@@ -20,7 +26,7 @@
 //    @Autowired
 //    private UserRepository repository;
 //
-//    @HotelMongodbRepositoryTest
+//    @Test
 //    public void addTrueTest1() {
 //        User user = new User();
 //        user.setLogin("hello1");
@@ -28,7 +34,7 @@
 //        assertTrue(repository.add(user));
 //    }
 //
-//    @HotelMongodbRepositoryTest
+//    @Test
 //    public void addTrueTest2() {
 //        User user = new User();
 //        user.setLogin("h1");
@@ -36,7 +42,7 @@
 //        assertTrue(repository.add(user));
 //    }
 //
-//    @HotelMongodbRepositoryTest
+//    @Test
 //    public void getTest() {
 //        Optional<User> opt = repository.get(1);
 //        User user = opt.orElseThrow(() -> new RuntimeException(""));
@@ -53,14 +59,14 @@
 //        assertEquals(user.getReviewList().get(0).getId(), 2);
 //    }
 //
-//    @HotelMongodbRepositoryTest
+//    @Test
 //    public void removeTest() {
 //        User user = new User();
 //        user.setId(1);
 //        assertTrue(repository.remove(user));
 //    }
 //
-//    @HotelMongodbRepositoryTest
+//    @Test
 //    public void removeFalseTest() {
 //        User user = new User();
 //        user.setId(100);
