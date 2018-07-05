@@ -29,12 +29,12 @@ import static org.junit.Assert.*;
 public class HotelDatabaseRepositoryTest {
 
     @Autowired
-    private HotelRepository repository;
+    private HotelRepository hotelRepository;
 
     @Test
     public void addTrueTest1() {
         Hotel hotel = Util.getHotel();
-        assertTrue(repository.add(hotel));
+        assertTrue(hotelRepository.add(hotel));
     }
 
     @Test
@@ -42,75 +42,54 @@ public class HotelDatabaseRepositoryTest {
         Hotel hotel = Util.getHotel();
         hotel.setName("hotel");
         hotel.setPhone("hotel");
-        assertTrue(repository.add(hotel));
+        assertTrue(hotelRepository.add(hotel));
     }
 
     @Test
     public void getTrueTest1() {
-        assertNotNull(repository.get(1).orElse(null));
+        assertNotNull(hotelRepository.get(1).orElse(null));
     }
 
     @Test
     public void getTrueTest2() {
         Hotel hotel = Util.getHotel();
-        repository.add(hotel);
-        assertEquals(repository.get(4).orElse(null), hotel);
+        hotelRepository.add(hotel);
+        assertEquals(hotelRepository.get(4).orElse(null), hotel);
     }
 
     @Test
     public void getFalseTest() {
         Hotel hotel = Util.getHotel();
-        assertNotEquals(repository.get(1).orElse(null), hotel);
+        assertNotEquals(hotelRepository.get(1).orElse(null), hotel);
     }
 
     @Test
-    public void removeTrueTest1() {
-        Hotel hotel = new Hotel();
+    public void removeTrueTest() {
+        Hotel hotel = Util.getHotel();
         hotel.setId(1);
-        assertTrue(repository.remove(hotel));
-    }
-
-    @Test
-    public void removeTrueTest2() {
-        Hotel hotel = new Hotel();
-        hotel.setId(2);
-        assertTrue(repository.remove(hotel));
-    }
-
-    @Test
-    public void removeTrueTest3() {
-        Hotel hotel = new Hotel();
-        hotel.setId(3);
-        assertTrue(repository.remove(hotel));
+        assertTrue(hotelRepository.remove(hotel));
     }
 
     @Test
     public void removeFalseTest1() {
-        Hotel hotel = new Hotel();
-        hotel.setId(100);
-        assertFalse(repository.remove(hotel));
-    }
-
-    @Test
-    public void removeFalseTest2() {
-        Hotel hotel = new Hotel();
+        Hotel hotel = Util.getHotel();
         hotel.setId(-1);
-        assertFalse(repository.remove(hotel));
+        assertFalse(hotelRepository.remove(hotel));
     }
 
     @Test
     public void updateTrueTest() {
         Hotel hotel = Util.getHotel();
-        repository.add(hotel);
+        hotelRepository.add(hotel);
         hotel.setName("hello");
-        repository.update(hotel);
-        assertEquals(hotel, repository.get(4).orElse(null));
+        hotelRepository.update(hotel);
+        assertEquals(hotel, hotelRepository.get(4).orElse(null));
     }
 
     @Test
     public void updateFalseTest() {
         Hotel hotel = Util.getHotel();
         hotel.setId(100);
-        assertFalse(repository.update(hotel).isPresent());
+        assertFalse(hotelRepository.update(hotel).isPresent());
     }
 }
