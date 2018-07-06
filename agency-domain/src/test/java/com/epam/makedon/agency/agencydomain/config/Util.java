@@ -41,12 +41,17 @@ public final class Util {
     }
 
     private static Review createReview() {
-        Review review = new Review();
-        review.setId(5);
         User user = new User();
         user.setId(1);
+
         Tour tour = new Tour();
         tour.setId(4);
+
+        Hotel hotel = new Hotel();
+        hotel.setId(1);
+
+        Review review = new Review();
+        review.setId(5);
         review.setUser(user);
         review.setTour(tour);
         review.setContent("the worst tour ever");
