@@ -14,6 +14,8 @@ import java.time.LocalDate;
  */
 
 public final class Util {
+    private Util() {}
+
     public static Hotel getHotel() {
         return createHotel();
     }

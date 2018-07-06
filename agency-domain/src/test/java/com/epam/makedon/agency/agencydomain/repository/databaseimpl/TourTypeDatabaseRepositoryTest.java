@@ -6,99 +6,73 @@ import com.epam.makedon.agency.agencydomain.repository.TourTypeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+/**
+ * Test for {@link TourTypeDatabaseRepository} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
+@RunWith(SpringRunner.class)
 @ActiveProfiles("databaseRepository")
 @ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+
 public class TourTypeDatabaseRepositoryTest {
 
     @Autowired
-    private TourTypeRepository repository;
+    private TourTypeRepository tourTypeRepository;
 
     @Test
     public void addTrueTest() {
-        TourType c = TourType.EXCURSION;
-        assertTrue(repository.add(c));
-    }
-
-    @Test
-    public void addExcTest1() {
-        TourType c = TourType.SHOPING;
-        try {
-            repository.add(c);
-            fail();
-        } catch (DuplicateKeyException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void addExcTest2() {
-        TourType c = TourType.CHILDREN;
-        try {
-            repository.add(c);
-            fail();
-        } catch (DuplicateKeyException e) {
-            assertTrue(true);
-        }
+        TourType tourType = TourType.EXCURSION;
+        assertTrue(tourTypeRepository.add(tourType));
     }
 
     @Test
     public void getTrueTest1() {
-        assertNotNull(repository.get(1).orElse(null));
+        assertNotNull(tourTypeRepository.get(1).orElse(null));
     }
 
     @Test
     public void getTrueTest2() {
-        assertNotNull(repository.get(3).orElse(null));
+        assertNotNull(tourTypeRepository.get(3).orElse(null));
     }
 
     @Test
     public void getFalseTest() {
-        TourType c = TourType.CHILDREN;
-        assertNotEquals(c, repository.get(4).orElse(null));
-    }
-
-    @Test
-    public void getExcTest() {
-        try {
-            repository.get(100);
-            fail();
-        } catch (EmptyResultDataAccessException e) {
-            assertTrue(true);
-        }
+        TourType tourType = TourType.CHILDREN;
+        assertNotEquals(tourType, tourTypeRepository.get(4).orElse(null));
     }
 
     @Test
     public void removeTrueTest() {
-        TourType c = TourType.CHILDREN;
-        assertTrue(repository.remove(c));
+        TourType tourType = TourType.CHILDREN;
+        assertTrue(tourTypeRepository.remove(tourType));
     }
 
     @Test
-    public void removeExcTest() {
-        TourType c = TourType.EXCURSION;
-        assertFalse(repository.remove(c));
+    public void removeFalseTest() {
+        TourType tourType = TourType.EXCURSION;
+        assertFalse(tourTypeRepository.remove(tourType));
     }
 
     @Test
     public void updateTest1() {
-        TourType c = TourType.EXCURSION;
-        assertNull(repository.update(c).orElse(null));
+        TourType tourType = TourType.EXCURSION;
+        assertNull(tourTypeRepository.update(tourType).orElse(null));
     }
 
     @Test
     public void updateTest2() {
-        TourType c = TourType.WEEKEND;
-        assertEquals(repository.update(c).orElse(null), c);
+        TourType tourType = TourType.WEEKEND;
+        assertEquals(tourTypeRepository.update(tourType).orElse(null), tourType);
     }
 }
