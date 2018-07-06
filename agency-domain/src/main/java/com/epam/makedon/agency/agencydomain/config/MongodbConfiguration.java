@@ -12,11 +12,19 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Mongodb spring java configuration
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @EnableMongoRepositories("com.epam.makedon.agency.agencydomain.repository.mongodb")
 @PropertySource("classpath:/property/mongodb.properties")
+
 public class MongodbConfiguration {
 
     @Value("${mongodb.host}")
