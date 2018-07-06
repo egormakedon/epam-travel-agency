@@ -34,17 +34,17 @@ public class TourServiceTest {
         tourService.add(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionRemoveTest() {
         tourService.remove(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionUpdateTest() {
         tourService.update(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionGetTest() {
         tourService.get(-2);
     }
