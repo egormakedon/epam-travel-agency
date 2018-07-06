@@ -1,7 +1,6 @@
 package com.epam.makedon.agency.agencydomain.service.impl;
 
 import com.epam.makedon.agency.agencydomain.config.TestDatabaseConfiguration;
-import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
 import com.epam.makedon.agency.agencydomain.service.TourTypeService;
 import org.junit.Test;
@@ -10,88 +9,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
+/**
+ * Test for {@link TourTypeServiceImpl} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
 
-import static org.junit.Assert.*;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles({"databaseRepository", "service"})
+@RunWith(SpringRunner.class)
+@ActiveProfiles({"databaseRepository",
+        "service"})
 @ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+
 public class TourTypeServiceTest {
+
     @Autowired
-    private TourTypeService service;
+    private TourTypeService tourTypeService;
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionAddTest() {
-        try {
-            service.add(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourTypeService.add(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionRemoveTest() {
-        try {
-            service.remove(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourTypeService.remove(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionUpdateTest() {
-        try {
-            service.update(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourTypeService.update(null);
     }
 
-    @Test
-    public void exceptionGetTest1() {
-        try {
-            service.get(0);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void exceptionGetTest2() {
-        try {
-            service.get(-3);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void addTrueTest() {
-        assertTrue(service.add(TourType.EXCURSION));
-    }
-
-    @Test
-    public void getTrueTest() {
-        Optional<TourType> opt = service.get(1);
-        assertNotNull(opt.orElse(null));
-    }
-
-    @Test
-    public void removeTrueTest() {
-        assertTrue(service.remove(TourType.CHILDREN));
-    }
-
-    @Test
-    public void updateTest() {
-        assertNotNull(service.update(TourType.CHILDREN).orElse(null));
+    @Test(expected = ServiceException.class)
+    public void exceptionGetTest() {
+        tourTypeService.get(0);
     }
 }
