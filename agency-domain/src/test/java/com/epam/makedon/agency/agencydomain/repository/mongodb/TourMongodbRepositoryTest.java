@@ -18,28 +18,36 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * Test for {@link TourMongodbRepository} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = MongodbConfiguration.class)
+
 public class TourMongodbRepositoryTest {
 
     @Autowired
-    private TourMongodbRepository repository;
+    private TourMongodbRepository tourMongodbRepository;
 
     @Before
     public void before() {
-        repository.deleteAll();
+        tourMongodbRepository.deleteAll();
         inserting();
     }
 
     @After
-    public void after() {
-        repository.deleteAll();
+    public void tourMongodbRepository() {
+        tourMongodbRepository.deleteAll();
     }
 
     @Test
     public void get() {
-        Tour tour1 = repository.findById(0L).get();
-        Tour tour2 = repository.findById(1L).get();
+        Tour tour1 = tourMongodbRepository.findById(0L).get();
+        Tour tour2 = tourMongodbRepository.findById(1L).get();
 
         assertEquals(Country.BELARUS, tour1.getCountry());
         assertEquals(LocalDate.of(1998, 6, 25), tour1.getDate());
@@ -50,22 +58,22 @@ public class TourMongodbRepositoryTest {
 
     @Test
     public void count() {
-        assertEquals(2, repository.count());
+        assertEquals(2, tourMongodbRepository.count());
     }
 
     @Test
     public void remove1() {
-        assertEquals(Country.BELARUS, repository.findById(0L).get().getCountry());
-        repository.deleteById(0L);
-        assertNull(repository.findById(0L).orElse(null));
+        assertEquals(Country.BELARUS, tourMongodbRepository.findById(0L).get().getCountry());
+        tourMongodbRepository.deleteById(0L);
+        assertNull(tourMongodbRepository.findById(0L).orElse(null));
 
-        assertEquals(1, repository.count());
+        assertEquals(1, tourMongodbRepository.count());
 
-        assertEquals(TourType.CHILDREN, repository.findById(1L).get().getType());
-        repository.deleteById(1L);
-        assertNull(repository.findById(1L).orElse(null));
+        assertEquals(TourType.CHILDREN, tourMongodbRepository.findById(1L).get().getType());
+        tourMongodbRepository.deleteById(1L);
+        assertNull(tourMongodbRepository.findById(1L).orElse(null));
 
-        assertEquals(0, repository.count());
+        assertEquals(0, tourMongodbRepository.count());
     }
 
     private void inserting() {
@@ -79,6 +87,6 @@ public class TourMongodbRepositoryTest {
         tour2.setDescription("tour");
         tour2.setType(TourType.CHILDREN);
 
-        repository.insert(Arrays.asList(tour1, tour2));
+        tourMongodbRepository.insert(Arrays.asList(tour1, tour2));
     }
 }

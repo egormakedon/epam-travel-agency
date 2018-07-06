@@ -16,27 +16,35 @@ import java.time.Duration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * Test for {@link ReviewMongodbRepository} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = MongodbConfiguration.class)
+
 public class ReviewMongodbRepositoryTest {
 
     @Autowired
-    private ReviewMongodbRepository repository;
+    private ReviewMongodbRepository reviewMongodbRepository;
 
     @Before
     public void before() {
-        repository.deleteAll();
+        reviewMongodbRepository.deleteAll();
         inserting();
     }
 
     @After
     public void after() {
-        repository.deleteAll();
+        reviewMongodbRepository.deleteAll();
     }
 
     @Test
     public void get() {
-        Review review = repository.findById(0L).get();
+        Review review = reviewMongodbRepository.findById(0L).get();
         assertEquals("review1", review.getContent());
         assertEquals("user1", review.getUser().getLogin());
         assertEquals("user1", review.getUser().getPassword());
@@ -48,16 +56,16 @@ public class ReviewMongodbRepositoryTest {
 
     @Test
     public void remove1() {
-        assertEquals("review1", repository.findById(0L).get().getContent());
-        repository.deleteById(0L);
-        assertNull(repository.findById(0L).orElse(null));
+        assertEquals("review1", reviewMongodbRepository.findById(0L).get().getContent());
+        reviewMongodbRepository.deleteById(0L);
+        assertNull(reviewMongodbRepository.findById(0L).orElse(null));
     }
 
     @Test
     public void remove2() {
-        assertEquals(1, repository.count());
-        repository.deleteById(0L);
-        assertNull(repository.findById(0L).orElse(null));
+        assertEquals(1, reviewMongodbRepository.count());
+        reviewMongodbRepository.deleteById(0L);
+        assertNull(reviewMongodbRepository.findById(0L).orElse(null));
     }
 
     private void inserting() {
@@ -78,6 +86,6 @@ public class ReviewMongodbRepositoryTest {
         tour.setCountry(Country.BELARUS);
         tour.setCost(new BigDecimal(1000));
         review.setTour(tour);
-        repository.insert(review);
+        reviewMongodbRepository.insert(review);
     }
 }
