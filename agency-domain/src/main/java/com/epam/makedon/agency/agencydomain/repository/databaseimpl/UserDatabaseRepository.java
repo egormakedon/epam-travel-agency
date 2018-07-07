@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.agencydomain.repository.databaseimpl;
 
 import com.epam.makedon.agency.agencydomain.domain.impl.Review;
+import com.epam.makedon.agency.agencydomain.domain.impl.Role;
 import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
 import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import com.epam.makedon.agency.agencydomain.repository.UserRepository;
@@ -84,7 +85,7 @@ public class UserDatabaseRepository implements UserRepository {
     @Override
     public Optional<User> get(long id) {
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        final String SQL_SELECT_USER_BY_ID = "SELECT user_id id,user_login login,user_password password FROM user WHERE user_id=:userId";
+        final String SQL_SELECT_USER_BY_ID = "SELECT user_id id,user_login login,user_password password, role_id roleId FROM user WHERE user_id=:userId";
         final String SQL_SELECT_TOUR_USER_ID = "SELECT fk_tour_id id FROM user_tour WHERE fk_user_id=:userId";
         final String SQL_SELECT_REVIEW_BY_USER_ID = "SELECT review_id id FROM review WHERE fk_user_id=:userId";
 
@@ -182,6 +183,7 @@ public class UserDatabaseRepository implements UserRepository {
         private static final String ID = "id";
         private static final String LOGIN = "login";
         private static final String PASSWORD = "password";
+        private static final String ROLE_ID = "roleId";
 
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
@@ -189,6 +191,7 @@ public class UserDatabaseRepository implements UserRepository {
             user.setId(rs.getLong(ID));
             user.setLogin(rs.getString(LOGIN));
             user.setPassword(rs.getString(PASSWORD));
+            user.setRole(Role.fromCode(rs.getLong(ROLE_ID)));
             return user;
         }
     }

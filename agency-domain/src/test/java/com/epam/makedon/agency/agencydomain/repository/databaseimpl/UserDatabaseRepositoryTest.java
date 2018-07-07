@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.agencydomain.repository.databaseimpl;
 
 import com.epam.makedon.agency.agencydomain.config.TestDatabaseConfiguration;
+import com.epam.makedon.agency.agencydomain.domain.impl.Role;
 import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
 import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import com.epam.makedon.agency.agencydomain.repository.UserRepository;
@@ -116,5 +117,19 @@ public class UserDatabaseRepositoryTest {
                         .collect(Collectors.toList()));
 
         assertEquals(userRepository.get(5).orElse(null), user);
+    }
+
+    @Test
+    public void findByUsernameTest1() {
+        User user = userRepository.findByUsername("user1").orElse(null);
+        assertNotNull(user);
+        assertEquals(Role.ADMIN, user.getRole());
+    }
+
+    @Test
+    public void findByUsernameTest2() {
+        User user = userRepository.findByUsername("user2").orElse(null);
+        assertNotNull(user);
+        assertEquals(Role.MEMBER, user.getRole());
     }
 }
