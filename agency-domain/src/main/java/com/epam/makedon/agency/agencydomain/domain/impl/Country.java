@@ -3,13 +3,13 @@ package com.epam.makedon.agency.agencydomain.domain.impl;
 import com.epam.makedon.agency.agencydomain.domain.Entity;
 
 /**
- * Enum Country is Entity class.
- * This enum consists of country names and their id.
+ * This entity class describe information about Country,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 public enum Country implements Entity {
     BELARUS(1), RUSSIA(2), POLAND(3), SPAIN(4), ENGLAND(5), UKRAINE(6), USA(7), CHINA(8);
     private long id;
@@ -34,7 +34,7 @@ public enum Country implements Entity {
             case 8:
                 return CHINA;
             default:
-                throw new RuntimeException("Illegal id argument - " + id);
+                throw new IllegalArgumentException("Illegal id argument - " + id);
         }
     }
 }

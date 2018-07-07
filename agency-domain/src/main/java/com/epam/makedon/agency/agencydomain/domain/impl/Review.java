@@ -11,18 +11,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Class Review is Entity class.
- * It store information about users review.
+ * This entity class describe information about Review,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 @Data
 @javax.persistence.Entity(name = "Review")
 @Table(name = "review")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 @Document(collection = "review")
+
 public class Review implements Entity {
 
     @Id

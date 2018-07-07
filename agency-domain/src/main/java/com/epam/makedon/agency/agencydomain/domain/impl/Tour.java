@@ -23,18 +23,19 @@ import java.time.Duration;
 import java.time.LocalDate;
 
 /**
- * Class Tour is Entity class.
- * It stores information about tour data.
+ * This entity class describe information about Tour,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 @Data
 @javax.persistence.Entity(name = "Tour")
 @Table(name = "tour")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 @Document(collection = "tour")
+
 public class Tour implements Entity {
 
     @Id

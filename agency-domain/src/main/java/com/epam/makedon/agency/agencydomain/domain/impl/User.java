@@ -16,18 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class User is Entity class.
- * It stores user information.
+ * This entity class describe information about User,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 @javax.persistence.Entity(name = "User")
 @Table(name = "\"user\"")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 @EqualsAndHashCode
 @Document(collection = "user")
+
 public class User implements Entity {
 
     @Setter

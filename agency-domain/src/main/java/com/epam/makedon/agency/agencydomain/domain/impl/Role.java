@@ -3,13 +3,13 @@ package com.epam.makedon.agency.agencydomain.domain.impl;
 import com.epam.makedon.agency.agencydomain.domain.Entity;
 
 /**
- * Enum Role is Entity class.
- * This enum consists of role names and their id.
+ * This entity class describe information about user Role,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 6.0
+ * @version 1.0
  */
+
 public enum Role implements Entity {
     MEMBER(1), ADMIN(2);
     private long id;
@@ -22,7 +22,7 @@ public enum Role implements Entity {
             case 2:
                 return ADMIN;
             default:
-                throw new RuntimeException("Illegal id argument - " + id);
+                throw new IllegalArgumentException("Illegal id argument - " + id);
         }
     }
 }

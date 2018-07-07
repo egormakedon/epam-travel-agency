@@ -3,13 +3,13 @@ package com.epam.makedon.agency.agencydomain.domain.impl;
 import com.epam.makedon.agency.agencydomain.domain.Entity;
 
 /**
- * Enum TourTypeCollectionRepository is Entity class.
- * It stores type of tours, which exists in the project.
+ * This entity class describe information about type of tour,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 public enum TourType implements Entity {
     CHILDREN(1), WEEKEND(2), WEDDING(3), SHOPING(4), EXCURSION(5);
     private long id;
@@ -28,7 +28,7 @@ public enum TourType implements Entity {
             case 5:
                 return EXCURSION;
             default:
-                throw new RuntimeException("Illegal id argument - " + id);
+                throw new IllegalArgumentException("Illegal id argument - " + id);
         }
     }
 }

@@ -5,7 +5,16 @@ import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+/**
+ * This class is set mapping between {@link TourType} class and database using hibernate framework,
+ * implements {@link AttributeConverter} interface.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Converter
+
 public class TourTypeConverter implements AttributeConverter<TourType, Long> {
 
     @Override

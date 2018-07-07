@@ -13,18 +13,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Class Hotel is Entity class.
- * This class stores information about hotels, which uses in project.
+ * This entity class describe information about Hotel,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 @Data
 @javax.persistence.Entity(name = "Hotel")
 @Table(name = "hotel")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 @Document(collection = "hotel")
+
 public class Hotel implements Entity {
 
     @Id
