@@ -5,35 +5,44 @@ import com.epam.makedon.agency.agencydomain.domain.Entity;
 import java.util.Optional;
 
 /**
- * Service interface
+ * This interface define CRUD methods for service implementation classes
  *
+ * @param <T> generic parameter, extends {@link Entity} interface.
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 public interface Service<T extends Entity> {
 
     /**
-     * @param entity object, which be inserting into repository
-     * @return boolean result of inserting
+     * Add operation
+     *
+     * @param entity {@link Entity}
+     * @return true/false
      */
     boolean add(T entity);
 
     /**
-     * @param id to define and find object
-     * @return domain, wrapped in optional, cause can return null
+     * Get/find/take operation
+     *
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      */
     Optional<T> get(long id);
 
     /**
-     * @param entity object, which be removing from repository
-     * @return boolean result of removing
+     * Remove operation
+     *
+     * @param entity {@link Entity}
+     * @return true/false
      */
     boolean remove(T entity);
 
     /**
-     * @param entity object, which be updating in repository
-     * @return domain, wrapped in optional, cause can return null
+     * Update operation
+     *
+     * @param entity {@link Entity}
+     * @return object, wrapped in {@link Optional} class
      */
     Optional<T> update(T entity);
 }

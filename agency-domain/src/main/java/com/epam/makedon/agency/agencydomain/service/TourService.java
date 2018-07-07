@@ -10,12 +10,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Interface TourService mark service with Tour domain.
+ * This interface markup services for {@link Tour} class,
+ * extends {@link Service} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 public interface TourService extends Service<Tour> {
     default List<Tour> findByCriteria(LocalDate date, Duration duration, Country country,
                               Byte stars, TourType type, BigDecimal cost) {

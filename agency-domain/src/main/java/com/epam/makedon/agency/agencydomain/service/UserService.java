@@ -5,12 +5,13 @@ import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import java.util.Optional;
 
 /**
- * Interface UserService mark service with User domain.
+ * This interface markup services for {@link User} class,
+ * extends {@link Service} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 public interface UserService extends Service<User> {
 
     Optional<User> findByUsername(String username);
