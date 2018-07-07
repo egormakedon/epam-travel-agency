@@ -6,7 +6,6 @@ import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import com.epam.makedon.agency.agencydomain.repository.TourRepository;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
 import com.epam.makedon.agency.agencydomain.service.TourService;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +21,21 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Class TourServiceImpl implements TourService
+ * Service class for {@link Tour} class,
+ * implements {@link TourService} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 @Service
 @Profile("service")
+
 public class TourServiceImpl implements TourService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TourServiceImpl.class);
 
     @Autowired
-    @Setter
     private TourRepository tourRepository;
 
     /**
@@ -43,11 +44,12 @@ public class TourServiceImpl implements TourService {
     public TourServiceImpl() {}
 
     /**
-     * Tour add method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Add operation,
+     * supported with {@link Transactional}.
      *
-     * @param tour object, which be adding to repository
-     * @return boolean, result of adding
-     * @throws ServiceException cause param is null or exception of adding
+     * @param tour {@link Tour}
+     * @return true/false
+     * @throws ServiceException cause param is null
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
@@ -57,22 +59,18 @@ public class TourServiceImpl implements TourService {
             throw new ServiceException("tour argument in add method is null");
         }
 
-        try {
-            return tourRepository.add(tour);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return tourRepository.add(tour);
     }
 
     /**
-     * Tour get method. Supported with @Transactional (Isolation.READ_COMMITTED, Propagation.REQUIRED)
+     * Get/find/take operation,
+     * supported with {@link Transactional}.
      *
-     * @param id to identify and find tour in repository
-     * @return tour object, wrapped in Optional, cause null
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause exception of getting
      */
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
     @Override
     public Optional<Tour> get(long id) {
         if (id < 1) {
@@ -80,19 +78,15 @@ public class TourServiceImpl implements TourService {
             throw new ServiceException("id = " + id + " - invalid, id can be >= 1");
         }
 
-        try {
-            return tourRepository.get(id);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return tourRepository.get(id);
     }
 
     /**
-     * Tour remove method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Remove operation,
+     * supported with {@link Transactional}.
      *
-     * @param tour object, which be removing from repository
-     * @return boolean result of removing
+     * @param tour {@link Tour}
+     * @return true/false
      * @throws ServiceException cause param is null or exception of removing
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
@@ -103,19 +97,15 @@ public class TourServiceImpl implements TourService {
             throw new ServiceException("tour argument in remove method is null");
         }
 
-        try {
-            return tourRepository.remove(tour);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return tourRepository.remove(tour);
     }
 
     /**
-     * Tour update method. Supported with @Transactional (Isolation.READ_UNCOMMITTED, Propagation.REQUIRED)
+     * Update operation,
+     * supported with {@link Transactional}.
      *
-     * @param tour object, which be updating in repository
-     * @return tour object, wrapped in Optional, cause null
+     * @param tour {@link Tour}
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause param is null or exception of updating
      */
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
@@ -126,22 +116,20 @@ public class TourServiceImpl implements TourService {
             throw new ServiceException("tour argument in update method is null");
         }
 
-        try {
-            return tourRepository.update(tour);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return tourRepository.update(tour);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    /**
+     * Find tour by criteria's,
+     * supported with {@link Transactional}.
+     *
+     * @return object, wrapped in {@link Optional} class
+     */
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+    @Override
     public List<Tour> findByCriteria(LocalDate date, Duration duration, Country country,
                                      Byte stars, TourType type, BigDecimal cost) {
-        try {
-            return tourRepository.findByCriteria(date, duration, country, stars, type, cost);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+
+        return tourRepository.findByCriteria(date, duration, country, stars, type, cost);
     }
 }

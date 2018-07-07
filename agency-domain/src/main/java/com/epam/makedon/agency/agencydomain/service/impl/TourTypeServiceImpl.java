@@ -4,7 +4,6 @@ import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import com.epam.makedon.agency.agencydomain.repository.TourTypeRepository;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
 import com.epam.makedon.agency.agencydomain.service.TourTypeService;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Class TourTypeServiceImpl implements TourTypeService.
+ * Service class for {@link TourType} class,
+ * implements {@link TourTypeService} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 @Service
 @Profile("service")
+
 public class TourTypeServiceImpl implements TourTypeService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TourTypeServiceImpl.class);
 
     @Autowired(required = false)
-    @Setter
     private TourTypeRepository tourTypeRepository;
 
     /**
@@ -37,11 +38,12 @@ public class TourTypeServiceImpl implements TourTypeService {
     public TourTypeServiceImpl() {}
 
     /**
-     * TourType add method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Add operation,
+     * supported with {@link Transactional}.
      *
-     * @param tourType object, which be adding to repository
-     * @return boolean, result of adding
-     * @throws ServiceException cause param is null or exception of adding
+     * @param tourType {@link TourType}
+     * @return true/false
+     * @throws ServiceException cause param is null
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
@@ -51,22 +53,18 @@ public class TourTypeServiceImpl implements TourTypeService {
             throw new ServiceException("tourType argument in add method is null");
         }
 
-        try {
-            return tourTypeRepository.add(tourType);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return tourTypeRepository.add(tourType);
     }
 
     /**
-     * TourType get method. Supported with @Transactional (Isolation.READ_COMMITTED, Propagation.REQUIRED)
+     * Get/find/take operation,
+     * supported with {@link Transactional}.
      *
-     * @param id to identify and find tourType in repository
-     * @return tourType object, wrapped in Optional, cause null
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause exception of getting
      */
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
     @Override
     public Optional<TourType> get(long id) {
         if (id < 1) {
@@ -74,19 +72,15 @@ public class TourTypeServiceImpl implements TourTypeService {
             throw new ServiceException("id = " + id + " - invalid, id can be >= 1");
         }
 
-        try {
-            return tourTypeRepository.get(id);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return tourTypeRepository.get(id);
     }
 
     /**
-     * TourType remove method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Remove operation,
+     * supported with {@link Transactional}.
      *
-     * @param tourType object, which be removing from repository
-     * @return boolean result of removing
+     * @param tourType {@link TourType}
+     * @return true/false
      * @throws ServiceException cause param is null or exception of removing
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
@@ -97,19 +91,15 @@ public class TourTypeServiceImpl implements TourTypeService {
             throw new ServiceException("tourType argument in remove method is null");
         }
 
-        try {
-            return tourTypeRepository.remove(tourType);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return tourTypeRepository.remove(tourType);
     }
 
     /**
-     * TourType update method. Supported with @Transactional (Isolation.READ_UNCOMMITTED, Propagation.REQUIRED)
+     * Update operation,
+     * supported with {@link Transactional}.
      *
-     * @param tourType object, which be updating in repository
-     * @return tourType object, wrapped in Optional, cause null
+     * @param tourType {@link TourType}
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause param is null or exception of updating
      */
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
@@ -120,11 +110,6 @@ public class TourTypeServiceImpl implements TourTypeService {
             throw new ServiceException("tourType argument in update method is null");
         }
 
-        try {
-            return tourTypeRepository.update(tourType);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return tourTypeRepository.update(tourType);
     }
 }

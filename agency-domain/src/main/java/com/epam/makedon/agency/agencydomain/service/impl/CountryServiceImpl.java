@@ -4,7 +4,6 @@ import com.epam.makedon.agency.agencydomain.domain.impl.Country;
 import com.epam.makedon.agency.agencydomain.repository.CountryRepository;
 import com.epam.makedon.agency.agencydomain.service.CountryService;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Class CountryServiceImpl implements CountryService.
+ * Service class for {@link Country} class,
+ * implements {@link CountryService} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 @Service
 @Profile("service")
+
 public class CountryServiceImpl implements CountryService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CountryServiceImpl.class);
 
     @Autowired(required = false)
-    @Setter
     private CountryRepository countryRepository;
 
     /**
@@ -37,11 +38,12 @@ public class CountryServiceImpl implements CountryService {
     public CountryServiceImpl() {}
 
     /**
-     * Country add method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Add operation,
+     * supported with {@link Transactional}.
      *
-     * @param country object, which be adding to repository
-     * @return boolean, result of adding
-     * @throws ServiceException cause param is null or exception of adding
+     * @param country {@link Country}
+     * @return true/false
+     * @throws ServiceException cause param is null
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
@@ -51,22 +53,18 @@ public class CountryServiceImpl implements CountryService {
             throw new ServiceException("country argument in add method is null");
         }
 
-        try {
-            return countryRepository.add(country);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return countryRepository.add(country);
     }
 
     /**
-     * Country get method. Supported with @Transactional (Isolation.READ_COMMITTED, Propagation.REQUIRED)
+     * Get/find/take operation,
+     * supported with {@link Transactional}.
      *
-     * @param id to identify and find country in repository
-     * @return country object, wrapped in Optional, cause null
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause exception of getting
      */
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
     @Override
     public Optional<Country> get(long id) {
         if (id < 1) {
@@ -74,19 +72,15 @@ public class CountryServiceImpl implements CountryService {
             throw new ServiceException("id = " + id + " - invalid, id can be >= 1");
         }
 
-        try {
-            return countryRepository.get(id);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return countryRepository.get(id);
     }
 
     /**
-     * Country remove method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Remove operation,
+     * supported with {@link Transactional}.
      *
-     * @param country object, which be removing from repository
-     * @return boolean result of removing
+     * @param country {@link Country}
+     * @return true/false
      * @throws ServiceException cause param is null or exception of removing
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
@@ -97,19 +91,15 @@ public class CountryServiceImpl implements CountryService {
             throw new ServiceException("country argument in remove method is null");
         }
 
-        try {
-            return countryRepository.remove(country);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return countryRepository.remove(country);
     }
 
     /**
-     * Country update method. Supported with @Transactional (Isolation.READ_UNCOMMITTED, Propagation.REQUIRED)
+     * Update operation,
+     * supported with {@link Transactional}.
      *
-     * @param country object, which be updating in repository
-     * @return country object, wrapped in Optional, cause null
+     * @param country {@link Country}
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause param is null or exception of updating
      */
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
@@ -120,11 +110,6 @@ public class CountryServiceImpl implements CountryService {
             throw new ServiceException("country argument in update method is null");
         }
 
-        try {
-            return countryRepository.update(country);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return countryRepository.update(country);
     }
 }
