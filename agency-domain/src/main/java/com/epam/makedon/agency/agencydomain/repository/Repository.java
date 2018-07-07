@@ -5,36 +5,44 @@ import com.epam.makedon.agency.agencydomain.domain.Entity;
 import java.util.Optional;
 
 /**
- * Interface Repository define CRUD methods.
+ * This interface define CRUD methods for repository implementation classes
  *
- * @param <T> generic interface define type of classes, which cane use this methods. It's domain classes.
+ * @param <T> generic parameter, extends {@link Entity} interface.
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.repository
- * @since version 1.0
+ * @version 1.0
  */
+
 public interface Repository<T extends Entity> {
 
     /**
-     * @param entity object, which be insert into repository
-     * @return the result of adding (true/false)
+     * Add operation
+     *
+     * @param entity {@link Entity}
+     * @return true/false
      */
     boolean add(T entity);
 
     /**
-     * @param id to define and find object
-     * @return domain, wrapper in optional, cause can return null
+     * Get/find/take operation
+     *
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      */
     Optional<T> get(long id);
 
     /**
-     * @param entity generic delete method
-     * @return the result of removing (true/false)
+     * Remove operation
+     *
+     * @param entity {@link Entity}
+     * @return true/false
      */
     boolean remove(T entity);
 
     /**
-     * @param entity generic update method
-     * @return updated domain, wrapper in optional, cause can return null
+     * Update operation
+     *
+     * @param entity {@link Entity}
+     * @return object, wrapped in {@link Optional} class
      */
     Optional<T> update(T entity);
 }

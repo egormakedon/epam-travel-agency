@@ -10,13 +10,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Interface TourRepository mark repository with Tour domain.
+ * This interface markup repositories for {@link Tour} class,
+ * extends {@link Repository} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.repository
- * @since version 1.0
+ * @version 1.0
  */
+
 public interface TourRepository extends Repository<Tour> {
+
     default List<Tour> findByCriteria(LocalDate date, Duration duration, Country country,
                                      Byte stars, TourType type, BigDecimal cost) {
         return null;
