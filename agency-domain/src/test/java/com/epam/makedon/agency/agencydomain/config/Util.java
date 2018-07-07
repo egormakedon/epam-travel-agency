@@ -70,6 +70,7 @@ public final class Util {
         tour.setDescription("123");
         tour.setDate(LocalDate.now());
         tour.setCost(BigDecimal.valueOf(1));
+        tour.setPhoto("photo");
         return tour;
     }
 }

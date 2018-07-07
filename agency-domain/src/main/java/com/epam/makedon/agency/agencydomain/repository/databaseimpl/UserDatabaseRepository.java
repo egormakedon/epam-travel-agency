@@ -5,7 +5,6 @@ import com.epam.makedon.agency.agencydomain.domain.impl.Role;
 import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
 import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import com.epam.makedon.agency.agencydomain.repository.UserRepository;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,24 +20,31 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Class UserDatabaseRepository implements UserRepository.
+ * Repository class for {@link User} class,
+ * using {@link com.epam.makedon.agency.agencydomain.config.MainDatabaseConfiguration} class,
+ * implements {@link UserRepository} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.repository
- * @since version 2.0
+ * @version 1.0
  */
+
 @Repository
 @Profile("databaseRepository")
+
 public class UserDatabaseRepository implements UserRepository {
-    private static final String USER_LOGIN_LITERAL = "userLogin";
-    private static final String USER_ID_LITERAL = "userId";
+
+    private static final String USER_LOGIN = "userLogin";
+    private static final String USER_PASSWORD = "userPassword";
+    private static final String USER_ID = "userId";
+    private static final String ROLE_ID = "roleId";
+    private static final String TOUR_ID = "tourId";
+    private static final String REVIEW_ID = "reviewId";
 
     private UserMapper userMapper = new UserMapper();
     private TourMapper tourMapper = new TourMapper();
     private ReviewMapper reviewMapper = new ReviewMapper();
 
     @Autowired
-    @Setter
     private DataSource dataSource;
 
     /**
@@ -47,18 +53,23 @@ public class UserDatabaseRepository implements UserRepository {
     public UserDatabaseRepository() {}
 
     /**
-     * @param user object, which be inserting into repository
-     * @return boolean result of inserting
+     * Add operation
+     *
+     * @param user {@link User}
+     * @return true/false
      */
     @Override
     public boolean add(User user) {
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        final String SQL_INSERT_USER = "INSERT INTO user (user_login,user_password) VALUES (:userLogin, :userPassword)";
-        final String SQL_SELECT_USER_ID_BY_LOGIN = "SELECT user_id userId FROM user WHERE user_login=:userLogin";
+        final String SQL_INSERT_USER = "INSERT INTO user (user_login,user_password) " +
+                "VALUES (:userLogin, :userPassword)";
+        final String SQL_SELECT_USER_ID_BY_LOGIN = "SELECT user_id userId " +
+                "FROM user " +
+                "WHERE user_login=:userLogin";
 
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(USER_LOGIN_LITERAL, user.getLogin());
-        parameters.put("userPassword", user.getPassword());
+        parameters.put(USER_LOGIN, user.getLogin());
+        parameters.put(USER_PASSWORD, user.getPassword());
 
         int r = namedParameterJdbcTemplate.update(SQL_INSERT_USER, parameters);
 
@@ -70,82 +81,104 @@ public class UserDatabaseRepository implements UserRepository {
             return true;
         }
 
-
         parameters.clear();
-        parameters.put(USER_LOGIN_LITERAL, user.getLogin());
+        parameters.put(USER_LOGIN, user.getLogin());
         long userId = namedParameterJdbcTemplate.queryForObject(SQL_SELECT_USER_ID_BY_LOGIN, parameters, Long.class);
         insertUserTour(userId, user.getTourList());
         return true;
     }
 
     /**
-     * @param id to define and find user object
-     * @return user object, wrapped in optional
+     * Get/find/take operation
+     *
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<User> get(long id) {
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        final String SQL_SELECT_USER_BY_ID = "SELECT user_id id,user_login login,user_password password, role_id roleId FROM user WHERE user_id=:userId";
-        final String SQL_SELECT_TOUR_USER_ID = "SELECT fk_tour_id id FROM user_tour WHERE fk_user_id=:userId";
-        final String SQL_SELECT_REVIEW_BY_USER_ID = "SELECT review_id id FROM review WHERE fk_user_id=:userId";
+        final String SQL_SELECT_USER_BY_ID = "SELECT user_id userId, user_login userLogin, " +
+                "user_password userPassword, role_id roleId " +
+                "FROM user " +
+                "WHERE user_id=:userId";
+        final String SQL_SELECT_TOUR_USER_ID = "SELECT fk_tour_id tourId " +
+                "FROM user_tour " +
+                "WHERE fk_user_id=:userId";
+        final String SQL_SELECT_REVIEW_BY_USER_ID = "SELECT review_id reviewId " +
+                "FROM review " +
+                "WHERE fk_user_id=:userId";
 
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(USER_ID_LITERAL, id);
+        parameters.put(USER_ID, id);
 
         User user = namedParameterJdbcTemplate.queryForObject(SQL_SELECT_USER_BY_ID, parameters, userMapper);
-        if (user == null) {
-            return Optional.empty();
-        }
-
         List<Tour> tourList = namedParameterJdbcTemplate.query(SQL_SELECT_TOUR_USER_ID, parameters, tourMapper);
         user.setTourList(tourList);
-
         List<Review> reviewList = namedParameterJdbcTemplate.query(SQL_SELECT_REVIEW_BY_USER_ID, parameters, reviewMapper);
         user.setReviewList(reviewList);
 
-        return Optional.ofNullable(user);
+        return Optional.of(user);
     }
 
+    /**
+     * Find operation
+     *
+     * @param username of User
+     * @return object, wrapped in {@link Optional} class
+     */
     @Override
     public Optional<User> findByUsername(String username) {
+        final String SQL_SELECT_FIND_USER_BY_USERNAME = "SELECT user_id userId " +
+                "FROM user " +
+                "WHERE user_login=:userLogin";
+
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-        final String SQL_SELECT_FIND_USER_BY_USERNAME = "SELECT user_id id FROM user WHERE user_login=:userLogin";
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(USER_LOGIN_LITERAL, username);
+        parameters.put(USER_LOGIN, username);
         long id = template.queryForObject(SQL_SELECT_FIND_USER_BY_USERNAME, parameters, Long.class);
         return get(id);
     }
 
     /**
-     * @param user object, which be removing from repository
-     * @return boolean result of removing
+     * Remove operation
+     *
+     * @param user {@link User}
+     * @return true/false
      */
     @Override
     public boolean remove(User user) {
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        final String SQL_DELETE_USER_BY_ID = "DELETE FROM user WHERE user_id=:userId";
+        final String SQL_DELETE_USER_BY_ID = "DELETE " +
+                "FROM user " +
+                "WHERE user_id=:userId";
 
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(USER_ID_LITERAL, user.getId());
+        parameters.put(USER_ID, user.getId());
         int r = namedParameterJdbcTemplate.update(SQL_DELETE_USER_BY_ID, parameters);
         return r == 1;
     }
 
     /**
-     * @param user object, which be updating in repository
-     * @return user object, wrapped in optional
+     * Update operation
+     *
+     * @param user {@link User}
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<User> update(User user) {
+        final String SQL_UPDATE_USER = "UPDATE user " +
+                "SET user_login=:userLogin, user_password=:userPassword, role_id=:roleId " +
+                "WHERE user_id=:userId";
+        final String SQL_DELETE_USER_TOUR_BY_USER_ID = "DELETE " +
+                "FROM user_tour " +
+                "WHERE fk_user_id=:userId";
+
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-
-        final String SQL_UPDATE_USER = "UPDATE user SET user_login=:userLogin, user_password=:userPassword WHERE user_id=:userId";
-        final String SQL_DELETE_USER_TOUR_BY_USER_ID = "DELETE FROM user_tour WHERE fk_user_id=:userId";
-
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(USER_LOGIN_LITERAL, user.getLogin());
-        parameters.put("userPassword", user.getPassword());
-        parameters.put(USER_ID_LITERAL, user.getId());
+        parameters.put(USER_LOGIN, user.getLogin());
+        parameters.put(USER_PASSWORD, user.getPassword());
+        parameters.put(USER_ID, user.getId());
+        parameters.put(ROLE_ID, user.getRole().getId());
 
         int r = namedParameterJdbcTemplate.update(SQL_UPDATE_USER, parameters);
 
@@ -154,64 +187,60 @@ public class UserDatabaseRepository implements UserRepository {
         }
 
         parameters.clear();
-        parameters.put(USER_ID_LITERAL, user.getId());
+        parameters.put(USER_ID, user.getId());
         namedParameterJdbcTemplate.update(SQL_DELETE_USER_TOUR_BY_USER_ID, parameters);
 
         if (user.getTourList().isEmpty()) {
-            return Optional.ofNullable(user);
+            return Optional.of(user);
         }
 
         insertUserTour(user.getId(), user.getTourList());
-        return Optional.ofNullable(user);
+        return Optional.of(user);
     }
 
     private void insertUserTour(long userId, List<Tour> tourList) {
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        final String SQL_INSERT_USER_TOUR = "INSERT INTO user_tour (fk_user_id,fk_tour_id) VALUES(:userId,:tourId)";
+        final String SQL_INSERT_USER_TOUR = "INSERT INTO user_tour (fk_user_id,fk_tour_id) " +
+                "VALUES(:userId, :tourId)";
 
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         Map<String, Object>[] batch = new HashMap[tourList.size()];
         for (int index = 0; index < tourList.size(); index++) {
             batch[index] = new HashMap<>();
-            batch[index].put(USER_ID_LITERAL, userId);
-            batch[index].put("tourId", tourList.get(index).getId());
+            batch[index].put(USER_ID, userId);
+            batch[index].put(TOUR_ID, tourList.get(index).getId());
         }
-
         namedParameterJdbcTemplate.batchUpdate(SQL_INSERT_USER_TOUR, batch);
     }
 
     private class UserMapper implements RowMapper<User> {
-        private static final String ID = "id";
-        private static final String LOGIN = "login";
-        private static final String PASSWORD = "password";
-        private static final String ROLE_ID = "roleId";
 
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
             User user = new User();
-            user.setId(rs.getLong(ID));
-            user.setLogin(rs.getString(LOGIN));
-            user.setPassword(rs.getString(PASSWORD));
+            user.setId(rs.getLong(USER_ID));
+            user.setLogin(rs.getString(USER_LOGIN));
+            user.setPassword(rs.getString(USER_PASSWORD));
             user.setRole(Role.fromCode(rs.getLong(ROLE_ID)));
             return user;
         }
     }
+
     private class TourMapper implements RowMapper<Tour> {
-        private static final String ID = "id";
 
         @Override
         public Tour mapRow(ResultSet rs, int i) throws SQLException {
             Tour tour = new Tour();
-            tour.setId(rs.getLong(ID));
+            tour.setId(rs.getLong(TOUR_ID));
             return tour;
         }
     }
+
     private class ReviewMapper implements RowMapper<Review> {
-        private static final String ID = "id";
 
         @Override
         public Review mapRow(ResultSet rs, int i) throws SQLException {
             Review review = new Review();
-            review.setId(rs.getLong(ID));
+            review.setId(rs.getLong(REVIEW_ID));
             return review;
         }
     }
