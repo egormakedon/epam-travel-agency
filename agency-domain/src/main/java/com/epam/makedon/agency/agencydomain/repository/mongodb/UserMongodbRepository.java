@@ -4,10 +4,12 @@ import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
- * Interface UserMongodbRepository.
+ * Interface HotelMongodbRepository,
+ * provide spring-data mongodb repository for {@link User} class,
+ * extends {@link MongoRepository} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.repository
- * @since version 6.0
+ * @version 1.0
  */
+
 public interface UserMongodbRepository extends MongoRepository<User, Long> {}
