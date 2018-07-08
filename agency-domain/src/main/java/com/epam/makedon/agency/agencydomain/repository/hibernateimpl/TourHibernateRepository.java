@@ -18,15 +18,20 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Class TourHibernateRepository implements TourRepository.
+ * Repository class for {@link Tour} class,
+ * using {@link com.epam.makedon.agency.agencydomain.config.MainHibernateConfiguration} class,
+ * implements {@link TourRepository} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.repository
- * @since version 4.0
+ * @version 1.0
  */
+
 @Repository
 @Profile("hibernateRepository")
+
 public class TourHibernateRepository implements TourRepository {
+
+    private static final String TOUR_ID = "tourId";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -41,8 +46,10 @@ public class TourHibernateRepository implements TourRepository {
     public TourHibernateRepository() {}
 
     /**
-     * @param tour object, which be insert into repository
-     * @return boolean result of inserting
+     * Add operation
+     *
+     * @param tour {@link Tour}
+     * @return true/false
      */
     @Override
     public boolean add(Tour tour) {
@@ -51,41 +58,58 @@ public class TourHibernateRepository implements TourRepository {
     }
 
     /**
-     * @param id to define and find tour in repository
-     * @return tour object, wrapped in optional, which got from repository
+     * Get/find/take operation
+     *
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<Tour> get(long id) {
-        final String NATIVE_QUERY_SELECT_TOUR_BY_ID = "SELECT * FROM tour WHERE tour_id=?";
+        final String NATIVE_QUERY_SELECT_TOUR_BY_ID = "SELECT * " +
+                "FROM tour " +
+                "WHERE tour_id=?";
         Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_TOUR_BY_ID, Tour.class);
         query.setParameter(1, id);
         return Optional.ofNullable((Tour)query.getSingleResult());
     }
 
     /**
-     * @param tour object to remove from repository
-     * @return boolean result of tour removing from repository
+     * Remove operation
+     *
+     * @param tour {@link Tour}
+     * @return true/false
      */
     @Override
     public boolean remove(Tour tour) {
-        final String NAMED_QUERY_DELETE_TOUR_BY_ID = "DELETE FROM Tour WHERE id=:tourId";
+        final String NAMED_QUERY_DELETE_TOUR_BY_ID = "DELETE " +
+                "FROM Tour " +
+                "WHERE id=:tourId";
         Query query = entityManager.createQuery(NAMED_QUERY_DELETE_TOUR_BY_ID);
-        query.setParameter("tourId", tour.getId());
+        query.setParameter(TOUR_ID, tour.getId());
         return query.executeUpdate() == 1;
     }
 
     /**
-     * @param tour object to update in repository
-     * @return updated tour object, wrapped in optional
+     * Update operation
+     *
+     * @param tour {@link Tour}
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<Tour> update(Tour tour) {
         return Optional.ofNullable(entityManager.merge(tour));
     }
 
+    /**
+     * Find tour by criteria's.
+     */
+    @Override
     public List<Tour> findByCriteria(LocalDate date, Duration duration, Country country,
                                      Byte stars, TourType type, BigDecimal cost) {
-        String sqlFindTourByCriteria = "SELECT * FROM tour t INNER JOIN hotel h ON t.fk_hotel_id=h.hotel_id";
+        String sqlFindTourByCriteria = "SELECT * " +
+                "FROM tour t " +
+                "INNER JOIN hotel h " +
+                "ON t.fk_hotel_id=h.hotel_id";
 
         List<Object> criteriaValuesList = new ArrayList<>();
         if (date != null) {

@@ -11,15 +11,21 @@ import javax.persistence.Query;
 import java.util.Optional;
 
 /**
- * Class UserHibernateRepository implements UserRepository.
+ * Repository class for {@link User} class,
+ * using {@link com.epam.makedon.agency.agencydomain.config.MainHibernateConfiguration} class,
+ * implements {@link UserRepository} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.repository
- * @since version 4.0
+ * @version 1.0
  */
+
 @Repository
 @Profile("hibernateRepository")
+
 public class UserHibernateRepository implements UserRepository {
+
+    private static final String USER_ID = "userId";
+    private static final String USERNAME = "username";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,8 +36,10 @@ public class UserHibernateRepository implements UserRepository {
     public UserHibernateRepository() {}
 
     /**
-     * @param user object, which be insert into repository
-     * @return boolean result of inserting
+     * Add operation
+     *
+     * @param user {@link User}
+     * @return true/false
      */
     @Override
     public boolean add(User user) {
@@ -40,40 +48,57 @@ public class UserHibernateRepository implements UserRepository {
     }
 
     /**
-     * @param id to define and find user in repository
-     * @return user object, wrapped in optional, which got from repository
+     * Get/find/take operation
+     *
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<User> get(long id) {
-        final String NATIVE_QUERY_SELECT_USER_BY_ID = "SELECT * FROM \"user\" WHERE user_id=?";
+        final String NATIVE_QUERY_SELECT_USER_BY_ID = "SELECT * " +
+                "FROM \"user\" " +
+                "WHERE user_id=?";
         Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_USER_BY_ID, User.class);
         query.setParameter(1, id);
         return Optional.ofNullable((User)query.getSingleResult());
     }
 
+    /**
+     * Find operation.
+     *
+     * @param username of User
+     * @return object, wrapped in {@link Optional} class
+     */
     @Override
     public Optional<User> findByUsername(String username) {
-        final String NAMED_QUERY_SELECT_USER_BY_USERNAME = "FROM User WHERE login=:username";
+        final String NAMED_QUERY_SELECT_USER_BY_USERNAME = "FROM User " +
+                "WHERE login=:username";
         Query query = entityManager.createQuery(NAMED_QUERY_SELECT_USER_BY_USERNAME);
-        query.setParameter("username", username);
+        query.setParameter(USERNAME, username);
         return Optional.ofNullable((User)query.getSingleResult());
     }
 
     /**
-     * @param user object to remove from repository
-     * @return boolean result of user removing from repository
+     * Remove operation
+     *
+     * @param user {@link User}
+     * @return true/false
      */
     @Override
     public boolean remove(User user) {
-        final String NAMED_QUERY_DELETE_USER_BY_ID = "DELETE FROM User WHERE id=:userId";
+        final String NAMED_QUERY_DELETE_USER_BY_ID = "DELETE " +
+                "FROM User " +
+                "WHERE id=:userId";
         Query query = entityManager.createQuery(NAMED_QUERY_DELETE_USER_BY_ID);
-        query.setParameter("userId", user.getId());
+        query.setParameter(USER_ID, user.getId());
         return query.executeUpdate() == 1;
     }
 
     /**
-     * @param user object to update in repository
-     * @return updated user object, wrapped in optional
+     * Update operation
+     *
+     * @param user {@link User}
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<User> update(User user) {

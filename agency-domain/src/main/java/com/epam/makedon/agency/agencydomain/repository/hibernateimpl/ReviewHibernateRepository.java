@@ -11,15 +11,20 @@ import javax.persistence.Query;
 import java.util.Optional;
 
 /**
- * Class ReviewHibernateRepository implements ReviewRepository.
+ * Repository class for {@link Review} class,
+ * using {@link com.epam.makedon.agency.agencydomain.config.MainHibernateConfiguration} class,
+ * implements {@link ReviewRepository} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.repository
- * @since version 4.0
+ * @version 1.0
  */
+
 @Repository
 @Profile("hibernateRepository")
+
 public class ReviewHibernateRepository implements ReviewRepository {
+
+    private static final String REVIEW_ID = "reviewId";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,8 +35,10 @@ public class ReviewHibernateRepository implements ReviewRepository {
     public ReviewHibernateRepository() {}
 
     /**
-     * @param review object, which be insert into repository
-     * @return boolean result of inserting
+     * Add operation
+     *
+     * @param review {@link Review}
+     * @return true/false
      */
     @Override
     public boolean add(Review review) {
@@ -40,32 +47,42 @@ public class ReviewHibernateRepository implements ReviewRepository {
     }
 
     /**
-     * @param id to define and find review in repository
-     * @return review object, wrapped in optional, which got from repository
+     * Get/find/take operation
+     *
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<Review> get(long id) {
-        final String NATIVE_QUERY_SELECT_REVIEW_BY_ID = "SELECT * FROM review WHERE review_id=?";
+        final String NATIVE_QUERY_SELECT_REVIEW_BY_ID = "SELECT * " +
+                "FROM review " +
+                "WHERE review_id=?";
         Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_REVIEW_BY_ID, Review.class);
         query.setParameter(1, id);
         return Optional.ofNullable((Review)query.getSingleResult());
     }
 
     /**
-     * @param review object to remove from repository
-     * @return boolean result of review removing from repository
+     * Remove operation
+     *
+     * @param review {@link Review}
+     * @return true/false
      */
     @Override
     public boolean remove(Review review) {
-        final String NAMED_QUERY_DELETE_REVIEW_BY_ID = "DELETE FROM Review WHERE id=:reviewId";
+        final String NAMED_QUERY_DELETE_REVIEW_BY_ID = "DELETE " +
+                "FROM Review " +
+                "WHERE id=:reviewId";
         Query query = entityManager.createQuery(NAMED_QUERY_DELETE_REVIEW_BY_ID);
-        query.setParameter("reviewId", review.getId());
+        query.setParameter(REVIEW_ID, review.getId());
         return query.executeUpdate() == 1;
     }
 
     /**
-     * @param review object to update in repository
-     * @return updated review object, wrapped in optional
+     * Update operation
+     *
+     * @param review {@link Review}
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<Review> update(Review review) {
