@@ -2,7 +2,10 @@ package com.epam.makedon.agency.agencydomain.repository.hibernateimpl;
 
 import com.epam.makedon.agency.agencydomain.config.TestHibernateConfiguration;
 import com.epam.makedon.agency.agencydomain.config.Util;
+import com.epam.makedon.agency.agencydomain.domain.impl.Country;
+import com.epam.makedon.agency.agencydomain.domain.impl.Hotel;
 import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
+import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import com.epam.makedon.agency.agencydomain.repository.TourRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +15,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -57,9 +66,63 @@ public class TourHibernateRepositoryTest {
     }
 
     @Test
+    public void addTrueTest() {
+        Tour tour = Util.getTour();
+        Hotel hotel = Util.getHotel();
+        tour.setHotel(hotel);
+        assertTrue(tourRepository.add(tour));
+    }
+
+    @Test
+    public void removeTrueTest() {
+        Tour tour = new Tour();
+        tour.setId(1);
+        assertTrue(tourRepository.remove(tour));
+    }
+
+    @Test
     public void removeFalseTest() {
         Tour tour = new Tour();
         tour.setId(-1);
         assertFalse(tourRepository.remove(tour));
+    }
+
+    @Test
+    public void updateTrueTest() {
+        Tour tour = Util.getTour();
+        Hotel hotel = Util.getHotel();
+        tour.setHotel(hotel);
+        tourRepository.add(tour);
+        tour.setDescription("hello");
+        tourRepository.update(tour);
+        assertEquals(tour.getDescription(), tourRepository.get(7).orElseThrow(() -> new RuntimeException("")).getDescription());
+    }
+
+    @Test
+    public void findByCriteria1() {
+        List<Tour> tours = tourRepository.findByCriteria(LocalDate.of(2018, Month.JUNE, 10), null, null,null, null, null);
+        assertEquals(1, tours.size());
+        assertEquals(new BigDecimal(243), tours.get(0).getCost());
+    }
+
+    @Test
+    public void findByCriteria2() {
+        List<Tour> tours = tourRepository.findByCriteria(null, Duration.ofDays(6), Country.SPAIN,null, TourType.WEEKEND, null);
+        assertEquals(1, tours.size());
+        Tour tour = tours.get(0);
+        assertEquals(Duration.ofNanos(6), tour.getDuration());
+        assertEquals(Country.SPAIN, tour.getCountry());
+        assertEquals(TourType.WEEKEND, tour.getType());
+    }
+
+    @Test
+    public void findByCriteria3() {
+        List<Tour> tours = tourRepository.findByCriteria(null, null, null, Byte.valueOf("5"), null, null);
+        assertEquals(1, tours.get(0).getHotel().getId());
+        assertEquals("1234567", tours.get(0).getHotel().getPhone());
+        assertEquals("hotel1", tours.get(0).getHotel().getName());
+        assertEquals(tours.get(0).getHotel(), tours.get(1).getHotel());
+        assertEquals(tours.get(1).getHotel(), tours.get(2).getHotel());
+        assertEquals(tours.get(2).getHotel(), tours.get(3).getHotel());
     }
 }

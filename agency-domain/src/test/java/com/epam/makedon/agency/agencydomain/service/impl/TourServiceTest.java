@@ -13,6 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -105,5 +107,31 @@ public class TourServiceTest {
         Tour tour = Util.getTour();
         tour.setId(100);
         assertFalse(tourService.update(tour).isPresent());
+    }
+
+    @Test
+    public void findByCriteria() {
+        TourService service = new TourService() {
+            @Override
+            public boolean add(Tour entity) {
+                return false;
+            }
+
+            @Override
+            public Optional<Tour> get(long id) {
+                return Optional.empty();
+            }
+
+            @Override
+            public boolean remove(Tour entity) {
+                return false;
+            }
+
+            @Override
+            public Optional<Tour> update(Tour entity) {
+                return Optional.empty();
+            }
+        };
+        assertNull(service.findByCriteria(null, null, null, null, null, null));
     }
 }

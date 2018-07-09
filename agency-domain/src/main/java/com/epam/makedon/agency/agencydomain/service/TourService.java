@@ -18,6 +18,7 @@ import java.util.List;
  */
 
 public interface TourService extends Service<Tour> {
+
     default List<Tour> findByCriteria(LocalDate date, Duration duration, Country country,
                               Byte stars, TourType type, BigDecimal cost) {
         return null;

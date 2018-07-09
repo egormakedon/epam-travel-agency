@@ -66,7 +66,7 @@ public final class Util {
         Hotel hotel = new Hotel();
         hotel.setId(1);
         tour.setHotel(hotel);
-        tour.setDuration(Duration.ofDays(2));
+        tour.setDuration(Duration.ofNanos(2));
         tour.setDescription("123");
         tour.setDate(LocalDate.now());
         tour.setCost(BigDecimal.valueOf(1));
