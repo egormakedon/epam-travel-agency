@@ -32,8 +32,18 @@ public class ReviewDatabaseRepositoryTest {
     private ReviewRepository reviewRepository;
 
     @Test
-    public void addTrueTest() {
+    public void addTrueTest1() {
         Review review = Util.getReview();
+        assertTrue(reviewRepository.add(review));
+    }
+
+    @Test
+    public void addTrueTest2() {
+        Review review = Util.getReview();
+        assertTrue(reviewRepository.add(review));
+        review.setId(review.getId() + 1);
+        assertTrue(reviewRepository.add(review));
+        review.setId(review.getId() + 1);
         assertTrue(reviewRepository.add(review));
     }
 

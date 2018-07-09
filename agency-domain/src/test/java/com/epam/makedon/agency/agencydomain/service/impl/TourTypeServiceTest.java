@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.agencydomain.service.impl;
 
 import com.epam.makedon.agency.agencydomain.config.TestDatabaseConfiguration;
+import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
 import com.epam.makedon.agency.agencydomain.service.TourTypeService;
 import org.junit.Test;
@@ -10,6 +11,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Test for {@link TourTypeServiceImpl} class.
@@ -47,5 +52,51 @@ public class TourTypeServiceTest {
     @Test(expected = ServiceException.class)
     public void exceptionGetTest() {
         tourTypeService.get(0);
+    }
+
+    @Test
+    public void addTrueTest() {
+        TourType tourType = TourType.EXCURSION;
+        assertTrue(tourTypeService.add(tourType));
+    }
+
+    @Test
+    public void getTrueTest1() {
+        assertNotNull(tourTypeService.get(1).orElse(null));
+    }
+
+    @Test
+    public void getTrueTest2() {
+        assertNotNull(tourTypeService.get(3).orElse(null));
+    }
+
+    @Test
+    public void getFalseTest() {
+        TourType tourType = TourType.CHILDREN;
+        assertNotEquals(tourType, tourTypeService.get(4).orElse(null));
+    }
+
+    @Test
+    public void removeTrueTest() {
+        TourType tourType = TourType.CHILDREN;
+        assertTrue(tourTypeService.remove(tourType));
+    }
+
+    @Test
+    public void removeFalseTest() {
+        TourType tourType = TourType.EXCURSION;
+        assertFalse(tourTypeService.remove(tourType));
+    }
+
+    @Test
+    public void updateTest1() {
+        TourType tourType = TourType.EXCURSION;
+        assertNull(tourTypeService.update(tourType).orElse(null));
+    }
+
+    @Test
+    public void updateTest2() {
+        TourType tourType = TourType.WEEKEND;
+        assertEquals(tourTypeService.update(tourType).orElse(null), tourType);
     }
 }

@@ -46,6 +46,19 @@ public class HotelDatabaseRepositoryTest {
     }
 
     @Test
+    public void addTrueTest3() {
+        Hotel hotel = Util.getHotel();
+        assertTrue(hotelRepository.add(hotel));
+        assertEquals(hotel, hotelRepository.get(4).orElse(null));
+        hotel.setId(hotel.getId() + 1);
+        assertTrue(hotelRepository.add(hotel));
+        hotel.setId(hotel.getId() + 1);
+        assertTrue(hotelRepository.add(hotel));
+        assertNotEquals(hotelRepository.get(6).get(), hotelRepository.get(7).get());
+        assertEquals(hotelRepository.get(6).get().getName(), hotelRepository.get(7).get().getName());
+    }
+
+    @Test
     public void getTrueTest1() {
         assertNotNull(hotelRepository.get(1).orElse(null));
     }
