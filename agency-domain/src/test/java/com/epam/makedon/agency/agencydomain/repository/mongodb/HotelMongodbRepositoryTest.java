@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -115,5 +116,58 @@ public class HotelMongodbRepositoryTest {
         hotel3.setPhone("3");
 
         hotelMongodbRepository.insert(Arrays.asList(hotel1, hotel2, hotel3));
+    }
+
+    @Test
+    public void optimisticLockingTest() {
+        Hotel hotel = new Hotel();
+        hotel.setId(6);
+        hotel.setName("hotel");
+        hotel.setPhone("12345");
+        hotel.setStars(Byte.valueOf("3"));
+        hotelMongodbRepository.insert(hotel);
+        hotel = hotelMongodbRepository.findById(6L).get();
+
+        assertEquals(6, hotel.getId());
+        assertEquals("hotel", hotel.getName());
+        assertEquals("12345", hotel.getPhone());
+        assertEquals(3, hotel.getStars());
+        assertEquals(Integer.valueOf(0), hotel.getVersion());
+
+        Hotel hotelChanged = hotelMongodbRepository.findById(6L).get();
+        hotelChanged.setPhone("0000");
+        hotelMongodbRepository.save(hotelChanged);
+        hotelChanged = hotelMongodbRepository.findById(6L).get();
+
+        assertEquals("0000", hotelChanged.getPhone());
+        assertEquals(Integer.valueOf(1), hotelChanged.getVersion());
+
+        hotelChanged.setPhone("12345");
+        hotelMongodbRepository.save(hotelChanged);
+        hotelChanged = hotelMongodbRepository.findById(6L).get();
+
+        assertEquals("12345", hotelChanged.getPhone());
+        assertEquals(Integer.valueOf(2), hotelChanged.getVersion());
+    }
+
+    @Test(expected = OptimisticLockingFailureException.class)
+    public void optimisticLockingFalseTest() {
+        Hotel hotel = new Hotel();
+        hotel.setId(6);
+        hotel.setName("hotel");
+        hotel.setPhone("12345");
+        hotel.setStars(Byte.valueOf("3"));
+        hotelMongodbRepository.insert(hotel);
+
+        Hotel hotelChanged = hotelMongodbRepository.findById(6L).get();
+        hotelChanged.setPhone("0000");
+        hotelMongodbRepository.save(hotelChanged);
+        hotelChanged = hotelMongodbRepository.findById(6L).get();
+
+        assertEquals("0000", hotelChanged.getPhone());
+        assertEquals(Integer.valueOf(1), hotelChanged.getVersion());
+
+        hotel.setPhone("12345");
+        hotelMongodbRepository.save(hotel);
     }
 }

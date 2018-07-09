@@ -89,6 +89,7 @@ public class Tour implements Entity {
     private BigDecimal cost;
 
     @Version
+    @org.springframework.data.annotation.Version
     @Column(name = "tour_version")
     private Integer version;
 }

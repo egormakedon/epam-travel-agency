@@ -51,6 +51,7 @@ public class Hotel implements Entity {
     private byte stars;
 
     @Version
+    @org.springframework.data.annotation.Version
     @Column(name = "hotel_version")
     private Integer version;
 }

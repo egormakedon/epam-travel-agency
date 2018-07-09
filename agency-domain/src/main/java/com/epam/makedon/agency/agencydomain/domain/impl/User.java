@@ -86,6 +86,7 @@ public class User implements Entity {
     @Setter
     @Getter
     @Version
+    @org.springframework.data.annotation.Version
     @Column(name = "user_version")
     private Integer version;
 

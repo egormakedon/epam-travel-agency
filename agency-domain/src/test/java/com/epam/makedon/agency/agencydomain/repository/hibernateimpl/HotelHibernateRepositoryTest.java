@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test for {@link com.epam.makedon.agency.agencydomain.repository.hibernateimpl.HotelHibernateRepository} class.
@@ -80,5 +81,36 @@ public class HotelHibernateRepositoryTest {
         hotelRepository.update(hotel);
 
         assertEquals(hotel, hotelRepository.get(6).orElse(null));
+    }
+
+    @Test
+    public void optimisticLockingTest() {
+        Hotel hotel = new Hotel();
+        hotel.setName("hotel");
+        hotel.setPhone("12345");
+        hotel.setStars(Byte.valueOf("3"));
+        hotelRepository.add(hotel);
+        hotel = hotelRepository.get(6).get();
+
+        assertEquals(6, hotel.getId());
+        assertEquals("hotel", hotel.getName());
+        assertEquals("12345", hotel.getPhone());
+        assertEquals(3, hotel.getStars());
+        assertEquals(Integer.valueOf(0), hotel.getVersion());
+
+        Hotel hotelChanged = hotelRepository.get(6).get();
+        hotelChanged.setPhone("0000");
+        hotelRepository.update(hotelChanged);
+        hotelChanged = hotelRepository.get(6).get();
+
+        assertEquals("0000", hotelChanged.getPhone());
+        assertEquals(Integer.valueOf(1), hotelChanged.getVersion());
+
+        hotel.setPhone("12345");
+        hotelRepository.update(hotel);
+        hotelChanged = hotelRepository.get(6).get();
+
+        assertEquals("12345", hotelChanged.getPhone());
+        assertEquals(Integer.valueOf(2), hotelChanged.getVersion());
     }
 }

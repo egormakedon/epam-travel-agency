@@ -48,6 +48,7 @@ public class Review implements Entity {
     private String content;
 
     @Version
+    @org.springframework.data.annotation.Version
     @Column(name = "review_version")
     private Integer version;
 }
