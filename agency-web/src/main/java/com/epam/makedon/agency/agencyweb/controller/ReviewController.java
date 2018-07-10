@@ -1,4 +1,4 @@
-package com.epam.makedon.agency.agencyweb.controller.domain;
+package com.epam.makedon.agency.agencyweb.controller;
 
 import com.epam.makedon.agency.agencydomain.domain.impl.Review;
 import com.epam.makedon.agency.agencydomain.domain.impl.Tour;

@@ -15,12 +15,20 @@ import org.springframework.validation.Validator;
  * @author Yahor Makedon
  * @version 1.0
  */
+
 @Component
+
 public class UserValidator implements Validator {
 
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String CONFIRM_PASSWORD = "confirmPassword";
+
+    private static final String VALIDATION_REQUIRED_FIELD = "validation.required.field";
+    private static final String VALIDATION_LOGIN_SIZE = "validation.login.size";
+    private static final String VALIDATION_LOGIN_DUPLICATED = "validation.login.duplicated";
+    private static final String VALIDATION_PASSWORD_SIZE = "validation.password.size";
+    private static final String VALIDATION_PASSWORD_DONT_MATCH = "validation.password.dont.match";
 
     @Autowired
     private UserService userService;
@@ -32,25 +40,24 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, LOGIN, "validation.required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, PASSWORD, "validation.required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, CONFIRM_PASSWORD, "validation.required.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, LOGIN, VALIDATION_REQUIRED_FIELD);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, PASSWORD, VALIDATION_REQUIRED_FIELD);
 
         User user = (User) o;
         if (user.getLogin().isEmpty() || user.getLogin().length() > 255) {
-            errors.rejectValue(LOGIN, "validation.username.size");
+            errors.rejectValue(LOGIN, VALIDATION_LOGIN_SIZE);
         }
 
         if (userService.findByUsername(user.getLogin()).isPresent()) {
-            errors.rejectValue(LOGIN, "validation.username.duplicated");
+            errors.rejectValue(LOGIN, VALIDATION_LOGIN_DUPLICATED);
         }
 
         if (user.getPassword().isEmpty() || user.getLogin().length() > 255) {
-            errors.rejectValue(PASSWORD, "validation.password.size");
+            errors.rejectValue(PASSWORD, VALIDATION_PASSWORD_SIZE);
         }
 
         if (!user.getPassword().equals(user.getConfirmPassword())) {
-            errors.rejectValue(CONFIRM_PASSWORD, "validation.password.dont.match");
+            errors.rejectValue(CONFIRM_PASSWORD, VALIDATION_PASSWORD_DONT_MATCH);
         }
     }
 }
