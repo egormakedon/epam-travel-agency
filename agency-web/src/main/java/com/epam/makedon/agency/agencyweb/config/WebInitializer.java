@@ -7,12 +7,24 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+/**
+ * Web initializer configuration,
+ * extends {@link AbstractAnnotationConfigDispatcherServletInitializer} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Configuration
+
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+    private static final String SPRING_PROFILES_ACTIVE = "spring.profiles.active";
+    private static final String ACTIVE_PROFILES = "hibernateRepository, service";
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{MainHibernateConfiguration.class, SpringSecurityConfiguration.class};
+        return new Class[]{MainHibernateConfiguration.class};
     }
 
     @Override
@@ -28,6 +40,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
-        servletContext.setInitParameter("spring.profiles.active", "hibernateRepository, service");
+        servletContext.setInitParameter(SPRING_PROFILES_ACTIVE, ACTIVE_PROFILES);
     }
 }

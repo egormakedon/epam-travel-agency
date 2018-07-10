@@ -16,9 +16,18 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import java.util.Locale;
 
+/**
+ * SpringMVC servlet configuration,
+ * extends {@link WebMvcConfigurerAdapter} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.epam.makedon.agency.agencyweb")
+
 public class ServletConfiguration extends WebMvcConfigurerAdapter {
 
     // Freemarker configure
@@ -41,7 +50,7 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
         return freeMarkerViewResolver;
     }
 
-    // i18n configure
+    // Resource bundle message source
 
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
@@ -52,10 +61,12 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
         return rrbms;
     }
 
+    // Locale resolver
+
     @Bean
     public CookieLocaleResolver localeResolver() {
         CookieLocaleResolver clr = new CookieLocaleResolver();
-        clr.setDefaultLocale(new Locale("en"));
+        clr.setDefaultLocale(Locale.ENGLISH);
         return clr;
     }
 
