@@ -11,14 +11,14 @@ import com.epam.makedon.agency.agencydomain.domain.Entity;
  */
 
 public enum Role implements Entity {
-    MEMBER(1), ADMIN(2);
+    USER(1), ADMIN(2);
     private long id;
     Role(long id) { this.id = id; }
     public long getId() { return id; }
     public static Role fromCode(long id) {
         switch ((int)id) {
             case 1:
-                return MEMBER;
+                return USER;
             case 2:
                 return ADMIN;
             default:

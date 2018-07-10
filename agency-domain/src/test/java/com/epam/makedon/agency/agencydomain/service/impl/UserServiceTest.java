@@ -154,6 +154,6 @@ public class UserServiceTest {
     public void findByUsernameTest2() {
         User user = userService.findByUsername("user2").orElse(null);
         assertNotNull(user);
-        assertEquals(Role.MEMBER, user.getRole());
+        assertEquals(Role.USER, user.getRole());
     }
 }

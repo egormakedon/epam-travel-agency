@@ -63,7 +63,7 @@ public class User implements Entity {
     @Basic
     @Convert(converter = RoleConverter.class)
     @Column(name = "role_id")
-    private Role role = Role.MEMBER;
+    private Role role = Role.USER;
 
     @Setter
     @Getter

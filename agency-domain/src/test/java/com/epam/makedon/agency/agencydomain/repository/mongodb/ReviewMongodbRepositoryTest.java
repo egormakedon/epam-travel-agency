@@ -48,7 +48,7 @@ public class ReviewMongodbRepositoryTest {
         assertEquals("review1", review.getContent());
         assertEquals("user1", review.getUser().getLogin());
         assertEquals("user1", review.getUser().getPassword());
-        assertEquals(Role.MEMBER, review.getUser().getRole());
+        assertEquals(Role.USER, review.getUser().getRole());
         assertEquals(Duration.ofDays(5), review.getTour().getDuration());
         assertEquals(Country.BELARUS, review.getTour().getCountry());
         assertEquals(new BigDecimal(1000), review.getTour().getCost());
@@ -77,7 +77,7 @@ public class ReviewMongodbRepositoryTest {
         user.setLogin("user1");
         user.setPassword("user1");
         user.setId(0L);
-        user.setRole(Role.MEMBER);
+        user.setRole(Role.USER);
         review.setUser(user);
 
         Tour tour = new Tour();

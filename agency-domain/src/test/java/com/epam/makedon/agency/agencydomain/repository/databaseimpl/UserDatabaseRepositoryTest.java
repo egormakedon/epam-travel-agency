@@ -130,6 +130,6 @@ public class UserDatabaseRepositoryTest {
     public void findByUsernameTest2() {
         User user = userRepository.findByUsername("user2").orElse(null);
         assertNotNull(user);
-        assertEquals(Role.MEMBER, user.getRole());
+        assertEquals(Role.USER, user.getRole());
     }
 }
