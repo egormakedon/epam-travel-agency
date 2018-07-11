@@ -1,5 +1,12 @@
 package com.epam.makedon.agency.agencyweb.util;
 
+/**
+ * Final class which contains any constants for web-app.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 public final class Constant {
     private Constant() {}
 

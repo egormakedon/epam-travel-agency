@@ -1,5 +1,12 @@
 package com.epam.makedon.agency.agencyweb.util;
 
+/**
+ * This class define pages and there url's.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 public enum Page {
     INDEX("/", "index"),
     ERROR("/error", "error"),
