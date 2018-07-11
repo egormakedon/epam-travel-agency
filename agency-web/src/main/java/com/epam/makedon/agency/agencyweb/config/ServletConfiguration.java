@@ -55,8 +55,7 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource rrbms = new ReloadableResourceBundleMessageSource();
-        rrbms.setBasename("classpath:/property/text");
-        rrbms.setBasename("classpath:/property/validation");
+        rrbms.addBasenames("classpath:/property/text", "classpath:/property/validation");
         rrbms.setDefaultEncoding("UTF-8");
         return rrbms;
     }
