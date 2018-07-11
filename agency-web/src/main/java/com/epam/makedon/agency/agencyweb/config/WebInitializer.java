@@ -2,6 +2,8 @@ package com.epam.makedon.agency.agencyweb.config;
 
 import com.epam.makedon.agency.agencydomain.config.MainHibernateConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletContext;
@@ -24,7 +26,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{MainHibernateConfiguration.class};
+        return new Class[]{MainHibernateConfiguration.class, SecurityConfig.class};
     }
 
     @Override
@@ -41,5 +43,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
         servletContext.setInitParameter(SPRING_PROFILES_ACTIVE, ACTIVE_PROFILES);
+        servletContext.addListener(new ContextLoaderListener());
+//        servletContext.addFilter(new DelegatingFilterProxy());
     }
 }
