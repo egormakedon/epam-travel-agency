@@ -75,7 +75,13 @@ public class UserHibernateRepository implements UserRepository {
                 "WHERE login=:username";
         Query query = entityManager.createQuery(NAMED_QUERY_SELECT_USER_BY_USERNAME);
         query.setParameter(USERNAME, username);
-        return Optional.ofNullable((User)query.getSingleResult());
+        User user = null;
+        try {
+            user = (User)query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.ofNullable(user);
     }
 
     /**

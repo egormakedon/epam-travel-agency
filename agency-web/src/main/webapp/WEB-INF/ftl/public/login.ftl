@@ -19,7 +19,7 @@
 
             <br><br>
 
-            <form action="<@spring.url "/j_spring_security_check"/>" method="post">
+            <form action="<@spring.url "/login"/>" method="post">
                 <input type="text" placeholder="<@spring.message "user.login"/>" name="login" required> <br><br>
                 <input type="password" placeholder="<@spring.message "user.password"/>" name="password" required> <br><br>
                 <input type="submit" value="<@spring.message "login.log"/>">

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -27,8 +28,14 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.epam.makedon.agency.agencyweb")
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 
 public class ServletConfiguration extends WebMvcConfigurerAdapter {
+
+    private static final Integer MAX_UPLOAD_SIZE_FILE = 10485760;   //10mb
+    private static final Integer MAX_UPLOAD_SIZE_PER_FILE = 1048576;    //1mb
+
+    private static final String ENCODING = "UTF-8";
 
     // Freemarker configure
 
@@ -36,7 +43,7 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
     public FreeMarkerConfigurer freeMarkerConfigurer() {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
         freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/ftl/");
-        freeMarkerConfigurer.setDefaultEncoding("UTF-8");
+        freeMarkerConfigurer.setDefaultEncoding(ENCODING);
         return freeMarkerConfigurer;
     }
 
@@ -56,7 +63,7 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource rrbms = new ReloadableResourceBundleMessageSource();
         rrbms.addBasenames("classpath:/property/text", "classpath:/property/validation");
-        rrbms.setDefaultEncoding("UTF-8");
+        rrbms.setDefaultEncoding(ENCODING);
         return rrbms;
     }
 
@@ -81,8 +88,8 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public MultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(10485760); // 10MB
-        multipartResolver.setMaxUploadSizePerFile(1048576); // 1MB
+        multipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE_FILE);
+        multipartResolver.setMaxUploadSizePerFile(MAX_UPLOAD_SIZE_PER_FILE);
         return multipartResolver;
     }
 }

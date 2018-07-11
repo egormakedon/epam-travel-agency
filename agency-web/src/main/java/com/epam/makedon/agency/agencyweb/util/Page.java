@@ -8,14 +8,17 @@ package com.epam.makedon.agency.agencyweb.util;
  */
 
 public enum Page {
-    INDEX("/", "index"),
-    ERROR("/error", "error"),
+
+    // public
+    INDEX("/", "public/index"),
+    ERROR("/error", "public/error"),
+    LOGIN("/login", "public/login"),
+    REGISTRATION("/registration", "public/registration"),
+
     USER("/user", "user"),
     TOUR("/tour", "tour"),
     REVIEW("/review", "review"),
-    HOTEL("/hotel", "hotel"),
-    LOGIN("/login", "login"),
-    REGISTRATION("/registration", "registration");
+    HOTEL("/hotel", "hotel");
 
     private String url;
     private String page;
