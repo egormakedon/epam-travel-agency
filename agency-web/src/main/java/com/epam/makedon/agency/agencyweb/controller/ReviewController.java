@@ -175,4 +175,9 @@ public class ReviewController {
             }
         }
     }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String review() {
+        return Page.REVIEW.getPage();
+    }
 }

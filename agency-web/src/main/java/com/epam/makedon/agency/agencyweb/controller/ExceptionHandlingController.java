@@ -6,7 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * ExceptionHandlingController class, handling all controller's exceptions.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @ControllerAdvice
+
 public class ExceptionHandlingController {
 
     private static final String EXCEPTION_MESSAGE = "exceptionMessage";
