@@ -21,13 +21,9 @@ public class LoginController {
 
     @PreAuthorize("permitAll()")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout) {
+    public String login(Model model, String error) {
         if (error != null) {
             model.addAttribute(Constant.RESULT, Constant.USERNAME_OR_PASSWORD);
-        }
-
-        if (logout != null) {
-            model.addAttribute(Constant.RESULT, Constant.LOGGED_OUT);
         }
 
         return Page.LOGIN.getPage();

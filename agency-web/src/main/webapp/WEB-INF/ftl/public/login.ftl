@@ -8,9 +8,7 @@
     </head>
 
     <body>
-        <@spring.message "general.language"/> :
-        <a href="<@spring.url "/login?locale=en"/>"><@spring.message "general.english"/></a> |
-        <a href="<@spring.url "/login?locale=ru"/>"><@spring.message "general.russian"/></a>
+        <#include "header.ftl">
 
         <br><br>
 
@@ -20,14 +18,22 @@
             <br><br>
 
             <form action="<@spring.url "/login"/>" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
                 <input type="text" placeholder="<@spring.message "user.login"/>" name="login" required> <br><br>
                 <input type="password" placeholder="<@spring.message "user.password"/>" name="password" required> <br><br>
+                <@spring.message "login.remember.me"/> <input type="checkbox" name="remember-me" value="remember-me"> <br><br>
+
+                <#if result?? && result?is_string && result=="usernameOrPassword">
+                    <p style="color: red; font-size: 25px; font-weight: bold">
+                        <@spring.message "login.username.or.password"/>
+                    </p>
+                </#if>
+
                 <input type="submit" value="<@spring.message "login.log"/>">
             </form>
-
-            <br>
-
-            <a href="<@spring.url "/registration"/>"><@spring.message "general.registration"/></a>
         </div>
+
+        <#include "copyright.ftl">
     </body>
 </html>

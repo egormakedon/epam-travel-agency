@@ -19,5 +19,4 @@ public final class Constant {
     public static final String REMOVED = "removed";
     public static final String NOT_REMOVED = "notRemoved";
     public static final String USERNAME_OR_PASSWORD = "usernameOrPassword";
-    public static final String LOGGED_OUT = "loggedOut";
 }
