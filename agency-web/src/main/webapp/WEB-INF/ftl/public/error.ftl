@@ -18,5 +18,7 @@
                 <span>${RequestParameters.exceptionMessage}</span>
             </#if>
         </div>
+
+        <#include "copyright.ftl">
     </body>
 </html>
