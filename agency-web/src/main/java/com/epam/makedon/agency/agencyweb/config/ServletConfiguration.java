@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -28,7 +27,6 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.epam.makedon.agency.agencyweb")
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 
 public class ServletConfiguration extends WebMvcConfigurerAdapter {
 
@@ -57,7 +55,7 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
         return freeMarkerViewResolver;
     }
 
-    // Resource bundle message source
+    // i18n configure
 
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
@@ -66,8 +64,6 @@ public class ServletConfiguration extends WebMvcConfigurerAdapter {
         rrbms.setDefaultEncoding(ENCODING);
         return rrbms;
     }
-
-    // Locale resolver
 
     @Bean
     public CookieLocaleResolver localeResolver() {

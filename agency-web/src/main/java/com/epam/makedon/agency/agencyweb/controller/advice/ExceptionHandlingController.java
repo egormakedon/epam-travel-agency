@@ -1,4 +1,4 @@
-package com.epam.makedon.agency.agencyweb.controller;
+package com.epam.makedon.agency.agencyweb.controller.advice;
 
 import com.epam.makedon.agency.agencyweb.util.Constant;
 import com.epam.makedon.agency.agencyweb.util.Page;

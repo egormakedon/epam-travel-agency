@@ -35,13 +35,13 @@ public class GetPageController {
         return Page.HOTEL.getPage();
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/tour", method = RequestMethod.GET)
     public String tour(Model model) {
         return Page.TOUR.getPage();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String user(Model model) {
         return Page.USER.getPage();
