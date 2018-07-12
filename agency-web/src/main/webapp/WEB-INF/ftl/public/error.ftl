@@ -8,8 +8,15 @@
     </head>
 
     <body>
-        <@spring.message "general.language"/> : <a href="<@spring.url "/error?locale=en"/>"><@spring.message "general.english"/></a> | <a href="<@spring.url "/error?locale=ru"/>"><@spring.message "general.russian"/></a> <br>
-        <@spring.message "error.exception.message"/> : <#if RequestParameters.exceptionMessage??>${RequestParameters.exceptionMessage}</#if> <br>
-        <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
+        <#include "header.ftl">
+
+        <br><br>
+
+        <div style="text-align: center; color: red; font-size: 35px; font-weight: bold;">
+            <@spring.message "error.exception.message"/> :
+            <#if RequestParameters.exceptionMessage??>
+                <span>${RequestParameters.exceptionMessage}</span>
+            </#if>
+        </div>
     </body>
 </html>
