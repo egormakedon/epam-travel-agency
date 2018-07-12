@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
- * UserAdvice.
+ * CurrentUserAdvice class that uses spring-security for saving
+ * current logged user.
  *
  * @author Yahor Makedon
  * @version 1.0
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice
 
-public class UserAdvice {
+public class CurrentUserAdvice {
 
-    @ModelAttribute("curuser")
+    @ModelAttribute("currentUser")
     public User getUser(Authentication authentication) {
         return (authentication != null) ? (User) authentication.getPrincipal() : null;
     }
