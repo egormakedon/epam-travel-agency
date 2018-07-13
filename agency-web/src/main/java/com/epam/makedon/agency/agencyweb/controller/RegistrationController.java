@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * SpringMVC controller for registration.
+ * RegistrationController - SpringMVC controller for managing registration.
  *
  * @author Yahor Makedon
  * @version 1.0
@@ -42,6 +42,7 @@ public class RegistrationController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute(USER, new User());
+        model.addAttribute(Constant.URL, Page.REGISTRATION.getUrl());
         return Page.REGISTRATION.getPage();
     }
 

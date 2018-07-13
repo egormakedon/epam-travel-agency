@@ -33,9 +33,15 @@
                 <br>
 
                 <div class="element">
-                    <@spring.message "general.language"/> :
-                    <a href="<@spring.url "/error?locale=en"/>"><@spring.message "general.english"/></a> |
-                    <a href="<@spring.url "/error?locale=ru"/>"><@spring.message "general.russian"/></a>
+                    <#if RequestParameters.url??>
+                        <@spring.message "general.language"/> :
+                        <a href="<@spring.url "${url}?locale=en"/>"><@spring.message "general.english"/></a> |
+                        <a href="<@spring.url "${url}?locale=ru"/>"><@spring.message "general.russian"/></a>
+                    <#elseif url??>
+                        <@spring.message "general.language"/> :
+                        <a href="<@spring.url "${url}?locale=en"/>"><@spring.message "general.english"/></a> |
+                        <a href="<@spring.url "${url}?locale=ru"/>"><@spring.message "general.russian"/></a>
+                    </#if>
                 </div>
             </div>
         </div>

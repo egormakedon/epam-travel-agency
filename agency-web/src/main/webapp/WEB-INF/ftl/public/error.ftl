@@ -12,7 +12,7 @@
     <body>
         <#include "header.ftl">
 
-        <br><br>
+        <h1 class="title"><@spring.message "error.title"/></h1>
 
         <div align="center">
             <p class="error">

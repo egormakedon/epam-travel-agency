@@ -12,12 +12,8 @@
     <body>
         <#include "header.ftl">
 
-        <br><br>
-
         <div align="center">
             <h1 class="title"><@spring.message "login.log"/></h1>
-
-            <br><br>
 
             <form action="<@spring.url "/login"/>" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

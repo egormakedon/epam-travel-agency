@@ -18,4 +18,5 @@ public final class Constant {
     public static final String NOT_ADDED = "notAdded";
     public static final String REMOVED = "removed";
     public static final String NOT_REMOVED = "notRemoved";
+    public static final String URL = "url";
 }
