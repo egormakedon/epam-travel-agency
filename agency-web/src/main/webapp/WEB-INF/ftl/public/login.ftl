@@ -15,16 +15,17 @@
         <br><br>
 
         <div align="center">
-            <h1><@spring.message "login.log"/></h1>
+            <h1 class="title"><@spring.message "login.log"/></h1>
 
             <br><br>
 
             <form action="<@spring.url "/login"/>" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                <input type="text" placeholder="<@spring.message "user.login"/>" name="login" required> <br><br>
-                <input type="password" placeholder="<@spring.message "user.password"/>" name="password" required> <br><br>
-                <@spring.message "login.remember.me"/> <input type="checkbox" name="remember-me" value="remember-me"> <br><br>
+                <input class="text" type="text" placeholder="<@spring.message "user.login"/>" name="login" required> <br><br>
+                <input class="text" type="password" placeholder="<@spring.message "user.password"/>" name="password" required> <br><br>
+                <label class="text" for="remember-me"><@spring.message "login.remember.me"/></label>
+                <input type="checkbox" name="remember-me" value="remember-me"> <br><br>
 
                 <#if result?? && result?is_string && result=="usernameOrPassword">
                     <p class="error">
@@ -32,7 +33,7 @@
                     </p>
                 </#if>
 
-                <input type="submit" value="<@spring.message "login.log"/>">
+                <input class="button" type="submit" value="<@spring.message "login.log"/>">
             </form>
         </div>
 

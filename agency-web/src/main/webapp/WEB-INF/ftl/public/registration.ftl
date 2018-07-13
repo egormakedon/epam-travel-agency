@@ -15,16 +15,16 @@
         <br><br>
 
         <div align="center">
-            <h1><@spring.message "general.registration"/></h1>
+            <h1 class="title"><@spring.message "general.registration"/></h1>
 
             <br><br>
 
             <form role="form" name="user" action="<@spring.url "/registration"/>" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                <input id="login" name="login" type="text" placeholder="<@spring.message "user.login"/>" required> <br><br>
-                <input id="password" name="password" type="password" placeholder="<@spring.message "user.password"/>" required> <br><br>
-                <input id="confirmPassword" name="confirmPassword" type="password" placeholder="<@spring.message "registration.confirm.password"/>" required> <br><br>
+                <input class="text" id="login" name="login" type="text" placeholder="<@spring.message "user.login"/>" required> <br><br>
+                <input class="text" id="password" name="password" type="password" placeholder="<@spring.message "user.password"/>" required> <br><br>
+                <input class="text" id="confirmPassword" name="confirmPassword" type="password" placeholder="<@spring.message "registration.confirm.password"/>" required> <br><br>
 
                 <#if errors??>
                     <#list errors as error>
@@ -34,7 +34,7 @@
                     </#list>
                 </#if>
 
-                <input type="submit" value="<@spring.message "registration.registr"/>">
+                <input class="button" type="submit" value="<@spring.message "registration.registr"/>">
             </form>
         </div>
 
