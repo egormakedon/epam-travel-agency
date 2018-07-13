@@ -82,6 +82,29 @@ public class TourServiceImpl implements TourService {
     }
 
     /**
+     * Find tour by criteria's,
+     * supported with {@link Transactional}.
+     */
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+    @Override
+    public List<Tour> findByCriteria(LocalDate date, Duration duration, Country country,
+                                     Byte stars, TourType type, BigDecimal cost) {
+
+        return tourRepository.findByCriteria(date, duration, country, stars, type, cost);
+    }
+
+    /**
+     * Find all tour's,
+     * supported with {@link Transactional}.
+     */
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+    @Override
+    public List<Tour> findAll() {
+
+        return tourRepository.findAll();
+    }
+
+    /**
      * Remove operation,
      * supported with {@link Transactional}.
      *
@@ -117,19 +140,5 @@ public class TourServiceImpl implements TourService {
         }
 
         return tourRepository.update(tour);
-    }
-
-    /**
-     * Find tour by criteria's,
-     * supported with {@link Transactional}.
-     *
-     * @return object, wrapped in {@link Optional} class
-     */
-    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
-    @Override
-    public List<Tour> findByCriteria(LocalDate date, Duration duration, Country country,
-                                     Byte stars, TourType type, BigDecimal cost) {
-
-        return tourRepository.findByCriteria(date, duration, country, stars, type, cost);
     }
 }

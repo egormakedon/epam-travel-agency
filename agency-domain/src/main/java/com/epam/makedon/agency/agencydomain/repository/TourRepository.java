@@ -23,4 +23,9 @@ public interface TourRepository extends Repository<Tour> {
                                      Byte stars, TourType type, BigDecimal cost) {
         return null;
     }
+
+    default List<Tour> findAll() {
+
+        return null;
+    }
 }

@@ -110,4 +110,30 @@ public class TourDatabaseRepositoryTest {
         };
         assertNull(service.findByCriteria(null, null, null, null, null, null));
     }
+
+    @Test
+    public void findAll() {
+        TourRepository service = new TourRepository() {
+            @Override
+            public boolean add(Tour entity) {
+                return false;
+            }
+
+            @Override
+            public Optional<Tour> get(long id) {
+                return Optional.empty();
+            }
+
+            @Override
+            public boolean remove(Tour entity) {
+                return false;
+            }
+
+            @Override
+            public Optional<Tour> update(Tour entity) {
+                return Optional.empty();
+            }
+        };
+        assertNull(service.findAll());
+    }
 }

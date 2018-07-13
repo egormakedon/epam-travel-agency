@@ -125,4 +125,10 @@ public class TourHibernateRepositoryTest {
         assertEquals(tours.get(1).getHotel(), tours.get(2).getHotel());
         assertEquals(tours.get(2).getHotel(), tours.get(3).getHotel());
     }
+
+    @Test
+    public void findAll() {
+        List<Tour> tours = tourRepository.findAll();
+        assertEquals(5, tours.size());
+    }
 }

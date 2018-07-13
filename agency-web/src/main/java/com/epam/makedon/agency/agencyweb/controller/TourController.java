@@ -9,6 +9,7 @@ import com.epam.makedon.agency.agencyweb.util.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +35,29 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/tour")
+
 public class TourController {
+
+    private static final String TOUR_LIST = "tourList";
 
     @Autowired
     private TourService service;
+
+    //public
+
+    @PreAuthorize("permitAll()")
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    public String findAll() {
+//        List<Tour> tourList = service.findByCriteria(localDate, duration, country, stars, type, cost);
+//
+//        if (tourList.isEmpty()) {
+//            model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+//        } else {
+//            model.addAttribute(RESULT_TOUR_LIST, tourList);
+//        }
+
+        return Page.INDEX.getPage();
+    }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public String get(Model model, @RequestParam BigDecimal cost,

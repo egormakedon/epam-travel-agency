@@ -74,6 +74,16 @@ public class TourHibernateRepository implements TourRepository {
     }
 
     /**
+     * Find all tour's.
+     */
+    @Override
+    public List<Tour> findAll() {
+        final String NAMED_QUERY_SELECT_ALL_TOUR = "FROM Tour";
+        Query query = entityManager.createQuery(NAMED_QUERY_SELECT_ALL_TOUR);
+        return query.getResultList();
+    }
+
+    /**
      * Remove operation
      *
      * @param tour {@link Tour}
