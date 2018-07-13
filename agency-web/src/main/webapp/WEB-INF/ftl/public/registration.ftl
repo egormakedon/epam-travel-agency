@@ -5,30 +5,39 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title><@spring.message "registration.title"/></title>
+
+        <link href="<@spring.url "/resources/css/common.css"/>" rel="stylesheet"/>
     </head>
 
     <body>
-        <@spring.message "general.language"/> :
-        <a href="<@spring.url "/registration?locale=en"/>"><@spring.message "general.english"/></a> |
-        <a href="<@spring.url "/registration?locale=ru"/>"><@spring.message "general.russian"/></a>
+        <#include "header.ftl">
 
         <br><br>
 
         <div align="center">
-            <@spring.message "general.registration"/>
+            <h1><@spring.message "general.registration"/></h1>
 
             <br><br>
 
-            <form action="<@spring.url "/registration"/>" method="post">
-                <input type="text" placeholder="<@spring.message "user.login"/>" name="login" required> <br><br>
-                <input type="password" placeholder="<@spring.message "user.password"/>" name="password" required> <br><br>
-                <input type="password" placeholder="<@spring.message "registration.confirm.password"/>" name="confirmPassword" required> <br><br>
+            <form role="form" name="user" action="<@spring.url "/registration"/>" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                <input id="login" name="login" type="text" placeholder="<@spring.message "user.login"/>" required> <br><br>
+                <input id="password" name="password" type="password" placeholder="<@spring.message "user.password"/>" required> <br><br>
+                <input id="confirmPassword" name="confirmPassword" type="password" placeholder="<@spring.message "registration.confirm.password"/>" required> <br><br>
+
+                <#if errors??>
+                    <#list errors as error>
+                        <p class="error">
+                            <@spring.message "${error.getCode()}"/>
+                        </p>
+                    </#list>
+                </#if>
+
                 <input type="submit" value="<@spring.message "registration.registr"/>">
             </form>
-
-            <br>
-
-            <a href="<@spring.url "/login"/>"><@spring.message "login.log"/></a>
         </div>
+
+        <#include "copyright.ftl">
     </body>
 </html>

@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 public class LoginController {
 
+    private static final String USERNAME_OR_PASSWORD = "usernameOrPassword";
+
     @PreAuthorize("permitAll()")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error) {
         if (error != null) {
-            model.addAttribute(Constant.RESULT, Constant.USERNAME_OR_PASSWORD);
+            model.addAttribute(Constant.RESULT, USERNAME_OR_PASSWORD);
         }
 
         return Page.LOGIN.getPage();

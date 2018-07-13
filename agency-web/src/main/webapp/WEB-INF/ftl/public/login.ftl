@@ -5,6 +5,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title><@spring.message "login.title"/></title>
+
+        <link href="<@spring.url "/resources/css/common.css"/>" rel="stylesheet"/>
     </head>
 
     <body>
@@ -13,7 +15,7 @@
         <br><br>
 
         <div align="center">
-            <@spring.message "login.log"/>
+            <h1><@spring.message "login.log"/></h1>
 
             <br><br>
 
@@ -25,7 +27,7 @@
                 <@spring.message "login.remember.me"/> <input type="checkbox" name="remember-me" value="remember-me"> <br><br>
 
                 <#if result?? && result?is_string && result=="usernameOrPassword">
-                    <p style="color: red; font-size: 25px; font-weight: bold">
+                    <p class="error">
                         <@spring.message "login.username.or.password"/>
                     </p>
                 </#if>

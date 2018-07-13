@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class RegistrationController {
 
     private static final String USER = "user";
+    private static final String ERRORS = "errors";
 
     @Autowired
     private UserService userService;
@@ -50,6 +51,7 @@ public class RegistrationController {
         userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(ERRORS, bindingResult.getAllErrors());
             return Page.REGISTRATION.getPage();
         }
 

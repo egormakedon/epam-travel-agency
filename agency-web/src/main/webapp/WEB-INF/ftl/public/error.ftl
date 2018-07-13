@@ -5,6 +5,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title><@spring.message "error.title"/></title>
+
+        <link href="<@spring.url "/resources/css/common.css"/>" rel="stylesheet"/>
     </head>
 
     <body>
@@ -12,11 +14,13 @@
 
         <br><br>
 
-        <div style="text-align: center; color: red; font-size: 35px; font-weight: bold;">
-            <@spring.message "error.exception.message"/> :
-            <#if RequestParameters.exceptionMessage??>
-                <span>${RequestParameters.exceptionMessage}</span>
-            </#if>
+        <div align="center">
+            <p class="error">
+                <@spring.message "error.exception.message"/> :
+                <#if RequestParameters.exceptionMessage??>
+                    ${RequestParameters.exceptionMessage}
+                </#if>
+            </p>
         </div>
 
         <#include "copyright.ftl">
