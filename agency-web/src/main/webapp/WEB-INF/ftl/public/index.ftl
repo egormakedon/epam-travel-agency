@@ -87,7 +87,7 @@
             </form>
         </div>
 
-        <div align="center" style="float: top; padding-bottom: 80px">
+        <div align="center" style="float: top; padding-bottom: 80px; margin-top: -320px;">
             <#if tourList??>
                 <#list tourList as tour>
                     <div>

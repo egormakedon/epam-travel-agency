@@ -14,9 +14,9 @@ public enum Page {
     ERROR("/error", "public/error"),
     LOGIN("/login", "public/login"),
     REGISTRATION("/registration", "public/registration"),
+    TOUR("/tour", "public/tour"),
 
     USER("/user", "user"),
-    TOUR("/tour", "tour"),
     REVIEW("/review", "review"),
     HOTEL("/hotel", "hotel");
 
