@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,23 +48,24 @@ public class TourController {
 
     @PreAuthorize("permitAll()")
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public String findAll() {
-//        List<Tour> tourList = service.findByCriteria(localDate, duration, country, stars, type, cost);
-//
-//        if (tourList.isEmpty()) {
-//            model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
-//        } else {
-//            model.addAttribute(RESULT_TOUR_LIST, tourList);
-//        }
+    public String findAll(Model model) {
+        List<Tour> tourList = service.findAll();
 
+        if (tourList.isEmpty()) {
+            model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
+        } else {
+            model.addAttribute(TOUR_LIST, tourList);
+        }
+
+        model.addAttribute(Constant.URL, Page.INDEX.getUrl());
         return Page.INDEX.getPage();
     }
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public String get(Model model, @RequestParam BigDecimal cost,
+    @PreAuthorize("permitAll()")
+    @RequestMapping(value = "/findByCriteria", method = RequestMethod.GET)
+    public String findByCriteria(Model model, @RequestParam BigDecimal cost,
                       @RequestParam Country country, @RequestParam TourType type,
                       @RequestParam Byte stars, @RequestParam String date, @RequestParam String durationString) {
-        final String RESULT_TOUR_LIST = "resultTourList";
 
         LocalDate localDate = null;
         if (!date.isEmpty()) {
@@ -76,11 +78,21 @@ public class TourController {
         }
 
         List<Tour> tourList = service.findByCriteria(localDate, duration, country, stars, type, cost);
+
         if (tourList.isEmpty()) {
             model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
         } else {
-            model.addAttribute(RESULT_TOUR_LIST, tourList);
+            model.addAttribute(TOUR_LIST, tourList);
         }
+
+        model.addAttribute(Constant.URL, Page.INDEX.getUrl());
+        return Page.INDEX.getPage();
+    }
+
+    @PreAuthorize("permitAll()")
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public String get(Model model, @PathVariable long id) {
+
         return Page.TOUR.getPage();
     }
 

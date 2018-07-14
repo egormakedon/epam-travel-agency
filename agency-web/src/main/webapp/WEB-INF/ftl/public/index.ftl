@@ -14,56 +14,96 @@
 
         <h1 class="title"><@spring.message "index.title"/></h1>
 
-        <form action="<@spring.url "/tour/findAll"/>" method="get">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <div>
+            <form action="<@spring.url "/tour/findAll"/>" method="get">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-            <input class="button" type="button" value="<@spring.message "general.find.all.tours"/>">
-        </form>
+                <input class="button" type="submit" value="<@spring.message "general.find.all.tours"/>">
+            </form>
 
-        <form action="<@spring.url "/tour/get"/>" method="get">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <br>
 
-            <input type="number" placeholder="<@spring.message "tour.cost"/>" name="cost">
-            <label> <@spring.message "tour.country"/> :
-                <select name = "country">
-                    <option disabled><@spring.message "tour.country"/></option>
-                    <option></option>
-                    <option>BELARUS</option>
-                    <option>RUSSIA</option>
-                    <option>POLAND</option>
-                    <option>ENGLAND</option>
-                    <option>USA</option>
-                    <option>UKRAINE</option>
-                    <option>SPAIN</option>
-                    <option>CHINA</option>
-                </select>
-            </label>
-            <label> <@spring.message "tour.type"/> :
-                <select name = "type">
-                    <option disabled><@spring.message "tour.type"/></option>
-                    <option></option>
-                    <option>CHILDREN</option>
-                    <option>WEEKEND</option>
-                    <option>WEDDING</option>
-                    <option>SHOPING</option>
-                    <option>EXCURSION</option>
-                </select>
-            </label>
-            <label> <@spring.message "tour.stars"/> :
-                <select name = "stars">
-                    <option disabled><@spring.message "tour.stars"/></option>
-                    <option></option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </label>
-            <input type="date" placeholder="<@spring.message "tour.date"/>" name="date">
-            <input type="number" placeholder="<@spring.message "tour.duration"/>" name="durationString">
-            <input type="submit" value="<@spring.message "general.find"/>">
-        </form>
+            <form action="<@spring.url "/tour/findByCriteria"/>" method="get">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                <input class="button" type="submit" value="<@spring.message "general.find"/>">
+
+                <br><br>
+
+                <label class="text"> <@spring.message "tour.country"/> :
+                    <select name = "country">
+                        <option disabled><@spring.message "tour.country"/></option>
+                        <option></option>
+                        <option>BELARUS</option>
+                        <option>RUSSIA</option>
+                        <option>POLAND</option>
+                        <option>ENGLAND</option>
+                        <option>USA</option>
+                        <option>UKRAINE</option>
+                        <option>SPAIN</option>
+                        <option>CHINA</option>
+                    </select>
+                </label>
+
+                <br><br>
+
+                <label class="text"> <@spring.message "tour.type"/> :
+                    <select name = "type">
+                        <option disabled><@spring.message "tour.type"/></option>
+                        <option></option>
+                        <option>CHILDREN</option>
+                        <option>WEEKEND</option>
+                        <option>WEDDING</option>
+                        <option>SHOPING</option>
+                        <option>EXCURSION</option>
+                    </select>
+                </label>
+
+                <br><br>
+
+                <label class="text"> <@spring.message "tour.stars"/> :
+                    <select name = "stars">
+                        <option disabled><@spring.message "tour.stars"/></option>
+                        <option></option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+
+                <br><br>
+
+                <input class="text" type="date" placeholder="<@spring.message "tour.date"/>" name="date">
+
+                <br><br>
+
+                <input class="text" type="number" placeholder="<@spring.message "tour.duration"/>" name="durationString">
+
+                <br><br>
+
+                <input class="text" type="number" placeholder="<@spring.message "tour.cost"/>" name="cost">
+            </form>
+        </div>
+
+        <div align="center" style="float: top; padding-bottom: 80px">
+            <#if tourList??>
+                <#list tourList as tour>
+                    <div>
+                        <p class="text">
+                            <a class="text" href="<@spring.url "/tour/get/${tour.getId()}"/>"><@spring.message "tour"/> ${tour.getId()}</a>
+                            <br>
+                            <@spring.message "tour.country"/>: ${tour.getCountry()}
+                            <br>
+                            <@spring.message "tour.cost"/>: ${tour.getCost()}$
+                            <br>
+                            <img src="<@spring.url "${tour.getPhoto()}"/>">
+                        </p>
+                    </div>
+                </#list>
+            </#if>
+        </div>
 
         <#include "copyright.ftl">
     </body>
