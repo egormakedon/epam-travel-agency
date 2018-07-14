@@ -5,6 +5,7 @@ import com.epam.makedon.agency.agencydomain.service.HotelService;
 import com.epam.makedon.agency.agencyweb.util.Constant;
 import com.epam.makedon.agency.agencyweb.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,30 +23,44 @@ import java.util.Optional;
  */
 
 @Controller
-@RequestMapping("/hotel")
+
 public class HotelController {
 
     @Autowired
-    private HotelService service;
+    private HotelService hotelService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/hotel", method = RequestMethod.GET)
+    public String getHotelPage(Model model) {
+
+        model.addAttribute(Constant.URL, Page.HOTEL.getUrl());
+        return Page.HOTEL.getPage();
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/hotel/add", method = RequestMethod.POST)
     public String add(Model model, @RequestParam String name, @RequestParam String phone, @RequestParam byte stars) {
         Hotel hotel = new Hotel();
         hotel.setName(name);
         hotel.setPhone(phone);
         hotel.setStars(stars);
-        if (service.add(hotel)) {
+
+        if (hotelService.add(hotel)) {
             model.addAttribute(Constant.RESULT, Constant.ADDED);
         } else {
             model.addAttribute(Constant.RESULT, Constant.NOT_ADDED);
         }
+
+        model.addAttribute(Constant.URL, Page.HOTEL.getUrl());
         return Constant.REDIRECT + Page.HOTEL.getUrl();
     }
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/hotel/get", method = RequestMethod.GET)
     public String get(Model model, @RequestParam long id) {
         try {
-            Optional<Hotel> opt = service.get(id);
+            Optional<Hotel> opt = hotelService.get(id);
+
             if (opt.isPresent()) {
                 model.addAttribute(Constant.RESULT, opt.get());
             } else {
@@ -58,15 +73,18 @@ public class HotelController {
                 throw e;
             }
         }
+
+        model.addAttribute(Constant.URL, Page.HOTEL.getUrl());
         return Page.HOTEL.getPage();
     }
 
-    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/hotel/remove", method = RequestMethod.POST)
     public String remove(Model model, @RequestParam long id) {
         try {
-            Optional<Hotel> opt = service.get(id);
+            Optional<Hotel> opt = hotelService.get(id);
             if (opt.isPresent()) {
-                if (service.remove(opt.get())) {
+                if (hotelService.remove(opt.get())) {
                     model.addAttribute(Constant.RESULT, Constant.REMOVED);
                 } else {
                     model.addAttribute(Constant.RESULT, Constant.NOT_REMOVED);
@@ -81,19 +99,23 @@ public class HotelController {
                 throw e;
             }
         }
+
+        model.addAttribute(Constant.URL, Page.HOTEL.getUrl());
         return Constant.REDIRECT + Page.HOTEL.getUrl();
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/hotel/update", method = RequestMethod.POST)
     public String update(RedirectAttributes redirectAttributes, @RequestParam long id, @RequestParam String name, @RequestParam String phone, @RequestParam String stars) {
         try {
-            Optional<Hotel> opt = service.get(id);
+            Optional<Hotel> opt = hotelService.get(id);
+
             if (opt.isPresent()) {
                 Hotel hotel = opt.get();
                 if (!name.isEmpty()) hotel.setName(name);
                 if (!phone.isEmpty()) hotel.setPhone(phone);
                 if (!stars.isEmpty()) hotel.setStars(Byte.valueOf(stars));
-                redirectAttributes.addFlashAttribute(Constant.RESULT, service.update(hotel).orElse(null));
+                redirectAttributes.addFlashAttribute(Constant.RESULT, hotelService.update(hotel).orElse(null));
             } else {
                 redirectAttributes.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
             }
@@ -104,6 +126,8 @@ public class HotelController {
                 throw e;
             }
         }
+
+        redirectAttributes.addAttribute(Constant.URL, Page.HOTEL.getUrl());
         return Constant.REDIRECT + Page.HOTEL.getUrl();
     }
 }

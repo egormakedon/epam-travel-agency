@@ -16,9 +16,12 @@ public enum Page {
     REGISTRATION("/registration", "public/registration"),
     TOUR("/tour", "public/tour"),
 
+    //admin
+    ADMIN("/admin", "admin/admin"),
+    HOTEL("/hotel", "admin/hotel"),
+
     USER("/user", "user"),
-    REVIEW("/review", "review"),
-    HOTEL("/hotel", "hotel");
+    REVIEW("/review", "review");
 
     private String url;
     private String page;

@@ -14,6 +14,20 @@
 
         <h1 class="title"><@spring.message "index.title"/></h1>
 
+        <#if currentUser??>
+            <#list currentUser.getAuthorities() as auth>
+                <#if auth == "ADMIN">
+                    <p>
+                        <a class="text" href="<@spring.url "/admin"/>"><@spring.message "general.admin.room"/></a>
+                    </p>
+                <#else>
+                    <p>
+                        <a class="text" href="<@spring.url "/user"/>"><@spring.message "general.user.room"/></a>
+                    </p>
+                </#if>
+            </#list>
+        </#if>
+
         <div>
             <form action="<@spring.url "/tour/findAll"/>" method="get">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
