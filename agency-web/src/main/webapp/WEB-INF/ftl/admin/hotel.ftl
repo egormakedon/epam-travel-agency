@@ -53,25 +53,25 @@
             <input class="button" type="submit" value="<@spring.message "general.update"/>">
         </form>
 
-        <br><br>
-
-        <#if RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="added">
-            <@spring.message "hotel.added.successfully"/>
-        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="notAdded">
-            <@spring.message "hotel.not.added"/>
-        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notFound">
-            <@spring.message "hotel.not.found"/>
-        <#elseif result?? && result?is_string && result == "notFound">
-            <@spring.message "hotel.not.found"/>
-        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "removed">
-            <@spring.message "hotel.removed.successfully"/>
-        <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notRemoved">
-            <@spring.message "hotel.not.removed"/>
-        <#elseif RequestParameters.result??>
-            ${RequestParameters.result}
-        <#elseif result??>
-            ${result}
-        </#if>
+        <p class="text">
+            <#if RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="added">
+                <@spring.message "hotel.added.successfully"/>
+            <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result=="notAdded">
+                <@spring.message "hotel.not.added"/>
+            <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notFound">
+                <@spring.message "hotel.not.found"/>
+            <#elseif result?? && result?is_string && result == "notFound">
+                <@spring.message "hotel.not.found"/>
+            <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "removed">
+                <@spring.message "hotel.removed.successfully"/>
+            <#elseif RequestParameters.result?? && RequestParameters.result?is_string && RequestParameters.result == "notRemoved">
+                <@spring.message "hotel.not.removed"/>
+            <#elseif RequestParameters.result??>
+                ${RequestParameters.result}
+            <#elseif result??>
+                ${result}
+            </#if>
+        </p>
 
         <#include "../public/copyright.ftl">
     </body>

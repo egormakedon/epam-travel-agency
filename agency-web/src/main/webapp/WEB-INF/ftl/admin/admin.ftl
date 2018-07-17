@@ -22,6 +22,10 @@
 
         <div style="float: left">
             <a class="text" href="<@spring.url "/hotel"/>"><@spring.message "hotels"/></a>
+
+            <br>
+
+            <a class="text" href="<@spring.url "/tour/admin"/>"><@spring.message "tours"/></a>
         </div>
 
         <#include "../public/copyright.ftl">

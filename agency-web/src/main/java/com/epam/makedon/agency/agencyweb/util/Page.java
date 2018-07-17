@@ -19,6 +19,7 @@ public enum Page {
     //admin
     ADMIN("/admin", "admin/admin"),
     HOTEL("/hotel", "admin/hotel"),
+    ADMIN_TOUR("/tour/admin", "admin/tour"),
 
     USER("/user", "user"),
     REVIEW("/review", "review");
