@@ -1,0 +1,27 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.copyrightContainer {
+    background-color: rgb(7, 127, 171);
+    height: 70px;
+    color: yellow;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: -70px;
+}
+
+.copyrightContainer .element {
+    padding-top: 25px;
+}
+
+.copyrightContainer a {
+    text-decoration: none;
+    color: white;
+}

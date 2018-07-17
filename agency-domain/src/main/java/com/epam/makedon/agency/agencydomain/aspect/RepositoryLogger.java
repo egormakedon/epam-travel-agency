@@ -5,7 +5,15 @@ import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Aspect for logging {@link com.epam.makedon.agency.agencydomain.repository.databaseimpl} package.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Aspect
+
 public class RepositoryLogger {
 
     @Autowired

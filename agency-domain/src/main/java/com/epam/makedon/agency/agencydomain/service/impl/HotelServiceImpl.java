@@ -4,7 +4,6 @@ import com.epam.makedon.agency.agencydomain.domain.impl.Hotel;
 import com.epam.makedon.agency.agencydomain.repository.HotelRepository;
 import com.epam.makedon.agency.agencydomain.service.HotelService;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Class HotelServiceImpl implements HotelService.
+ * Service class for {@link Hotel} class,
+ * implements {@link HotelService} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 @Service
 @Profile("service")
+
 public class HotelServiceImpl implements HotelService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(HotelServiceImpl.class);
 
     @Autowired
-    @Setter
     private HotelRepository hotelRepository;
 
     /**
@@ -37,11 +38,12 @@ public class HotelServiceImpl implements HotelService {
     public HotelServiceImpl() {}
 
     /**
-     * Hotel add method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Add operation,
+     * supported with {@link Transactional}.
      *
-     * @param hotel object, which be adding to repository
-     * @return boolean, result of adding
-     * @throws ServiceException cause param is null or exception of adding
+     * @param hotel {@link Hotel}
+     * @return true/false
+     * @throws ServiceException cause param is null
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
@@ -51,22 +53,18 @@ public class HotelServiceImpl implements HotelService {
             throw new ServiceException("hotel argument in add method is null");
         }
 
-        try {
-            return hotelRepository.add(hotel);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return hotelRepository.add(hotel);
     }
 
     /**
-     * Hotel get method. Supported with @Transactional (Isolation.READ_COMMITTED, Propagation.REQUIRED)
+     * Get/find/take operation,
+     * supported with {@link Transactional}.
      *
-     * @param id to identify and find hotel in repository
-     * @return hotel object, wrapped in Optional, cause null
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause exception of getting
      */
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
     @Override
     public Optional<Hotel> get(long id) {
         if (id < 1) {
@@ -74,19 +72,15 @@ public class HotelServiceImpl implements HotelService {
             throw new ServiceException("id = " + id + " - invalid, id can be >= 1");
         }
 
-        try {
-            return hotelRepository.get(id);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return hotelRepository.get(id);
     }
 
     /**
-     * Hotel remove method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Remove operation,
+     * supported with {@link Transactional}.
      *
-     * @param hotel object, which be removing from repository
-     * @return boolean result of removing
+     * @param hotel {@link Hotel}
+     * @return true/false
      * @throws ServiceException cause param is null or exception of removing
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
@@ -97,19 +91,15 @@ public class HotelServiceImpl implements HotelService {
             throw new ServiceException("hotel argument in remove method is null");
         }
 
-        try {
-            return hotelRepository.remove(hotel);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return hotelRepository.remove(hotel);
     }
 
     /**
-     * Hotel update method. Supported with @Transactional (Isolation.READ_UNCOMMITTED, Propagation.REQUIRED)
+     * Update operation,
+     * supported with {@link Transactional}.
      *
-     * @param hotel object, which be updating in repository
-     * @return hotel object, wrapped in Optional, cause null
+     * @param hotel {@link Hotel}
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause param is null or exception of updating
      */
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
@@ -120,11 +110,6 @@ public class HotelServiceImpl implements HotelService {
             throw new ServiceException("hotel argument in update method is null");
         }
 
-        try {
-            return hotelRepository.update(hotel);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return hotelRepository.update(hotel);
     }
 }

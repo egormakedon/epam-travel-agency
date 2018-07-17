@@ -15,51 +15,35 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test for {@link ReviewHibernateRepository} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @RunWith(SpringRunner.class)
 @ActiveProfiles("hibernateRepository")
 @ContextConfiguration(classes = TestHibernateConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @Transactional
+
 public class ReviewHibernateRepositoryTest {
 
     @Autowired
-    private ReviewRepository repository;
-
-//    @Test
-//    public void getTrueTest1() {
-//        assertNotNull(repository.get(1).orElse(null));
-//    }
-//
-//    @Test
-//    public void getTrueTest2() {
-//        assertNotNull(repository.get(2).orElse(null));
-//    }
-//
-//    @Test
-//    public void getFalseTest() {
-//        Review review = new Review();
-//        review.setId(5);
-//        User user = new User();
-//        user.setId(1);
-//        Tour tour = new Tour();
-//        tour.setId(1);
-//        review.setUser(user);
-//        review.setTour(tour);
-//        review.setContent("ll");
-//        assertNotEquals(repository.get(1).orElse(null), review);
-//    }
+    private ReviewRepository reviewRepository;
 
     @Test
     public void removeTrueTest() {
         Review review = new Review();
         review.setId(1);
-        assertTrue(repository.remove(review));
+        assertTrue(reviewRepository.remove(review));
     }
 
     @Test
     public void removeFalseTest() {
         Review review = new Review();
-        review.setId(10);
-        assertFalse(repository.remove(review));
+        review.setId(-1);
+        assertFalse(reviewRepository.remove(review));
     }
 }

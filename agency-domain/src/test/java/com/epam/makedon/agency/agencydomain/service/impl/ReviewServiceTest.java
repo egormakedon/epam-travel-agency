@@ -1,9 +1,8 @@
 package com.epam.makedon.agency.agencydomain.service.impl;
 
 import com.epam.makedon.agency.agencydomain.config.TestDatabaseConfiguration;
+import com.epam.makedon.agency.agencydomain.config.Util;
 import com.epam.makedon.agency.agencydomain.domain.impl.Review;
-import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
-import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import com.epam.makedon.agency.agencydomain.service.ReviewService;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
 import org.junit.Test;
@@ -12,114 +11,121 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.Optional;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles({"databaseRepository", "service"})
+/**
+ * Test for {@link ReviewServiceImpl} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
+@RunWith(SpringRunner.class)
+@ActiveProfiles({"databaseRepository",
+        "service"})
 @ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+
 public class ReviewServiceTest {
 
     @Autowired
-    private ReviewService service;
+    private ReviewService reviewService;
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionAddTest() {
-        try {
-            service.add(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        reviewService.add(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionRemoveTest() {
-        try {
-            service.remove(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        reviewService.remove(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionUpdateTest() {
-        try {
-            service.update(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        reviewService.update(null);
+    }
+
+    @Test(expected = ServiceException.class)
+    public void exceptionGetTest() {
+        reviewService.get(-100);
     }
 
     @Test
-    public void exceptionGetTest1() {
-        try {
-            service.get(0);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+    public void addTrueTest1() {
+        Review review = Util.getReview();
+        assertTrue(reviewService.add(review));
     }
 
     @Test
-    public void exceptionGetTest2() {
-        try {
-            service.get(-3);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+    public void addTrueTest2() {
+        Review review = Util.getReview();
+        assertTrue(reviewService.add(review));
+        review.setId(review.getId() + 1);
+        assertTrue(reviewService.add(review));
+        review.setId(review.getId() + 1);
+        assertTrue(reviewService.add(review));
     }
 
     @Test
-    public void addTrueTest() {
-        Review review = new Review();
-        User user = new User();
-        user.setId(1);
-        Tour tour = new Tour();
-        tour.setId(1);
-        review.setUser(user);
-        review.setTour(tour);
-        review.setContent("content123");
-        assertTrue(service.add(review));
+    public void getTrueTest1() {
+        assertNotNull(reviewService.get(1).orElse(null));
     }
 
     @Test
-    public void getTrueTest() {
-        Optional<Review> opt = service.get(1);
-        assertNotNull(opt.orElse(null));
+    public void getTrueTest2() {
+        assertNotNull(reviewService.get(2).orElse(null));
+    }
+
+    @Test
+    public void getTrueTest3() {
+        Review review = Util.getReview();
+        reviewService.add(review);
+        assertEquals(reviewService.get(5).get().getId(), review.getId());
+        assertEquals(reviewService.get(5).get().getContent(), review.getContent());
+        assertEquals(reviewService.get(5).get().getTour(), review.getTour());
+        assertEquals(reviewService.get(5).get().getVersion(), review.getVersion());
+        assertEquals(reviewService.get(5).get().getUser().getTourList(), review.getUser().getTourList());
+        assertEquals(reviewService.get(5).get().getUser().getLogin(), review.getUser().getLogin());
+        assertEquals(reviewService.get(5).get().getUser().getPassword(), review.getUser().getPassword());
+        assertEquals(reviewService.get(5).get().getUser().getReviewList(), review.getUser().getReviewList());
+    }
+
+    @Test
+    public void getFalseTest() {
+        Review review = Util.getReview();
+        assertNotEquals(reviewService.get(1).orElse(null), review);
     }
 
     @Test
     public void removeTrueTest() {
-        Review r = new Review();
-        r.setId(3);
-        assertTrue(service.remove(r));
+        Review review = Util.getReview();
+        assertTrue(reviewService.remove(review));
+    }
+
+    @Test
+    public void removeFalseTest() {
+        Review review = Util.getReview();
+        review.setId(10);
+        assertFalse(reviewService.remove(review));
     }
 
     @Test
     public void updateTrueTest() {
-        Review r = new Review();
-        r.setId(5);
-        User user = new User();
-        user.setId(1);
-        Tour tour = new Tour();
-        tour.setId(1);
-        r.setUser(user);
-        r.setTour(tour);
-        r.setContent("zzzz");
+        Review review = Util.getReview();
+        reviewService.add(review);
+        review.setContent("hello");
+        reviewService.update(review);
+        assertEquals(review.getContent(), reviewService.get(5).orElseThrow(() -> new RuntimeException("")).getContent());
+    }
 
-        service.add(r);
-        r.setContent("newContent");
-        service.update(r);
-
-        Optional<Review> opt = service.get(5);
-        assertEquals(r, opt.orElse(null));
+    @Test
+    public void updateFalseTest() {
+        Review review = Util.getReview();
+        review.setId(100);
+        assertFalse(reviewService.update(review).isPresent());
     }
 }

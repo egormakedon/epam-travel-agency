@@ -1,11 +1,13 @@
 package com.epam.makedon.agency.agencydomain.domain.impl;
 
 import com.epam.makedon.agency.agencydomain.domain.Entity;
+import com.epam.makedon.agency.agencydomain.domain.RoleConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,17 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class User is Entity class.
- * It stores user information.
+ * This entity class describe information about User,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 @javax.persistence.Entity(name = "User")
 @Table(name = "\"user\"")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
 @EqualsAndHashCode
+@Document(collection = "user")
+
 public class User implements Entity {
 
     @Setter
@@ -39,15 +43,27 @@ public class User implements Entity {
     @Getter
     @Column(name = "user_login")
     @NotNull
-    @Size(min = 2, max = 20)
+    @Size(max = 255, min = 1)
     private String login;
 
     @Setter
     @Getter
     @Column(name = "user_password")
     @NotNull
-    @Size(min = 2, max = 20)
+    @Size(max = 255, min = 1)
     private String password;
+
+    @Setter
+    @Getter
+    @Transient
+    private String confirmPassword;
+
+    @Setter
+    @Getter
+    @Basic
+    @Convert(converter = RoleConverter.class)
+    @Column(name = "role_id")
+    private Role role = Role.USER;
 
     @Setter
     @Getter
@@ -70,6 +86,7 @@ public class User implements Entity {
     @Setter
     @Getter
     @Version
+    @org.springframework.data.annotation.Version
     @Column(name = "user_version")
     private Integer version;
 

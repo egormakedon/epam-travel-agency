@@ -11,15 +11,20 @@ import javax.persistence.Query;
 import java.util.Optional;
 
 /**
- * Class HotelHibernateRepository implements HotelRepository.
+ * Repository class for {@link Hotel} class,
+ * using {@link com.epam.makedon.agency.agencydomain.config.MainHibernateConfiguration} class,
+ * implements {@link HotelRepository} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.repository
- * @since version 4.0
+ * @version 1.0
  */
+
 @Repository
 @Profile("hibernateRepository")
+
 public class HotelHibernateRepository implements HotelRepository {
+
+    private static final String HOTEL_ID = "hotelId";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,8 +35,10 @@ public class HotelHibernateRepository implements HotelRepository {
     public HotelHibernateRepository() {}
 
     /**
-     * @param hotel object, which be insert into repository
-     * @return boolean result of inserting
+     * Add operation
+     *
+     * @param hotel {@link Hotel}
+     * @return true/false
      */
     @Override
     public boolean add(Hotel hotel) {
@@ -40,32 +47,42 @@ public class HotelHibernateRepository implements HotelRepository {
     }
 
     /**
-     * @param id to define and find hotel in repository
-     * @return hotel object, wrapped in optional, which got from repository
+     * Get/find/take operation
+     *
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<Hotel> get(long id) {
-        final String NATIVE_QUERY_SELECT_HOTEL_BY_ID = "SELECT * FROM hotel WHERE hotel_id=?";
+        final String NATIVE_QUERY_SELECT_HOTEL_BY_ID = "SELECT * " +
+                "FROM hotel " +
+                "WHERE hotel_id=?";
         Query query = entityManager.createNativeQuery(NATIVE_QUERY_SELECT_HOTEL_BY_ID, Hotel.class);
         query.setParameter(1, id);
         return Optional.ofNullable((Hotel)query.getSingleResult());
     }
 
     /**
-     * @param hotel object to remove from repository
-     * @return boolean result of hotel removing from repository
+     * Remove operation
+     *
+     * @param hotel {@link Hotel}
+     * @return true/false
      */
     @Override
     public boolean remove(Hotel hotel) {
-        final String NAMED_QUERY_DELETE_HOTEL_BY_ID = "DELETE FROM Hotel WHERE id=:hotelId";
+        final String NAMED_QUERY_DELETE_HOTEL_BY_ID = "DELETE " +
+                "FROM Hotel " +
+                "WHERE id=:hotelId";
         Query query = entityManager.createQuery(NAMED_QUERY_DELETE_HOTEL_BY_ID);
-        query.setParameter("hotelId", hotel.getId());
+        query.setParameter(HOTEL_ID, hotel.getId());
         return query.executeUpdate() == 1;
     }
 
     /**
-     * @param hotel object to update in repository
-     * @return updated hotel object, wrapped in optional
+     * Update operation
+     *
+     * @param hotel {@link Hotel}
+     * @return object, wrapped in {@link Optional} class
      */
     @Override
     public Optional<Hotel> update(Hotel hotel) {

@@ -4,23 +4,26 @@ import com.epam.makedon.agency.agencydomain.domain.Entity;
 import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Class Review is Entity class.
- * It store information about users review.
+ * This entity class describe information about Review,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 @Data
 @javax.persistence.Entity(name = "Review")
 @Table(name = "review")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
+@Document(collection = "review")
+
 public class Review implements Entity {
 
     @Id
@@ -45,6 +48,7 @@ public class Review implements Entity {
     private String content;
 
     @Version
+    @org.springframework.data.annotation.Version
     @Column(name = "review_version")
     private Integer version;
 }

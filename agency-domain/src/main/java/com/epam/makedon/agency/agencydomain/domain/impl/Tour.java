@@ -12,8 +12,10 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Data;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -21,17 +23,19 @@ import java.time.Duration;
 import java.time.LocalDate;
 
 /**
- * Class Tour is Entity class.
- * It stores information about tour data.
+ * This entity class describe information about Tour,
+ * implements {@link Entity} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.domain
- * @since version 1.0
+ * @version 1.0
  */
+
 @Data
 @javax.persistence.Entity(name = "Tour")
 @Table(name = "tour")
 @OptimisticLocking(type = OptimisticLockType.VERSION)
+@Document(collection = "tour")
+
 public class Tour implements Entity {
 
     @Id
@@ -42,7 +46,7 @@ public class Tour implements Entity {
 
     @Column(name = "tour_photo")
     @NotNull
-    @Size(min = 2, max = 100)
+    @Size(max = 255)
     private String photo;
 
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -76,14 +80,16 @@ public class Tour implements Entity {
 
     @Column(name = "tour_description")
     @NotNull
-    @Size(min = 2)
+    @Size(min = 1)
     private String description;
 
     @Column(name = "tour_cost")
     @NotNull
+    @Min(value = 0)
     private BigDecimal cost;
 
     @Version
+    @org.springframework.data.annotation.Version
     @Column(name = "tour_version")
     private Integer version;
 }

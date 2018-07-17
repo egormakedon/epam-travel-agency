@@ -20,7 +20,7 @@ CREATE TABLE hotel
 (
     hotel_id SERIAL PRIMARY KEY NOT NULL,
     hotel_name VARCHAR(100) NOT NULL,
-    hotel_phone VARCHAR(25) NOT NULL,
+    hotel_phone VARCHAR(100) NOT NULL,
     hotel_stars SMALLINT NOT NULL,
     hotel_version INTEGER
 );
@@ -29,7 +29,7 @@ COMMENT ON TABLE hotel IS 'Keep info about hotels';
 CREATE TABLE tour
 (
     tour_id SERIAL PRIMARY KEY NOT NULL,
-    tour_photo VARCHAR(100) NOT NULL,
+    tour_photo VARCHAR(255) NOT NULL,
     tour_date DATE NOT NULL,
     tour_duration INTEGER NOT NULL,
     fk_country_id INTEGER NOT NULL,
@@ -47,8 +47,9 @@ COMMENT ON TABLE tour IS 'Keep info about tours';
 CREATE TABLE user
 (
     user_id SERIAL PRIMARY KEY NOT NULL,
-    user_login VARCHAR(20) NOT NULL,
-    user_password VARCHAR (20) NOT NULL,
+    user_login VARCHAR(255) NOT NULL,
+    user_password VARCHAR (255) NOT NULL,
+    role_id INTEGER,
     user_version INTEGER
 );
 CREATE UNIQUE INDEX user_user_login_uindex ON user (user_login);

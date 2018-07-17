@@ -1,6 +1,7 @@
 package com.epam.makedon.agency.agencydomain.service.impl;
 
 import com.epam.makedon.agency.agencydomain.config.TestDatabaseConfiguration;
+import com.epam.makedon.agency.agencydomain.config.Util;
 import com.epam.makedon.agency.agencydomain.domain.impl.Hotel;
 import com.epam.makedon.agency.agencydomain.service.HotelService;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
@@ -10,104 +11,107 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.Optional;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles({"databaseRepository", "service"})
+/**
+ * Test for {@link HotelServiceImpl} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
+@RunWith(SpringRunner.class)
+@ActiveProfiles({"databaseRepository",
+        "service"})
 @ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+
 public class HotelServiceTest {
 
     @Autowired
-    private HotelService service;
+    private HotelService hotelService;
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionAddTest() {
-        try {
-            service.add(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        hotelService.add(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionRemoveTest() {
-        try {
-            service.remove(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        hotelService.remove(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionUpdateTest() {
-        try {
-            service.update(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        hotelService.update(null);
+    }
+
+    @Test(expected = ServiceException.class)
+    public void exceptionGetTest() {
+        hotelService.get(-10);
     }
 
     @Test
-    public void exceptionGetTest1() {
-        try {
-            service.get(0);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+    public void addTrueTest1() {
+        Hotel hotel = Util.getHotel();
+        assertTrue(hotelService.add(hotel));
     }
 
     @Test
-    public void exceptionGetTest2() {
-        try {
-            service.get(-3);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+    public void addTrueTest2() {
+        Hotel hotel = Util.getHotel();
+        hotel.setName("hotel");
+        hotel.setPhone("hotel");
+        assertTrue(hotelService.add(hotel));
     }
 
     @Test
-    public void addTrueTest() {
-        Hotel h = new Hotel();
-        h.setName("hotel");
-        h.setPhone("phone");
-        assertTrue(service.add(h));
+    public void getTrueTest1() {
+        assertNotNull(hotelService.get(1).orElse(null));
     }
 
     @Test
-    public void getTrueTest() {
-       Optional<Hotel> opt = service.get(1);
-       assertNotNull(opt.orElse(null));
+    public void getTrueTest2() {
+        Hotel hotel = Util.getHotel();
+        hotelService.add(hotel);
+        assertEquals(hotelService.get(4).orElse(null), hotel);
+    }
+
+    @Test
+    public void getFalseTest() {
+        Hotel hotel = Util.getHotel();
+        assertNotEquals(hotelService.get(1).orElse(null), hotel);
     }
 
     @Test
     public void removeTrueTest() {
-        Hotel h = new Hotel();
-        h.setId(3);
-        assertTrue(service.remove(h));
+        Hotel hotel = Util.getHotel();
+        hotel.setId(1);
+        assertTrue(hotelService.remove(hotel));
+    }
+
+    @Test
+    public void removeFalseTest1() {
+        Hotel hotel = Util.getHotel();
+        hotel.setId(-1);
+        assertFalse(hotelService.remove(hotel));
     }
 
     @Test
     public void updateTrueTest() {
-        Hotel h = new Hotel();
-        h.setId(4);
-        h.setName("name");
-        h.setPhone("1234");
+        Hotel hotel = Util.getHotel();
+        hotelService.add(hotel);
+        hotel.setName("hello");
+        hotelService.update(hotel);
+        assertEquals(hotel, hotelService.get(4).orElse(null));
+    }
 
-        service.add(h);
-        h.setName("newName");
-        service.update(h);
-
-        Optional<Hotel> opt = service.get(4);
-        assertEquals(h, opt.orElse(null));
+    @Test
+    public void updateFalseTest() {
+        Hotel hotel = Util.getHotel();
+        hotel.setId(100);
+        assertFalse(hotelService.update(hotel).isPresent());
     }
 }

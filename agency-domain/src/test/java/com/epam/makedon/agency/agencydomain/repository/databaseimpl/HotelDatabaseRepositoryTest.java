@@ -1,137 +1,108 @@
 package com.epam.makedon.agency.agencydomain.repository.databaseimpl;
 
 import com.epam.makedon.agency.agencydomain.config.TestDatabaseConfiguration;
+import com.epam.makedon.agency.agencydomain.config.Util;
 import com.epam.makedon.agency.agencydomain.domain.impl.Hotel;
 import com.epam.makedon.agency.agencydomain.repository.HotelRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+/**
+ * Test for {@link HotelDatabaseRepository} class
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
+@RunWith(SpringRunner.class)
 @ActiveProfiles("databaseRepository")
 @ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+
 public class HotelDatabaseRepositoryTest {
-    private static final String NAME_LITERAL = "name";
-    private static final String PHONE_LITERAL = "12345";
 
     @Autowired
-    private HotelRepository repository;
+    private HotelRepository hotelRepository;
 
     @Test
     public void addTrueTest1() {
-        Hotel hotel = new Hotel();
-        hotel.setId(4);
-        hotel.setName(NAME_LITERAL);
-        hotel.setPhone(PHONE_LITERAL);
-        assertTrue(repository.add(hotel));
+        Hotel hotel = Util.getHotel();
+        assertTrue(hotelRepository.add(hotel));
     }
 
     @Test
     public void addTrueTest2() {
-        Hotel hotel = new Hotel();
-        hotel.setId(4);
+        Hotel hotel = Util.getHotel();
         hotel.setName("hotel");
         hotel.setPhone("hotel");
-        assertTrue(repository.add(hotel));
+        assertTrue(hotelRepository.add(hotel));
+    }
+
+    @Test
+    public void addTrueTest3() {
+        Hotel hotel = Util.getHotel();
+        assertTrue(hotelRepository.add(hotel));
+        assertEquals(hotel, hotelRepository.get(4).orElse(null));
+        hotel.setId(hotel.getId() + 1);
+        assertTrue(hotelRepository.add(hotel));
+        hotel.setId(hotel.getId() + 1);
+        assertTrue(hotelRepository.add(hotel));
+        assertNotEquals(hotelRepository.get(6).get(), hotelRepository.get(7).get());
+        assertEquals(hotelRepository.get(6).get().getName(), hotelRepository.get(7).get().getName());
     }
 
     @Test
     public void getTrueTest1() {
-        assertNotNull(repository.get(1).orElse(null));
+        assertNotNull(hotelRepository.get(1).orElse(null));
     }
 
     @Test
     public void getTrueTest2() {
-        Hotel hotel = new Hotel();
-        hotel.setId(4);
-        hotel.setName(NAME_LITERAL);
-        hotel.setPhone(PHONE_LITERAL);
-        repository.add(hotel);
-        assertEquals(repository.get(4).orElse(null), hotel);
+        Hotel hotel = Util.getHotel();
+        hotelRepository.add(hotel);
+        assertEquals(hotelRepository.get(4).orElse(null), hotel);
     }
 
     @Test
     public void getFalseTest() {
-        Hotel hotel = new Hotel();
-        hotel.setId(4);
-        hotel.setName(NAME_LITERAL);
-        hotel.setPhone(PHONE_LITERAL);
-        assertNotEquals(repository.get(1).orElse(null), hotel);
+        Hotel hotel = Util.getHotel();
+        assertNotEquals(hotelRepository.get(1).orElse(null), hotel);
     }
 
     @Test
-    public void getExcTest() {
-        try {
-            repository.get(100);
-            fail();
-        } catch (EmptyResultDataAccessException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void removeTrueTest1() {
-        Hotel hotel = new Hotel();
+    public void removeTrueTest() {
+        Hotel hotel = Util.getHotel();
         hotel.setId(1);
-        assertTrue(repository.remove(hotel));
-    }
-
-    @Test
-    public void removeTrueTest2() {
-        Hotel hotel = new Hotel();
-        hotel.setId(2);
-        assertTrue(repository.remove(hotel));
-    }
-
-    @Test
-    public void removeTrueTest3() {
-        Hotel hotel = new Hotel();
-        hotel.setId(3);
-        assertTrue(repository.remove(hotel));
+        assertTrue(hotelRepository.remove(hotel));
     }
 
     @Test
     public void removeFalseTest1() {
-        Hotel hotel = new Hotel();
-        hotel.setId(100);
-        assertFalse(repository.remove(hotel));
-    }
-
-    @Test
-    public void removeFalseTest2() {
-        Hotel hotel = new Hotel();
+        Hotel hotel = Util.getHotel();
         hotel.setId(-1);
-        assertFalse(repository.remove(hotel));
+        assertFalse(hotelRepository.remove(hotel));
     }
 
     @Test
     public void updateTrueTest() {
-        Hotel hotel = new Hotel();
-        hotel.setId(4);
-        hotel.setName(NAME_LITERAL);
-        hotel.setPhone(PHONE_LITERAL);
-
-        repository.add(hotel);
+        Hotel hotel = Util.getHotel();
+        hotelRepository.add(hotel);
         hotel.setName("hello");
-        repository.update(hotel);
-
-        assertEquals(hotel, repository.get(4).orElse(null));
+        hotelRepository.update(hotel);
+        assertEquals(hotel, hotelRepository.get(4).orElse(null));
     }
 
     @Test
     public void updateFalseTest() {
-        Hotel hotel = new Hotel();
-        hotel.setName(NAME_LITERAL);
-        hotel.setPhone(PHONE_LITERAL);
+        Hotel hotel = Util.getHotel();
         hotel.setId(100);
-        assertFalse(repository.update(hotel).isPresent());
+        assertFalse(hotelRepository.update(hotel).isPresent());
     }
 }

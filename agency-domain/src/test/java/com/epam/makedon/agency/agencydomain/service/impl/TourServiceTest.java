@@ -1,10 +1,8 @@
 package com.epam.makedon.agency.agencydomain.service.impl;
 
 import com.epam.makedon.agency.agencydomain.config.TestDatabaseConfiguration;
-import com.epam.makedon.agency.agencydomain.domain.impl.Country;
-import com.epam.makedon.agency.agencydomain.domain.impl.Hotel;
+import com.epam.makedon.agency.agencydomain.config.Util;
 import com.epam.makedon.agency.agencydomain.domain.impl.Tour;
-import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
 import com.epam.makedon.agency.agencydomain.service.TourService;
 import org.junit.Test;
@@ -13,122 +11,97 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.util.Optional;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles({"databaseRepository", "service"})
+/**
+ * Test for {@link TourServiceImpl} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
+@RunWith(SpringRunner.class)
+@ActiveProfiles({"databaseRepository",
+        "service"})
 @ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+
 public class TourServiceTest {
 
     @Autowired
-    private TourService service;
+    private TourService tourService;
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionAddTest() {
-        try {
-            service.add(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourService.add(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionRemoveTest() {
-        try {
-            service.remove(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourService.remove(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionUpdateTest() {
-        try {
-            service.update(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourService.update(null);
     }
 
-    @Test
-    public void exceptionGetTest1() {
-        try {
-            service.get(0);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void exceptionGetTest2() {
-        try {
-            service.get(-3);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+    @Test(expected = ServiceException.class)
+    public void exceptionGetTest() {
+        tourService.get(-2);
     }
 
     @Test
     public void addTrueTest() {
-        Tour tour = new Tour();
-        tour.setType(TourType.WEEKEND);
-        tour.setCountry(Country.SPAIN);
-        tour.setId(3);
-        Hotel hotel = new Hotel();
-        hotel.setId(1);
-        tour.setHotel(hotel);
-        tour.setDuration(Duration.ofDays(10));
-        tour.setDescription("des");
-        tour.setDate(LocalDate.now());
-        tour.setCost(BigDecimal.valueOf(120));
-        assertTrue(service.add(tour));
+        Tour tour = Util.getTour();
+        assertTrue(tourService.add(tour));
     }
 
     @Test
-    public void getTrueTest() {
-        Optional<Tour> opt = service.get(1);
-        assertNotNull(opt.orElse(null));
+    public void getTrueTest1() {
+        assertNotNull(tourService.get(1).orElse(null));
+    }
+
+    @Test
+    public void getTrueTest2() {
+        assertNotNull(tourService.get(2).orElse(null));
+    }
+
+    @Test
+    public void getFalseTest() {
+        Tour tour = Util.getTour();
+        assertNotEquals(tourService.get(1).orElse(null), tour);
     }
 
     @Test
     public void removeTrueTest() {
-        Tour t = new Tour();
-        t.setId(2);
-        assertTrue(service.remove(t));
+        Tour tour = new Tour();
+        tour.setId(1);
+        assertTrue(tourService.remove(tour));
+    }
+
+    @Test
+    public void removeFalseTest() {
+        Tour tour = new Tour();
+        tour.setId(-1);
+        assertFalse(tourService.remove(tour));
     }
 
     @Test
     public void updateTrueTest() {
-        Tour tour = new Tour();
-        tour.setType(TourType.WEEKEND);
-        tour.setCountry(Country.SPAIN);
-        tour.setId(3);
-        Hotel hotel = new Hotel();
-        hotel.setId(1);
-        tour.setHotel(hotel);
-        tour.setDuration(Duration.ofDays(10));
-        tour.setDescription("description");
-        tour.setDate(LocalDate.now());
-        tour.setCost(BigDecimal.valueOf(120));
+        Tour tour = Util.getTour();
+        tourService.add(tour);
+        tour.setDescription("hello");
+        tourService.update(tour);
+        assertEquals(tour.getDescription(), tourService.get(3).orElseThrow(() -> new RuntimeException("")).getDescription());
+    }
 
-        service.add(tour);
-        tour.setDescription("newDescription");
-        service.update(tour);
-
-        Optional<Tour> opt = service.get(3);
-        assertEquals(tour, opt.orElse(null));
+    @Test
+    public void updateFalseTest() {
+        Tour tour = Util.getTour();
+        tour.setId(100);
+        assertFalse(tourService.update(tour).isPresent());
     }
 }

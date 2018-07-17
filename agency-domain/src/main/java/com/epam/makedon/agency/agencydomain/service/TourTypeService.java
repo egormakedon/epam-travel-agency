@@ -3,10 +3,11 @@ package com.epam.makedon.agency.agencydomain.service;
 import com.epam.makedon.agency.agencydomain.domain.impl.TourType;
 
 /**
- * Interface TourTypeService mark service with TourType domain.
+ * This interface markup services for {@link TourType} class,
+ * extends {@link Service} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 public interface TourTypeService extends Service<TourType> {}

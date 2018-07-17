@@ -17,10 +17,18 @@ import javax.persistence.criteria.Root;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class for testing criteria queries in hibernate.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = TestHibernateConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @Transactional
+
 public class CriteriaQueryTest {
 
     @PersistenceContext

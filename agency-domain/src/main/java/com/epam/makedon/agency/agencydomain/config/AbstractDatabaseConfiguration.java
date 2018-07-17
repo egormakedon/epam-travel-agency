@@ -9,9 +9,17 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Abstract database spring java configuration class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = "classpath:/property/database.properties")
+
 public class AbstractDatabaseConfiguration {
 
     // dataSource

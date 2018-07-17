@@ -10,88 +10,93 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.Optional;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles({"databaseRepository", "service"})
+/**
+ * Test for {@link TourTypeServiceImpl} class.
+ *
+ * @author Yahor Makedon
+ * @version 1.0
+ */
+
+@RunWith(SpringRunner.class)
+@ActiveProfiles({"databaseRepository",
+        "service"})
 @ContextConfiguration(classes = TestDatabaseConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+
 public class TourTypeServiceTest {
+
     @Autowired
-    private TourTypeService service;
+    private TourTypeService tourTypeService;
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionAddTest() {
-        try {
-            service.add(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourTypeService.add(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionRemoveTest() {
-        try {
-            service.remove(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourTypeService.remove(null);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void exceptionUpdateTest() {
-        try {
-            service.update(null);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+        tourTypeService.update(null);
     }
 
-    @Test
-    public void exceptionGetTest1() {
-        try {
-            service.get(0);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void exceptionGetTest2() {
-        try {
-            service.get(-3);
-            fail();
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
+    @Test(expected = ServiceException.class)
+    public void exceptionGetTest() {
+        tourTypeService.get(0);
     }
 
     @Test
     public void addTrueTest() {
-        assertTrue(service.add(TourType.EXCURSION));
+        TourType tourType = TourType.EXCURSION;
+        assertTrue(tourTypeService.add(tourType));
     }
 
     @Test
-    public void getTrueTest() {
-        Optional<TourType> opt = service.get(1);
-        assertNotNull(opt.orElse(null));
+    public void getTrueTest1() {
+        assertNotNull(tourTypeService.get(1).orElse(null));
+    }
+
+    @Test
+    public void getTrueTest2() {
+        assertNotNull(tourTypeService.get(3).orElse(null));
+    }
+
+    @Test
+    public void getFalseTest() {
+        TourType tourType = TourType.CHILDREN;
+        assertNotEquals(tourType, tourTypeService.get(4).orElse(null));
     }
 
     @Test
     public void removeTrueTest() {
-        assertTrue(service.remove(TourType.CHILDREN));
+        TourType tourType = TourType.CHILDREN;
+        assertTrue(tourTypeService.remove(tourType));
     }
 
     @Test
-    public void updateTest() {
-        assertNotNull(service.update(TourType.CHILDREN).orElse(null));
+    public void removeFalseTest() {
+        TourType tourType = TourType.EXCURSION;
+        assertFalse(tourTypeService.remove(tourType));
+    }
+
+    @Test
+    public void updateTest1() {
+        TourType tourType = TourType.EXCURSION;
+        assertNull(tourTypeService.update(tourType).orElse(null));
+    }
+
+    @Test
+    public void updateTest2() {
+        TourType tourType = TourType.WEEKEND;
+        assertEquals(tourTypeService.update(tourType).orElse(null), tourType);
     }
 }

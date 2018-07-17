@@ -4,7 +4,6 @@ import com.epam.makedon.agency.agencydomain.domain.impl.User;
 import com.epam.makedon.agency.agencydomain.repository.UserRepository;
 import com.epam.makedon.agency.agencydomain.service.ServiceException;
 import com.epam.makedon.agency.agencydomain.service.UserService;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Class UserServiceImpl implements UserService.
+ * Service class for {@link User} class,
+ * implements {@link UserService} interface.
  *
  * @author Yahor Makedon
- * @see com.epam.makedon.agency.agencydomain.service
- * @since version 1.0
+ * @version 1.0
  */
+
 @Service
 @Profile("service")
+
 public class UserServiceImpl implements UserService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
-    @Setter
     private UserRepository userRepository;
 
     /**
@@ -37,11 +38,12 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl() {}
 
     /**
-     * User add method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Add operation,
+     * supported with {@link Transactional}.
      *
-     * @param user object, which be adding to repository
-     * @return boolean, result of adding
-     * @throws ServiceException cause param is null or exception of adding
+     * @param user {@link User}
+     * @return true/false
+     * @throws ServiceException cause param is null
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
@@ -51,22 +53,18 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("user argument in add method is null");
         }
 
-        try {
-            return userRepository.add(user);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return userRepository.add(user);
     }
 
     /**
-     * User get method. Supported with @Transactional (Isolation.READ_COMMITTED, Propagation.REQUIRED)
+     * Get/find/take operation,
+     * supported with {@link Transactional}.
      *
-     * @param id to identify and find user in repository
-     * @return user object, wrapped in Optional, cause null
+     * @param id of object
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause exception of getting
      */
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
     @Override
     public Optional<User> get(long id) {
         if (id < 1) {
@@ -74,19 +72,29 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("id = " + id + " - invalid, id can be >= 1");
         }
 
-        try {
-            return userRepository.get(id);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return userRepository.get(id);
     }
 
     /**
-     * User remove method. Supported with @Transactional (Isolation.REPEATABLE_READ, Propagation.REQUIRED)
+     * Find operation,
+     * supported with {@link Transactional}.
      *
-     * @param user object, which be removing from repository
-     * @return boolean result of removing
+     * @param username of User
+     * @return object, wrapped in {@link Optional} class
+     */
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+    @Override
+    public Optional<User> findByUsername(String username) {
+
+        return userRepository.findByUsername(username);
+    }
+
+    /**
+     * Remove operation,
+     * supported with {@link Transactional}.
+     *
+     * @param user {@link User}
+     * @return true/false
      * @throws ServiceException cause param is null or exception of removing
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
@@ -97,19 +105,15 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("user argument in remove method is null");
         }
 
-        try {
-            return userRepository.remove(user);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return userRepository.remove(user);
     }
 
     /**
-     * User update method. Supported with @Transactional (Isolation.READ_UNCOMMITTED, Propagation.REQUIRED)
+     * Update operation,
+     * supported with {@link Transactional}.
      *
-     * @param user object, which be updating in repository
-     * @return user object, wrapped in Optional, cause null
+     * @param user {@link User}
+     * @return object, wrapped in {@link Optional} class
      * @throws ServiceException cause param is null or exception of updating
      */
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
@@ -120,11 +124,6 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("user argument in update method is null");
         }
 
-        try {
-            return userRepository.update(user);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            throw new ServiceException(e);
-        }
+        return userRepository.update(user);
     }
 }
