@@ -67,11 +67,7 @@ public class HotelController {
                 model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
             }
         } catch (Exception e) {
-            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
-                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
-            } else {
-                throw e;
-            }
+            model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
         }
 
         model.addAttribute(Constant.URL, Page.HOTEL.getUrl());
@@ -83,6 +79,7 @@ public class HotelController {
     public String remove(Model model, @RequestParam long id) {
         try {
             Optional<Hotel> opt = hotelService.get(id);
+
             if (opt.isPresent()) {
                 if (hotelService.remove(opt.get())) {
                     model.addAttribute(Constant.RESULT, Constant.REMOVED);
@@ -93,11 +90,7 @@ public class HotelController {
                 model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
             }
         } catch (Exception e) {
-            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
-                model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
-            } else {
-                throw e;
-            }
+            model.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
         }
 
         model.addAttribute(Constant.URL, Page.HOTEL.getUrl());
@@ -120,11 +113,7 @@ public class HotelController {
                 redirectAttributes.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
             }
         } catch (Exception e) {
-            if (Constant.NOT_FOUND_EXCEPTION_MESSAGE.equals(e.getMessage())) {
-                redirectAttributes.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
-            } else {
-                throw e;
-            }
+            redirectAttributes.addAttribute(Constant.RESULT, Constant.NOT_FOUND);
         }
 
         redirectAttributes.addAttribute(Constant.URL, Page.HOTEL.getUrl());

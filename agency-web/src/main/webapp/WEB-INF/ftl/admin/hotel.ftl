@@ -5,45 +5,53 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title><@spring.message "hotel.title"/></title>
+
+        <link href="<@spring.url "/resources/css/common.css"/>" rel="stylesheet"/>
     </head>
 
     <body>
-        <@spring.message "general.language"/> : <a href="<@spring.url "/hotel?locale=en"/>"><@spring.message "general.english"/></a> | <a href="<@spring.url "/hotel?locale=ru"/>"><@spring.message "general.russian"/></a> <br>
+        <#include "../public/header.ftl">
+
+        <h1 class="title"><@spring.message "hotel.title"/></h1>
 
         <form action="<@spring.url "/hotel/add"/>" method="post">
-            <input type="text" placeholder="<@spring.message "hotel.name"/>" name="name" required>
-            <input type="text" placeholder="<@spring.message "hotel.phone"/>" name="phone" required>
-            <input type="text" placeholder="<@spring.message "hotel.stars"/>" name="stars" required>
-            <input type="submit" value="<@spring.message "general.add"/>">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+            <input class="text" type="text" placeholder="<@spring.message "hotel.name"/>" name="name" required>
+            <input class="text" type="text" placeholder="<@spring.message "hotel.phone"/>" name="phone" required>
+            <input class="text" type="text" placeholder="<@spring.message "hotel.stars"/>" name="stars" required>
+            <input class="button" type="submit" value="<@spring.message "general.add"/>">
         </form>
 
         <br>
 
         <form action="<@spring.url "/hotel/get"/>" method="get">
-            <input type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
-            <input type="submit" value="<@spring.message "general.find"/>">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+            <input class="text" type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
+            <input class="button" type="submit" value="<@spring.message "general.find"/>">
         </form>
 
         <br>
 
         <form action="<@spring.url "/hotel/remove"/>" method="post">
-            <input type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
-            <input type="submit" value="<@spring.message "general.remove"/>">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+            <input class="text" type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
+            <input class="button" type="submit" value="<@spring.message "general.remove"/>">
         </form>
 
         <br>
 
         <form action="<@spring.url "/hotel/update"/>" method="post">
-            <input type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
-            <input type="text" placeholder="<@spring.message "hotel.name"/>" name="name">
-            <input type="text" placeholder="<@spring.message "hotel.phone"/>" name="phone">
-            <input type="text" placeholder="<@spring.message "hotel.stars"/>" name="stars">
-            <input type="submit" value="<@spring.message "general.update"/>">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+            <input class="text" type="text" placeholder="<@spring.message "hotel.id"/>" name="id" required>
+            <input class="text" type="text" placeholder="<@spring.message "hotel.name"/>" name="name">
+            <input class="text" type="text" placeholder="<@spring.message "hotel.phone"/>" name="phone">
+            <input class="text" type="text" placeholder="<@spring.message "hotel.stars"/>" name="stars">
+            <input class="button" type="submit" value="<@spring.message "general.update"/>">
         </form>
-
-        <br>
-
-        <a href="<@spring.url "/"/>"><@spring.message "general.return.to.welcome.page"/></a>
 
         <br><br>
 
@@ -64,5 +72,7 @@
         <#elseif result??>
             ${result}
         </#if>
+
+        <#include "../public/copyright.ftl">
     </body>
 </html>
